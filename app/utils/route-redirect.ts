@@ -1,4 +1,4 @@
-import { json, redirect } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 
 import { configRedirects } from "~/configs";
 
@@ -10,7 +10,7 @@ export function redirectRouteToURL(request: Request) {
   );
 
   if (!foundItem) {
-    return json(null);
+    return null;
   }
   if (foundItem.url) {
     return redirect(foundItem.url);
@@ -18,5 +18,5 @@ export function redirectRouteToURL(request: Request) {
   if (!foundItem.url && foundItem.to) {
     return redirect(foundItem.to);
   }
-  return json(null);
+  return null;
 }
