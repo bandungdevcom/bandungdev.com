@@ -6,7 +6,7 @@ export function redirectRouteToURL(request: Request) {
   const url = new URL(request.url);
 
   const foundItem = configRedirects.find(
-    (item) => item.path.trim() === url.pathname
+    item => item.path.trim() === url.pathname,
   );
 
   if (!foundItem) {

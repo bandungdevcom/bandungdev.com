@@ -18,7 +18,7 @@ const Anchor = React.forwardRef<HTMLAnchorElement, AnchorProps>(
         className={cn(
           "focus hover-opacity",
           withColor && "text-emerald-700 dark:text-emerald-300",
-          className
+          className,
         )}
         ref={ref}
         {...props}
@@ -26,7 +26,7 @@ const Anchor = React.forwardRef<HTMLAnchorElement, AnchorProps>(
         {children}
       </a>
     );
-  }
+  },
 );
 Anchor.displayName = "Anchor";
 

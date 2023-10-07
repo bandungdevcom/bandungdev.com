@@ -111,7 +111,7 @@
   }
   .prose-config {
     @apply prose lg:prose-lg;
-    @apply prose-a:no-underline prose-a:hover-opacity prose-a:font-semibold;
+    @apply prose-a:hover-opacity prose-a:font-semibold prose-a:no-underline;
     @apply prose-code:before:content-none prose-code:after:content-none;
   }
 }

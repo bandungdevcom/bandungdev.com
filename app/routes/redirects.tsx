@@ -4,13 +4,14 @@ import {
   type MetaFunction,
 } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import { Anchor } from "~/components";
+
 import { configRedirects } from "~/configs";
 import { formatPlural } from "~/utils";
+import { Anchor } from "~/components";
 
 export const meta: MetaFunction = () => [{ title: "Redirects" }];
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = ({ request }: LoaderFunctionArgs) => {
   const redirects = configRedirects;
 
   return json({ redirects });
@@ -29,7 +30,7 @@ export default function Route() {
           </p>
         </header>
         <ul>
-          {redirects.map((redirectItem) => {
+          {redirects.map(redirectItem => {
             return (
               <li key={redirectItem.path}>
                 <Link to={redirectItem.path}>
