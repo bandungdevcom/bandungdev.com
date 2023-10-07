@@ -11,6 +11,7 @@ export default function Index() {
   return (
     <div>
       <h1>BandungDev</h1>
+      <p>Bandung Developer Community</p>
     </div>
   );
 }
