@@ -1,5 +1,5 @@
 {
-  "name": "my-remix-app",
+  "name": "bandungdev",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -9,10 +9,10 @@
     "start": "remix-serve ./build/index.js",
     "typecheck": "tsc",
     "lint": "eslint \"app/**/*.+(ts|tsx)\"",
-    "lint:fix": "npm run lint -- --fix",
+    "lint:fix": "pnpm lint -- --fix",
     "prettier": "prettier app --check",
     "prettier:fix": "prettier app --write",
-    "format-code": "npm run prettier:fix & npm run lint:fix",
+    "format-code": "pnpm prettier:fix & pnpm lint:fix",
     "db:gen": "prisma generate",
     "db:push": "prisma db push",
     "db:seed": "prisma db seed",
@@ -20,49 +20,54 @@
     "prebuild": "prisma db push"
   },
   "dependencies": {
-    "@prisma/client": "5.4.1",
+    "@planetscale/database": "1.11.0",
+    "@prisma/adapter-planetscale": "5.4.2",
+    "@prisma/client": "5.4.2",
     "@radix-ui/react-slot": "1.0.2",
-    "@remix-run/css-bundle": "^2.0.0",
-    "@remix-run/node": "^2.0.0",
-    "@remix-run/react": "^2.0.0",
-    "@remix-run/serve": "^2.0.0",
-    "@vercel/analytics": "^1.0.2",
-    "@vercel/remix": "^2.0.0",
+    "@remix-run/css-bundle": "^2.0.1",
+    "@remix-run/node": "^2.0.1",
+    "@remix-run/react": "^2.0.1",
+    "@remix-run/serve": "^2.0.1",
+    "@vercel/analytics": "^1.1.0",
+    "@vercel/remix": "^2.0.1",
     "class-variance-authority": "0.7.0",
     "clsx": "2.0.0",
-    "isbot": "^3.6.8",
+    "dotenv": "16.3.1",
+    "isbot": "^3.7.0",
     "lucide-react": "0.284.0",
     "pluralize": "8.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tailwind-merge": "1.14.0",
-    "tailwindcss-animate": "1.0.7"
+    "tailwindcss-animate": "1.0.7",
+    "undici": "5.25.4"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "4.1.0",
-    "@remix-run/dev": "^2.0.0",
-    "@remix-run/eslint-config": "^2.0.0",
+    "@remix-run/dev": "^2.0.1",
+    "@remix-run/eslint-config": "^2.0.1",
     "@tailwindcss/typography": "0.5.10",
-    "@types/node": "20.8.3",
+    "@types/node": "20.8.4",
     "@types/pluralize": "0.0.31",
-    "@types/react": "^18.2.20",
-    "@types/react-dom": "^18.2.7",
+    "@types/react": "^18.2.28",
+    "@types/react-dom": "^18.2.13",
     "autoprefixer": "10.4.16",
-    "eslint": "^8.38.0",
+    "eslint": "^8.51.0",
     "eslint-config-prettier": "9.0.0",
     "eslint-plugin-prettier": "5.0.0",
     "prettier": "3.0.3",
     "prettier-plugin-tailwindcss": "0.5.5",
-    "prisma": "5.4.1",
+    "prisma": "5.4.2",
     "tailwindcss": "3.3.3",
     "ts-node": "10.9.1",
     "tsconfig-paths": "4.2.0",
-    "typescript": "^5.1.6"
+    "tsx": "3.13.0",
+    "typescript": "^5.2.2"
   },
   "engines": {
     "node": ">=18.0.0"
   },
   "prisma": {
-    "seed": "ts-node --require tsconfig-paths/register prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts"
   }
 }
