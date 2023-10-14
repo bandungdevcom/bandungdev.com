@@ -13,7 +13,9 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const events = await prisma.event.findMany();
+  const events = await prisma.event.findMany({
+    where: { isFeatured: true },
+  });
 
   return json({ events });
 };

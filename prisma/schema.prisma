@@ -51,15 +51,32 @@ model Event {
   description String?   @db.Text
   datetime    DateTime?
 
-  // locationAddress LocationAddress
+  isFeatured Boolean @default(false)
 
-  category   EventCategory? @relation(fields: [categoryId], references: [id])
+  status   EventStatus? @relation(fields: [statusId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  statusId String?
+
+  category   EventCategory? @relation(fields: [categoryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   categoryId String?
+
+  // locationAddress LocationAddress
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@index([statusId])
   @@index([categoryId])
+}
+
+model EventStatus {
+  id String @id @default(cuid())
+
+  sequence    Int?    @unique // 1 | 2 | 3 | ...
+  symbol      String  @unique // "PUBLIC" | "PRIVATE"
+  name        String  @unique // "Public" | "Private"
+  description String? @db.Text // "Long description"
+
+  events Event[]
 }
 
 model EventCategory {
@@ -71,9 +88,6 @@ model EventCategory {
   description String? @db.Text // "Long description"
 
   events Event[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 // -----------------------------------------------------------------------------

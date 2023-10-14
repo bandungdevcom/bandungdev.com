@@ -3,6 +3,7 @@ export const dataEvents = [
     title: "Official Setup/Launch",
     description: "The description of the event.",
     datetime: new Date("2023-10-22 13:00"),
+    isFeatured: true,
   },
   {
     title: "Community and Productivity",
