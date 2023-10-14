@@ -32,6 +32,7 @@
     "@vercel/remix": "^2.0.1",
     "class-variance-authority": "0.7.0",
     "clsx": "2.0.0",
+    "dayjs": "1.11.10",
     "dotenv": "16.3.1",
     "isbot": "^3.7.0",
     "lucide-react": "0.284.0",
