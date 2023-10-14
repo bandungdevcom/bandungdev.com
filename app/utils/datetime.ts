@@ -1,8 +1,6 @@
 import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-import updateLocale from "dayjs/plugin/updateLocale";
-
-require("dayjs/locale/en");
+import relativeTime from "dayjs/plugin/relativeTime.js";
+import updateLocale from "dayjs/plugin/updateLocale.js";
 
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
@@ -42,7 +40,7 @@ export function formatDateOnly(date: ParamDate) {
 
 export function formatDateTimeRelative(date: ParamDate) {
   return (
-    dayjs(date).locale("en").format("D MMM YYYY [at] H:mm") +
+    dayjs(date).locale("en").format("D MMMM YYYY [at] H:mm") +
     ` · ${formatRelativeTime(date)}`
   );
 }

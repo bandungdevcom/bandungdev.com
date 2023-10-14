@@ -11,12 +11,16 @@ datasource db {
   relationMode = "prisma"
 }
 
+// -----------------------------------------------------------------------------
+// User
+// -----------------------------------------------------------------------------
+
 model User {
   id String @id @default(cuid())
 
-  fullname String
-  username String @unique(map: "User.username_unique")
-  email    String @unique(map: "User.email_unique")
+  email    String  @unique(map: "User.email_unique")
+  username String? @unique(map: "User.username_unique")
+  fullname String?
 
   password UserPassword?
 
@@ -36,12 +40,18 @@ model UserPassword {
   updatedAt DateTime @updatedAt
 }
 
+// -----------------------------------------------------------------------------
+// Event
+// -----------------------------------------------------------------------------
+
 model Event {
   id String @id @default(cuid())
 
   title       String
   description String?   @db.Text
-  date        DateTime?
+  datetime    DateTime?
+
+  // locationAddress LocationAddress
 
   category   EventCategory? @relation(fields: [categoryId], references: [id])
   categoryId String?
@@ -64,6 +74,40 @@ model EventCategory {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// -----------------------------------------------------------------------------
+// Location and Address
+// -----------------------------------------------------------------------------
+
+model LocationAddress {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  label String // Location label name
+
+  address    String? // The complete combined Location address
+  addressURL String? // https://goo.gl/maps/1xABCDEF123456
+
+  street        String? // Street name
+  streetDetails String? // Street or location details, such as floor number
+  subDistrict   String?
+  district      String?
+  city          String?
+  province      String?
+  postalCode    String?
+  countryCode   String?
+
+  countryId     String?
+  provinceId    String?
+  cityId        String?
+  districtId    String?
+  subDistrictId String?
+
+  // Geolocation
+  latitude  Decimal? // -90 to 90, Example: -6.1234567
+  longitude Decimal? // -180 to 180, Example: 106.1234567
 }
 
 model Example {

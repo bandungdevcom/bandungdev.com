@@ -17,7 +17,8 @@
     "db:push": "prisma db push",
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio --browser none",
-    "prebuild": "prisma db push"
+    "prebuild": "prisma db push",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@planetscale/database": "1.11.0",

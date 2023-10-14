@@ -1,6 +1,6 @@
 import { prisma } from "~/db.server";
 
-import { dataSeedEvents } from "./data";
+import { dataEvents } from "./seed-data";
 
 async function main() {
   console.info("NODE_ENV", process.env.NODE_ENV);
@@ -9,8 +9,11 @@ async function main() {
 }
 
 async function seedEvents() {
+  const deletedEvents = await prisma.event.deleteMany();
+  console.info(`🟡 Deleted Events: ${deletedEvents.count} events`);
+
   const createdEvents = await prisma.event.createMany({
-    data: dataSeedEvents,
+    data: dataEvents,
   });
 
   console.info(`🟢 Created Events: ${createdEvents.count} events`);
@@ -18,12 +21,12 @@ async function seedEvents() {
 
 main()
   .then(async () => {
-    console.log("Seeding complete");
+    console.log("🔵 Seeding complete");
     await prisma.$disconnect();
   })
   .catch(e => {
     console.error(e);
-    console.log("Seeding failed");
+    console.log("🔴 Seeding failed");
     prisma.$disconnect();
     process.exit(1);
   });
