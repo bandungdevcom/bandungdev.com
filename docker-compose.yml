@@ -10,10 +10,9 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - ${MYSQL_HOST_PORT}:${MYSQL_CONTAINER_PORT}
     env_file:
       - .env
 
 volumes:
   mysql_data:
-
