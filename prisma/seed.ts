@@ -1,4 +1,4 @@
-import { prisma } from "~/db.server";
+import { prisma } from "~/libs";
 
 import { dataEvents } from "./seed-data";
 

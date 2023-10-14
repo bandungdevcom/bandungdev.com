@@ -1,8 +1,8 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { prisma } from "~/db.server";
 
+import { prisma } from "~/libs";
 import { EventsList } from "~/components";
 
 export const meta: MetaFunction = () => {
