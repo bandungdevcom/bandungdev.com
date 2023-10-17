@@ -5,7 +5,7 @@ import { Anchor } from "~/components/ui/anchor";
 
 export function SocialLinks() {
   return (
-    <ul className="flex flex-wrap items-center gap-2">
+    <ul className="flex flex-wrap items-center gap-4">
       {configSocialLinks.map(socialLink => (
         <li key={socialLink.text}>
           <Anchor

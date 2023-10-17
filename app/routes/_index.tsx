@@ -42,8 +42,9 @@ export default function Index() {
           </h1>
 
           <p className="text-base text-secondary-foreground sm:text-lg">
-            One of the curated developer communities in Bandung. We are
-            collaborating with various other tech communities.{" "}
+            The curated software developer and engineering community in Bandung,
+            Indonesia. BandungDev is collaborating with various other tech
+            communities. We aim to improve the educational activities.{" "}
             <code>#HelloHelloBandungDev</code>
           </p>
 

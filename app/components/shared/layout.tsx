@@ -49,7 +49,7 @@ function Footer() {
 
       <section className="flex-center bg-blue-950 p-4 text-center">
         <p className="inline-flex flex-wrap justify-center gap-1 text-xs text-blue-300 sm:text-sm">
-          <span>All rights reserved &copy; {year}</span>
+          <span>BandungDev. All rights reserved &copy; {year}</span>
         </p>
       </section>
     </footer>
