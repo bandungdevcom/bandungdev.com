@@ -21,32 +21,27 @@ export function getCurrentYear() {
  * Date time format
  */
 
-export function formatTimeDate(date: ParamDate) {
-  const formatted = dayjs(date).locale("en").format("H:mm [·] MMM D, YYYY");
-  return formatted + ` · ${formatRelativeTime(date)}`;
-}
-
 export function formatDateTime(date: ParamDate) {
-  return dayjs(date).locale("en").format("D MMM YYYY, H:mm");
+  return dayjs(date).format("D MMM YYYY, H:mm");
 }
 
 export function formatDateTimeTimezone(date: ParamDate) {
-  return dayjs(date).locale("en").format("D MMM YYYY, H:mm:ss Z");
+  return dayjs(date).format("D MMM YYYY, H:mm:ss Z");
 }
 
 export function formatDateOnly(date: ParamDate) {
-  return dayjs(date).locale("en").format("D MMMM YYYY");
+  return dayjs(date).format("D MMMM YYYY");
 }
 
 export function formatDateTimeRelative(date: ParamDate) {
   return (
-    dayjs(date).locale("en").format("D MMMM YYYY [at] H:mm") +
-    ` · ${formatRelativeTime(date)}`
+    dayjs(date).format("dddd, D MMMM YYYY [at] H:mm") +
+    ` (${formatRelativeTime(date)})`
   );
 }
 
 export function formatDateLastMod(date: ParamDate) {
-  return dayjs(date).locale("en").format("YYYY-MM-DD");
+  return dayjs(date).format("YYYY-MM-DD");
 }
 
 /**
@@ -54,7 +49,7 @@ export function formatDateLastMod(date: ParamDate) {
  */
 
 export function formatRelativeTime(date: ParamDate) {
-  return dayjs(date).locale("en").fromNow();
+  return dayjs(date).fromNow();
 }
 
 /**

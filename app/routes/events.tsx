@@ -5,16 +5,16 @@ import {
 } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
-import { prisma } from "~/libs";
-import { EventsList } from "~/components";
+import { prisma } from "~/libs/db.server";
+import { EventsList } from "~/components/shared/events";
 
 export const meta: MetaFunction = () => [
-  // your meta here
+  { title: "BandungDev Events" },
+  { name: "description", content: "Community events by BandungDev." },
 ];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const events = await prisma.event.findMany();
-
   return json({ events });
 };
 
@@ -23,11 +23,14 @@ export default function EventsRoute() {
 
   return (
     <div>
-      <header>
-        <h1>Events</h1>
-      </header>
+      <section className="section-auto">
+        <header className="space-y-4">
+          <h1>Events</h1>
+          <p>More info coming soon</p>
+        </header>
+      </section>
 
-      <section>
+      <section className="section-auto space-y-4">
         <h2>Public Events</h2>
         <EventsList events={events as any} />
       </section>

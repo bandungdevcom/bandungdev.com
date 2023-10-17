@@ -1,6 +1,6 @@
 import { redirect } from "@remix-run/node";
 
-import { configRedirects } from "~/configs";
+import { configRedirects } from "~/configs/redirects";
 
 export function redirectRouteToURL(request: Request) {
   const url = new URL(request.url);

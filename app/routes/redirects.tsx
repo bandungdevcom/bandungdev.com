@@ -1,13 +1,10 @@
-import {
-  json,
-  type LoaderFunctionArgs,
-  type MetaFunction,
-} from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 
-import { configRedirects } from "~/configs";
-import { formatPlural } from "~/utils";
-import { Anchor } from "~/components";
+import { configRedirects } from "~/configs/redirects";
+import { formatPlural } from "~/utils/string";
+import { Anchor } from "~/components/ui/anchor";
 
 export const meta: MetaFunction = () => [{ title: "Redirects" }];
 

@@ -5,7 +5,7 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 222.2 84% 10%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
@@ -87,7 +87,7 @@
     @apply hover-opacity font-bold;
   }
   .navlink-active {
-    @apply navlink text-red-700;
+    @apply navlink text-blue-700;
   }
   .h-hero {
     @apply h-72 sm:h-80 md:h-96;
@@ -98,11 +98,14 @@
 }
 
 @layer utilities {
+  .section-auto {
+    @apply mx-auto max-w-3xl px-4 py-10;
+  }
   .p-layout {
     @apply px-2 sm:px-4;
   }
   .flex-center {
-    @apply p-layout flex items-center justify-center;
+    @apply flex items-center justify-center;
   }
   .text-p {
     @apply text-base sm:text-lg;

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction } from "@remix-run/node";
 import {
@@ -7,11 +8,15 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
+  useNavigation,
 } from "@remix-run/react";
 import sansFontStyles from "@fontsource-variable/inter/index.css";
 import displayFontStyles from "@fontsource/space-grotesk/700.css";
 import { Analytics } from "@vercel/analytics/react";
+import NProgress from "nprogress";
 
+import { Layout } from "~/components/shared/layout";
 import tailwindStyles from "~/styles/tailwind.css";
 
 export const links: LinksFunction = () => [
@@ -40,6 +45,15 @@ export const links: LinksFunction = () => [
 ];
 
 export default function App() {
+  const navigation = useNavigation();
+  const location = useLocation();
+  const isDashboard = location.pathname.startsWith("/dashboard");
+
+  useEffect(() => {
+    if (navigation.state === "idle") NProgress.done();
+    else NProgress.start();
+  }, [navigation.state]);
+
   return (
     <html lang="en">
       <head>
@@ -49,7 +63,13 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        {isDashboard ? (
+          <Outlet />
+        ) : (
+          <Layout>
+            <Outlet />
+          </Layout>
+        )}
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
