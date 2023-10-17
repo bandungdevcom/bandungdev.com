@@ -5,6 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@fontsource-variable/inter':
+    specifier: 5.0.13
+    version: 5.0.13
+  '@fontsource/space-grotesk':
+    specifier: 5.0.13
+    version: 5.0.13
   '@planetscale/database':
     specifier: 1.11.0
     version: 1.11.0
@@ -1002,6 +1008,14 @@ packages:
   /@fastify/busboy@2.0.0:
     resolution: {integrity: sha512-JUFJad5lv7jxj926GPgymrWQxxjPYuJNiNjNMzqT+HiuP6Vl3dk5xzG+8sTX96np0ZAluvaMzPsjhHZ5rNuNQQ==}
     engines: {node: '>=14'}
+    dev: false
+
+  /@fontsource-variable/inter@5.0.13:
+    resolution: {integrity: sha512-mb2WyZ2rHeqIG8aqGJIvLBOmo4sg2x7SHlsE6PUhwxbOicVzO59EZwSGtzNO3FmchuDPFVAxzcXYcR5B6jE6Qw==}
+    dev: false
+
+  /@fontsource/space-grotesk@5.0.13:
+    resolution: {integrity: sha512-WymregWHM3QxZ+LC09hwaDbU/SHV8WgEcdmzG1/d1Mv78uZB1bUVEHBdiMzN+7xPBsiyG9EqJ5JR2fkunhH3OQ==}
     dev: false
 
   /@humanwhocodes/config-array@0.11.11:

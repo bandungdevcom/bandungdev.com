@@ -4,6 +4,10 @@ export default {
   darkMode: ["class"],
   content: ["./app/**/*.{ts,tsx}"],
   theme: {
+    fontFamily: {
+      sans: ["Inter Variable", "ui-sans-serif", "system-ui"],
+      display: ["Space Grotesk", "ui-sans-serif", "system-ui"],
+    },
     container: {
       center: true,
       padding: "2rem",

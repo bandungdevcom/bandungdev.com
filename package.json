@@ -21,6 +21,8 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@fontsource-variable/inter": "5.0.13",
+    "@fontsource/space-grotesk": "5.0.13",
     "@planetscale/database": "1.11.0",
     "@prisma/adapter-planetscale": "5.4.2",
     "@prisma/client": "5.4.2",

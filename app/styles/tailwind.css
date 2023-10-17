@@ -55,6 +55,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    @apply selection:bg-blue-200 selection:text-blue-900;
   }
   h1,
   h2,
@@ -62,7 +63,7 @@
   h4,
   h5,
   h6 {
-    @apply font-bold leading-tight tracking-tighter;
+    @apply font-display font-bold leading-tight tracking-tighter text-foreground;
   }
   h1 {
     @apply text-4xl leading-[1.1] md:text-5xl lg:text-6xl xl:text-7xl;

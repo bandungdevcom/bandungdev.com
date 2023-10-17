@@ -1,4 +1,5 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
+import type { LinksFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -7,13 +8,34 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import sansFontStyles from "@fontsource-variable/inter/index.css";
+import displayFontStyles from "@fontsource/space-grotesk/700.css";
 import { Analytics } from "@vercel/analytics/react";
-import type { LinksFunction } from "@vercel/remix";
 
-import styles from "./tailwind.css";
+import tailwindStyles from "~/styles/tailwind.css";
 
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: styles },
+  { rel: "shortcut icon", href: "/favicons/favicon.ico" },
+  {
+    rel: "icon",
+    type: "image/png",
+    sizes: "32x32",
+    href: "/favicon-32x32.png",
+  },
+  {
+    rel: "icon",
+    type: "image/png",
+    sizes: "16x16",
+    href: "/favicon-16x16.png",
+  },
+  {
+    rel: "apple-touch-icon",
+    sizes: "180x180",
+    href: "/apple-touch-icon-precomposed.png",
+  },
+  { rel: "stylesheet", href: displayFontStyles },
+  { rel: "stylesheet", href: sansFontStyles },
+  { rel: "stylesheet", href: tailwindStyles },
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
