@@ -4,7 +4,7 @@ import type { VariantProps } from "class-variance-authority";
 import { Loader2 } from "lucide-react";
 
 import { cn } from "~/utils/cn";
-import { buttonVariants } from "~/components";
+import { buttonVariants } from "~/components/ui/button";
 
 // https://reactrouter.com/en/6.14.2/hooks/use-navigation
 export interface ButtonLoadingProps

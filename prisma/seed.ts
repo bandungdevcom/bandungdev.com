@@ -1,6 +1,6 @@
-import { prisma } from "~/libs";
+import { prisma } from "~/libs/db.server";
 
-import { dataEvents } from "./seed-data";
+import { dataEvents } from "./seed-data/events";
 
 async function main() {
   console.info("NODE_ENV", process.env.NODE_ENV);

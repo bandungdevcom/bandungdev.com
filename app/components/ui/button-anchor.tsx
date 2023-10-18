@@ -1,7 +1,7 @@
 import type { VariantProps } from "class-variance-authority";
 
 import { cn } from "~/utils/cn";
-import { buttonVariants } from "~/components";
+import { buttonVariants } from "~/components/ui/button";
 
 interface ButtonAnchorProps
   extends React.DetailedHTMLProps<

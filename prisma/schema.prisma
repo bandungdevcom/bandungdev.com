@@ -18,10 +18,9 @@ datasource db {
 model User {
   id String @id @default(cuid())
 
-  email    String  @unique(map: "User.email_unique")
-  username String? @unique(map: "User.username_unique")
   fullname String?
-
+  username String?       @unique(map: "User.username_unique")
+  email    String        @unique(map: "User.email_unique")
   password UserPassword?
 
   createdAt DateTime @default(now())
@@ -50,8 +49,8 @@ model Event {
   title       String
   description String?   @db.Text
   datetime    DateTime?
-
-  isFeatured Boolean @default(false)
+  imageURL    String?   @db.Text
+  isFeatured  Boolean   @default(false)
 
   status   EventStatus? @relation(fields: [statusId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   statusId String?
@@ -71,7 +70,7 @@ model Event {
 model EventStatus {
   id String @id @default(cuid())
 
-  sequence    Int?    @unique // 1 | 2 | 3 | ...
+  sequence    Int     @unique // 1 | 2 | 3 | ...
   symbol      String  @unique // "PUBLIC" | "PRIVATE"
   name        String  @unique // "Public" | "Private"
   description String? @db.Text // "Long description"
@@ -123,6 +122,41 @@ model LocationAddress {
   latitude  Decimal? // -90 to 90, Example: -6.1234567
   longitude Decimal? // -180 to 180, Example: 106.1234567
 }
+
+// -----------------------------------------------------------------------------
+// Partner
+// -----------------------------------------------------------------------------
+
+model Partner {
+  id String @id @default(cuid())
+
+  name        String
+  description String? @db.Text
+  imageURL    String? @db.Text
+
+  category   PartnerCategory @relation(fields: [categoryId], references: [id])
+  categoryId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([categoryId])
+}
+
+model PartnerCategory {
+  id String @id @default(cuid())
+
+  sequence    Int     @unique // 1 | 2 | 3 | ...
+  symbol      String  @unique // "PUBLIC" | "PRIVATE"
+  name        String  @unique // "Public" | "Private"
+  description String? @db.Text // "Long description"
+
+  partners Partner[]
+}
+
+// -----------------------------------------------------------------------------
+// Example
+// -----------------------------------------------------------------------------
 
 model Example {
   id String @id @default(cuid())
