@@ -1,5 +1,7 @@
 {
   "recommendations": [
-    "codeforge.remix-forge"
+    "codeforge.remix-forge",
+    "antfu.iconify",
+    "afzalsayed96.icones"
   ]
 }
