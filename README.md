@@ -1,13 +1,13 @@
 # 🏯 BandungDev.com
 
-> Bandung Developer Community Website
+Bandung Developer Community Website
 
 > 🚧 This web app is still in early and active development
 
 Check out:
 
 - Web: <https://bandungdev.com>
-- Repo: <https://github.com/bandungdevcom>
+- Repo: <https://github.com/bandungdevcom/bandungdev.com>
 - Progress: <https://github.com/orgs/bandungdevcom/projects/1>
 
 ## Concept
@@ -241,4 +241,11 @@ Then deploy it. There should be the deployed URL like
 
 ### Related
 
-- [Bearmentor](https://github.com/bearmentor/bearmentor)
+Remix app setup:
+
+- [💿 Remix Indie Stack](https://github.com/remix-run/indie-stack)
+- [🚀 Epic Stack](https://github.com/epicweb-dev/epic-stack)
+- [🐶 Dogokit Remix](https://github.com/dogokit/dogokit-remix)
+- [🐻 Bearmentor](https://github.com/bearmentor/bearmentor)
+- [⏪ Rewinds](https://github.com/mhaidarhanif/rewinds)
+
