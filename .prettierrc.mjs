@@ -21,8 +21,8 @@ export default {
 	requirePragma: false,
 	singleAttributePerLine: false,
 	plugins: [
-		'prettier-plugin-tailwindcss',
 		'@ianvs/prettier-plugin-sort-imports',
+		'prettier-plugin-tailwindcss',
 	],
 	overrides: [
 		{
