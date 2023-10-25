@@ -12,12 +12,9 @@ Check out:
 
 ## Concept
 
-🚧 WIP
-
-This website allow to:
-
 - [ ] Discover community team and members
-- [ ] Explore various events
+- [ ] Explore various events, online and offline/onsite
+- [ ] Search for jobs and companies
 
 ## Getting Started
 
@@ -248,4 +245,3 @@ Remix app setup:
 - [🐶 Dogokit Remix](https://github.com/dogokit/dogokit-remix)
 - [🐻 Bearmentor](https://github.com/bearmentor/bearmentor)
 - [⏪ Rewinds](https://github.com/mhaidarhanif/rewinds)
-
