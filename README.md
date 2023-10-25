@@ -45,7 +45,17 @@ Check out:
    - [Docker Compose](https://docs.docker.com/compose): Multi-container Docker
 9. [Vercel](https://vercel.com): Web app deployment
 
-## Setup
+Use later:
+
+- [Vitest](https://vitest.dev) vs [Jest](https://jestjs.io)
+- [React Testing Library](https://testing-library.com)
+- [Playwright](https://playwright.dev) vs [Cypress](https://cypress.io)
+
+Don't use:
+
+- styled-components, @emotion, Stitches, Chakra UI, MUI, etc
+- TanStack/React Query, SWR, Axios, etc
+- Redux, Zustand, Jotai, XState, etc
 
 ## Development
 
