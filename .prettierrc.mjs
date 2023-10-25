@@ -28,7 +28,6 @@ export default {
 		{
 			files: ['**/*.md', '**/*.json'],
 			options: {
-				proseWrap: 'preserve',
 				useTabs: false,
 			},
 		},

@@ -1,7 +1,7 @@
-import { Icon } from '@iconify/react'
+import { Icon } from "@iconify/react"
 
-import { configSocialLinks } from '~/configs/social-links'
-import { Anchor } from '~/components/ui/anchor'
+import { configSocialLinks } from "~/configs/social-links"
+import { Anchor } from "~/components/ui/anchor"
 
 export function SocialLinks() {
 	return (

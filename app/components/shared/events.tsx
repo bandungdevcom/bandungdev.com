@@ -1,7 +1,7 @@
-import { type Event } from '@prisma/client'
+import { type Event } from "@prisma/client"
 
-import { formatDateTimeRelative } from '~/utils/datetime'
-import { Card } from '~/components/ui/card'
+import { formatDateTimeRelative } from "~/utils/datetime"
+import { Card } from "~/components/ui/card"
 
 export function EventsList({ events }: { events: Event[] }) {
 	if (events.length <= 0) {

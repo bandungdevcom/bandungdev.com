@@ -1,17 +1,17 @@
-import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
-import { json } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
 
-import { prisma } from '~/libs/db.server'
-import { EventsList } from '~/components/shared/events'
-import { ButtonLink } from '~/components/ui/button-link'
+import { prisma } from "~/libs/db.server"
+import { EventsList } from "~/components/shared/events"
+import { ButtonLink } from "~/components/ui/button-link"
 
 export const meta: MetaFunction = () => {
 	return [
-		{ title: 'BandungDev' },
+		{ title: "BandungDev" },
 		{
-			name: 'description',
-			content: 'Komunitas developer Bandung yang terkurasi.',
+			name: "description",
+			content: "Komunitas developer Bandung yang terkurasi.",
 		},
 	]
 }
@@ -55,7 +55,7 @@ export default function Index() {
 					<p className="text-base text-secondary-foreground sm:text-lg">
 						The curated software developer and engineering community in Bandung,
 						Indonesia. BandungDev is collaborating with various other tech
-						communities. We aim to improve the educational activities.{' '}
+						communities. We aim to improve the educational activities.{" "}
 						<code>#HelloHelloBandungDev</code>
 					</p>
 

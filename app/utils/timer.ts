@@ -1,5 +1,5 @@
 export function delay(ms = 500) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+	return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 /**
@@ -11,13 +11,13 @@ export function delay(ms = 500) {
  */
 
 export const createTimer = () => {
-  const start = Date.now();
+	const start = Date.now()
 
-  return {
-    delay: async (threshold = 500) => {
-      const currentDuration = Date.now() - start;
-      const delayDuration = Math.min(threshold - currentDuration, 500);
-      if (delayDuration > 0) await delay(delayDuration);
-    },
-  };
-};
+	return {
+		delay: async (threshold = 500) => {
+			const currentDuration = Date.now() - start
+			const delayDuration = Math.min(threshold - currentDuration, 500)
+			if (delayDuration > 0) await delay(delayDuration)
+		},
+	}
+}

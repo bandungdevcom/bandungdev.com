@@ -2,15 +2,15 @@ import {
 	json,
 	type LoaderFunctionArgs,
 	type MetaFunction,
-} from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+} from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
 
-import { prisma } from '~/libs/db.server'
-import { stringify } from '~/utils/string'
+import { prisma } from "~/libs/db.server"
+import { stringify } from "~/utils/string"
 
 export const meta: MetaFunction = () => [
-	{ title: 'BandungDev Members' },
-	{ name: 'description', content: 'Community members of BandungDev.' },
+	{ title: "BandungDev Members" },
+	{ name: "description", content: "Community members of BandungDev." },
 ]
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {

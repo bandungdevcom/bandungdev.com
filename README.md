@@ -201,7 +201,8 @@ Then try run the app in production mode:
 pnpm start
 ```
 
-> This repo has been officially deployed to Vercel and hosted at <https://bandungdev.com>
+> This repo has been officially deployed to Vercel and hosted at
+> <https://bandungdev.com>
 
 ### Develop Locally
 
