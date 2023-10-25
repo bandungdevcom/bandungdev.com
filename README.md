@@ -135,7 +135,7 @@ Generate a random string for the `SESSION_SECRET` using
 `openssl rand -base64 32` on the terminal or put any long random text.
 
 ```sh
-DATABASE_URL="mysql://username:password@aws.connect.psdb.cloud/bearmentor?sslaccept=strict"
+DATABASE_URL="mysql://username:password@aws.connect.psdb.cloud/bandungdev?sslaccept=strict"
 SESSION_SECRET="random_secret_text"
 ```
 
@@ -186,7 +186,7 @@ pnpm db:seed
 
 ### Build
 
-Check if the build is fine:
+Check if the build is fine. This als be used to build the app for production.
 
 ```sh
 pnpm build
@@ -194,6 +194,14 @@ pnpm build
 ```
 
 > This will also run `prisma generate` too before the build
+
+Then try run the app in production mode:
+
+```sh
+pnpm start
+```
+
+> This repo has been officially deployed to Vercel and hosted at <https://bandungdev.com>
 
 ### Develop Locally
 
@@ -203,6 +211,8 @@ If everything works fine, start the Remix development server like so:
 pnpm dev
 # remix dev
 ```
+
+This starts the app in development mode, rebuilding assets on file changes.
 
 Open up [http://localhost:3000](http://localhost:3000) and it should be ready to
 go!
@@ -230,14 +240,14 @@ taze
 
 ## Deployment
 
-This repo has been setup to autodeploy to Vercel automatically on Git push. Can
+This repo has been setup to auto deploy to Vercel automatically on Git push. Can
 also be deployed to other new projects on Vercel.
 
 After having run the `create-remix` command and selected "Vercel" as a
 deployment target, [import the Git repository](https://vercel.com/new) into
 Vercel.
 
-Cnfigure the required environment variables in project settings for:
+Configure the required environment variables in project settings for:
 
 - `DATABASE_URL`
 - `SESSION_SECRET`

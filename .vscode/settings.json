@@ -18,5 +18,6 @@
     "titleBar.inactiveBackground": "#0ea5e999",
     "titleBar.inactiveForeground": "#e7e7e799"
   },
-  "peacock.color": "#0ea5e9"
+  "peacock.color": "#0ea5e9",
+  "cSpell.words": ["bandungdev"]
 }
