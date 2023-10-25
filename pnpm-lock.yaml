@@ -8,9 +8,9 @@ dependencies:
   '@fontsource-variable/inter':
     specifier: 5.0.15
     version: 5.0.15
-  '@fontsource/space-grotesk':
-    specifier: 5.0.15
-    version: 5.0.15
+  '@fontsource/readex-pro':
+    specifier: 5.0.8
+    version: 5.0.8
   '@iconify/react':
     specifier: 4.1.1
     version: 4.1.1(react@18.2.0)
@@ -1032,8 +1032,8 @@ packages:
     resolution: {integrity: sha512-CdQPQQgOVxg6ifmbrqYZeUqtQf7p2wPn6EvJ4M+vdNnsmYZgYwPPPQDNlIOU7LCUlSGaN26v6H0uA030WKn61g==}
     dev: false
 
-  /@fontsource/space-grotesk@5.0.15:
-    resolution: {integrity: sha512-9LaRK2f2B7X0Mx9F8UTuKuqW4w+Iv0RByoC5WyT7l3VSyepd2aJm+/s14tj8QJY+0gwfUG9P/6Gc8oDWy8+aeA==}
+  /@fontsource/readex-pro@5.0.8:
+    resolution: {integrity: sha512-EAL80pZt8y68000NeRO+MibNRk9rbTMelLy2ra2jAZQDOaekRb7zIhkebW1bPIoicncgkRMMowSk1RrDFTMytw==}
     dev: false
 
   /@humanwhocodes/config-array@0.11.13:

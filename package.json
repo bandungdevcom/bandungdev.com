@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@fontsource-variable/inter": "5.0.15",
-    "@fontsource/space-grotesk": "5.0.15",
+    "@fontsource/readex-pro": "5.0.8",
     "@iconify/react": "4.1.1",
     "@planetscale/database": "1.11.0",
     "@prisma/adapter-planetscale": "5.5.2",
