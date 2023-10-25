@@ -27,22 +27,23 @@ Check out:
    [Blog Tutorial (short)](http://remix.run/docs/en/main/tutorials/blog) and
    [App Tutorial (long)](http://remix.run/docs/en/main/tutorials/jokes).
 
-## Tech Stack
+## Primary Tech Stack
 
 1. [TypeScript](https://typescriptlang.org): Typed language
    - Related to JavaScript, HTML, CSS
 2. [React](https://react.dev): UI library
-3. [Remix](https://remix.run): Web framework
-   - [React Router](https://reactrouter.com)
+3. [Remix](https://remix.run): Full stack web framework
+   - [React Router](https://reactrouter.com): Routing
 4. [Tailwind CSS](https://tailwindcss.com): Styling
 5. [Radix UI](https://radix-ui.com): Interactive components
    - [shadcn UI](https://ui.shadcn.com): Styled interactive components
-   - [Tabler Icons](https://tabler-icons.io): Icon set
 6. [Prisma](https://prisma.io): Database ORM
 7. [PlanetScale](https://planetscale.com): MySQL-compatible serverless database
    platform
-   - [MySQL](https://mysql.com): Database management system
-8. [Vercel](https://vercel.com): App deployment
+   - [MySQL](https://mysql.com): Database management system (DBMS)
+8. [Docker](https://docker.com): Containerization
+   - [Docker Compose](https://docs.docker.com/compose): Multi-container Docker
+9. [Vercel](https://vercel.com): Web app deployment
 
 ## Setup
 
