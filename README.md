@@ -16,6 +16,11 @@ Check out:
 - [ ] Explore various events, online and offline/onsite
 - [ ] Search for jobs and companies
 
+## UI Design
+
+Figma link:
+<https://www.figma.com/file/UXLCWrL8yvpqoUCxY5vOGs/BandungDev.com-UI>
+
 ## Getting Started
 
 1. Read about [Remix](https://remix.run) and the
