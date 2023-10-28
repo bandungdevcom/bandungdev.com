@@ -12,22 +12,27 @@ export function TeamMembers({ teamMembers }: { teamMembers: User[] }) {
 			<ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
 				{teamMembers.map(member => (
 					<li key={member.id}>
-						<Card className="flex gap-4 p-4">
-							<div className="h-28 w-24">
-								<img
-									className="h-full w-full rounded-lg object-cover"
-									src={`https://api.dicebear.com/7.x/thumbs/svg?seed=${
-										member.fullname || "anonym"
-									}`}
-									alt={member.fullname || "anonym"}
-								/>
-							</div>
-
-							<div className="line-clamp-2 flex-1 space-y-4">
-								<h3>{member.fullname || "anonym"}</h3>
-								<p className="text-muted-foreground">{`@${
-									member.username || "anonym"
-								}`}</p>
+						<Card className="flex h-full flex-col gap-4 p-4">
+							<img
+								className="h-32 w-32 rounded-full object-cover"
+								src={`https://api.dicebear.com/7.x/thumbs/svg?seed=${
+									member.fullname || "anonym"
+								}`}
+								alt={member.fullname || "anonym"}
+							/>
+							<div className="line-clamp-2 flex flex-1 flex-col gap-1 space-y-4">
+								<div>
+									<h3>{member.fullname || "anonym"}</h3>
+									<p className="">{`@${member.username || "anonym"}`}</p>
+								</div>
+								<p className="text-muted-foreground">
+									Software Engineer Google
+									<br />
+									<span className="font-medium">
+										Full Stack Web Developer with JavaScript, Node.js,
+										TypeScript, React
+									</span>
+								</p>
 							</div>
 						</Card>
 					</li>
