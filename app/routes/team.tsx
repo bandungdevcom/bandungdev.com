@@ -31,18 +31,18 @@ export default function TeamRoute() {
 
 	return (
 		<div>
-			<section className="section-auto">
+			<section className="section-team">
 				<header className="space-y-4">
 					<h1>Team Members</h1>
 				</header>
 			</section>
 
-			<section className="section-auto space-y-4">
+			<section className="section-team space-y-4">
 				<h2>Main Committee Team</h2>
 				<TeamMembers teamMembers={mainTeamMembers as any} />
 			</section>
 
-			<section className="section-auto space-y-4">
+			<section className="section-team space-y-4">
 				<h2>Website Team</h2>
 				<TeamMembers teamMembers={developerTeamMembers as any} />
 			</section>
