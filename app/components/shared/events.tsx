@@ -12,13 +12,16 @@ export function EventsList({ events }: { events: Event[] }) {
 		<ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 			{events.map(event => (
 				<li key={event.id}>
-					<Card className="h-full rounded-xl p-6">
-						<div className="w-full overflow-hidden rounded-lg">
+					<Card className="group h-full rounded-xl p-6">
+						<div className="relative w-full overflow-hidden rounded-lg">
 							<img
 								className="aspect-video w-full rounded-lg"
 								src="https://picsum.photos/300/200"
 								alt={event.title}
 							/>
+							<div className="absolute left-0 top-0 flex h-full w-full translate-y-44 cursor-pointer items-center justify-center bg-secondary/50 text-lg font-bold text-secondary-foreground opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+								Read More
+							</div>
 						</div>
 
 						<div className="mt-5 space-y-4">
