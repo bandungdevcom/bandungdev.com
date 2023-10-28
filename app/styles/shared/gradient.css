@@ -1,0 +1,23 @@
+.bg-gradient__container {
+  @apply absolute top-0 inset-x-0 h-[55vh] lg:h-screen bg-gradient-to-b from-primary to-transparent overflow-hidden;
+  .bg-gradient__item--top-left {
+    @apply absolute -top-10 -left-10 w-24 h-24 bg-white rounded-full blur-2xl
+    md:opacity-75 lg:h-40 lg:w-40 lg:-top-16 lg:-left-16 lg:blur-3xl;
+  }
+  .bg-gradient__item--top-right {
+    @apply absolute -top-32 -right-10 w-64 h-64 bg-[#1DCDFE] rounded-full blur-2xl
+    md:w-96 md:blur-3xl lg:w-3/5 lg:-right-16 lg:h-96;
+  }
+  .bg-gradient__item--center {
+    @apply absolute top-40 -right-16 w-72 h-60 bg-[#EBED8A]/60 rounded-full blur-2xl
+    md:blur-3xl md:w-96 md:opacity-70;
+  }
+  .bg-gradient__item--center-right {
+    @apply absolute top-0 -right-8 w-24 h-72 bg-[#1DCDFE] rounded-full blur-3xl
+    lg:h-96;
+  }
+  .bg-gradient__item--bottom-left {
+    @apply absolute bottom-0 -left-8 w-24 h-72 bg-[#1DCDFE] rounded-full blur-3xl
+    lg:h-96;
+  }
+}

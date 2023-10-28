@@ -1,3 +1,4 @@
+import { useState } from "react"
 import {
 	json,
 	type LoaderFunctionArgs,
@@ -7,6 +8,8 @@ import { useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs/db.server"
 import { EventsList } from "~/components/shared/events"
+import { GradientBackground } from "~/components/shared/gradient"
+import { SearchInput } from "~/components/ui/search-input"
 
 export const meta: MetaFunction = () => [
 	{ title: "BandungDev Events" },
@@ -20,18 +23,26 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export default function EventsRoute() {
 	const { events } = useLoaderData<typeof loader>()
+	const [searchValue, setSearchValue] = useState("")
 
 	return (
-		<div>
-			<section className="section-auto">
-				<header className="space-y-4">
-					<h1>Events</h1>
-					<p>More info coming soon</p>
+		<div className="relative">
+			{/* <div className="spectrum-background" /> */}
+			<GradientBackground />
+
+			<section className="section-auto relative">
+				<header className="space-y-4 pt-16">
+					<h1 className="mb-10 text-center">Event</h1>
+					<SearchInput
+						className="mx-auto block max-w-md"
+						placeholder="Cari event, contoh: Javascript"
+						value={searchValue}
+						setValue={evt => setSearchValue(evt.target.value)}
+					/>
 				</header>
 			</section>
 
-			<section className="section-auto space-y-4">
-				<h2>Public Events</h2>
+			<section className="section-auto relative min-w-full space-y-4">
 				<EventsList events={events as any} />
 			</section>
 		</div>
