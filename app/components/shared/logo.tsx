@@ -8,7 +8,7 @@ export function Logo({ ...props }: React.HTMLProps<HTMLDivElement>) {
 					BD
 				</span>
 			</div>
-			<h1 className="tet-slate-800 text-2xl">BandungDev</h1>
+			<h1 className="text-2xl text-slate-800">BandungDev</h1>
 		</div>
 	)
 }

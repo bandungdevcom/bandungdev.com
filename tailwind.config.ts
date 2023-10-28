@@ -5,8 +5,8 @@ export default {
 	content: ["./app/**/*.{ts,tsx}"],
 	theme: {
 		fontFamily: {
+			display: ["Readex Pro", "ui-sans-serif", "system-ui"],
 			sans: ["Inter Variable", "ui-sans-serif", "system-ui"],
-			display: ["Space Grotesk", "ui-sans-serif", "system-ui"],
 		},
 		container: {
 			center: true,
