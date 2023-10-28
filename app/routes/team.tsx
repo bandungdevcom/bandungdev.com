@@ -14,17 +14,20 @@ export const meta: MetaFunction = () => [
 ]
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-	const [mainTeamMembers] = await prisma.$transaction([
+	const [mainTeamMembers, developerTeamMembers] = await prisma.$transaction([
 		prisma.user.findMany({
 			where: { tags: { some: { symbol: "TEAM" } } },
-			include: { tags: true },
+		}),
+		prisma.user.findMany({
+			where: { tags: { some: { symbol: "DEVELOPER" } } },
 		}),
 	])
-	return json({ mainTeamMembers })
+	return json({ mainTeamMembers, developerTeamMembers })
 }
 
 export default function TeamRoute() {
-	const { mainTeamMembers } = useLoaderData<typeof loader>()
+	const { mainTeamMembers, developerTeamMembers } =
+		useLoaderData<typeof loader>()
 
 	return (
 		<div>
@@ -35,8 +38,13 @@ export default function TeamRoute() {
 			</section>
 
 			<section className="section-auto space-y-4">
-				<h2>Main Committe Team</h2>
+				<h2>Main Committee Team</h2>
 				<TeamMembers teamMembers={mainTeamMembers as any} />
+			</section>
+
+			<section className="section-auto space-y-4">
+				<h2>Website Team</h2>
+				<TeamMembers teamMembers={developerTeamMembers as any} />
 			</section>
 		</div>
 	)
