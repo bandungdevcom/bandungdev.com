@@ -129,9 +129,10 @@ For the database, either choose to use PlanetScale or local Docker container. If
 prefer using Docker and Docker Compose for local development,
 [follow this guide](docs/DATABASE.md).
 
-Create a [PlanetScale](https://planetscale.com) account to have a MySQL instance
-for development. After the database has been created, "Get the connection
-string" and select "Prisma", then copy the full `DATABASE_URL`.
+If not using any local database, create a [PlanetScale](https://planetscale.com)
+account to have a MySQL instance for development. After the database has been
+created, "Get the connection string" and select "Prisma", then copy the full
+`DATABASE_URL`.
 
 > Keep in mind the free plan only allow for 1 database. So either later keep it,
 > delete it when unused, or upgrade the plan.
@@ -172,34 +173,15 @@ authentication method with OAuth that is not require a password.
     "fullname": "User One",
     "email": "user1@example.com",
     "username": "username",
-    "password": "set_the_password_1"
+    "tags": ["TEAM", "DEVELOPER"]
   },
   {
     "fullname": "User Two",
     "email": "user2@example.com",
-    "username": "username2"
-  }
-  // ...
-]
-```
-
-Create `team-members.json` in `prisma/seed-credential` folder with the format
-below. This is not related to the users to do auth.
-
-```json
-[
-  {
-    "fullname": "Team Member One",
-    "username": "teammember1",
-    "email": "teammember1@example.com",
-    "tags": ["TEAM", "DEVELOPER"]
-  },
-  {
-    "fullname": "Team Member Two",
-    "username": "teammember2",
-    "email": "teammember2@example.com",
+    "username": "username2",
     "tags": ["TEAM", "ADVISOR"]
   }
+  // ...
 ]
 ```
 
