@@ -40,12 +40,10 @@ async function seedTeamMembers() {
 	const deletedTeamMembers = await prisma.user.deleteMany()
 	console.info(`🟡 Deleted Team Members: ${deletedTeamMembers.count} members`)
 
-	const TEAM = await prisma.userTag.findUnique({
-		where: { symbol: "TEAM" },
-	})
-	const UNKNOWN = await prisma.userTag.findUnique({
-		where: { symbol: "UNKNOWN" },
-	})
+	const [TEAM, UNKNOWN] = await prisma.$transaction([
+		prisma.userTag.findUnique({ where: { symbol: "TEAM" } }),
+		prisma.userTag.findUnique({ where: { symbol: "UNKNOWN" } }),
+	])
 	if (!TEAM || !UNKNOWN) return null
 
 	const dataTeamMembersSeed = dataTeamMembers.map(teamMember => {
