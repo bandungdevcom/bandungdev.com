@@ -23,6 +23,8 @@ model User {
   email    String        @unique(map: "User.email_unique")
   password UserPassword?
 
+  tags UserTag[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -37,6 +39,21 @@ model UserPassword {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model UserTag {
+  id String @id @default(cuid())
+
+  symbol String @unique // TEAM  | MEMBER | ...
+  name   String @unique // Team  | Member | ...
+
+  user   User?   @relation(fields: [userId], references: [id], onUpdate: Cascade)
+  userId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }
 
 // -----------------------------------------------------------------------------
