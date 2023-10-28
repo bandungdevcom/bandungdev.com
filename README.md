@@ -267,3 +267,19 @@ Remix app setup:
 - [🐶 Dogokit Remix](https://github.com/dogokit/dogokit-remix)
 - [🐻 Bearmentor](https://github.com/bearmentor/bearmentor)
 - [⏪ Rewinds](https://github.com/mhaidarhanif/rewinds)
+
+## Contributors
+
+| Nick   | Full Name           | Username      | Role                                           |
+| ------ | ------------------- | ------------- | ---------------------------------------------- |
+| Haidar | M Haidar Hanif      | @mhaidarhanif | Lead, Full Stack Web Developer, UI/UX Designer |
+| Fikri  | Fikri Alwan         | @FikriAR19    | Frontend Web Developer                         |
+| Abui   | Abui Muliadi        | @abuiiam      | Frontend Web Developer, UI/UX Designer         |
+| Rizky  | Rizky Alam          | @rizkyalamz   | Backend Web Developer, Infra/System Engineer   |
+| Raka   | Raka Pratama        | @tamagossi    | Full Stack Web Developer                       |
+| Rijal  | Muhamad Rijal       | @MhdRijal     | Full Stack Web Developer                       |
+| Agus   | Agus Wesly          | @aguswesly    | Full Stack Web Developer                       |
+| Rendi  | Rendi Bayu Setiawan | @straynekoren | Full Stack Web Developer                       |
+| Maahir | M. Maahir Maulana   | @maulana48    | Backend Web Developer                          |
+
+(Ordered by join date)
