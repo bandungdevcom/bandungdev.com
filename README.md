@@ -280,16 +280,19 @@ Remix app setup:
 
 ## Contributors
 
-| Nick   | Full Name           | Username      | Role                                           |
-| ------ | ------------------- | ------------- | ---------------------------------------------- |
-| Haidar | M Haidar Hanif      | @mhaidarhanif | Lead, Full Stack Web Developer, UI/UX Designer |
-| Fikri  | Fikri Alwan         | @FikriAR19    | Frontend Web Developer                         |
-| Abui   | Abui Muliadi        | @abuiiam      | Frontend Web Developer, UI/UX Designer         |
-| Rizky  | Rizky Alam          | @rizkyalamz   | Backend Web Developer, Infra/System Engineer   |
-| Raka   | Raka Pratama        | @tamagossi    | Full Stack Web Developer                       |
-| Rijal  | Muhamad Rijal       | @MhdRijal     | Full Stack Web Developer                       |
-| Agus   | Agus Wesly          | @aguswesly    | Full Stack Web Developer                       |
-| Rendi  | Rendi Bayu Setiawan | @straynekoren | Full Stack Web Developer                       |
-| Maahir | M. Maahir Maulana   | @maulana48    | Backend Web Developer                          |
-
 (Ordered by join date)
+
+| No  | Nick   | Full Name           | Username      | Role                                           |
+| --- | ------ | ------------------- | ------------- | ---------------------------------------------- |
+| 1   | Haidar | M Haidar Hanif      | @mhaidarhanif | Lead, Full Stack Web Developer, UI/UX Designer |
+| 2   | Hendi  | Hendi Santika       | ...           | Software Developer                             |
+| 3   | Didiet | Didiet Pambudiono   | @didietap     | Infra Engineer                                 |
+| 4   | Fikri  | Fikri Alwan         | @FikriAR19    | Frontend Web Developer                         |
+| 5   | Abui   | Abui Muliadi        | @abuiiam      | Frontend Web Developer, UI/UX Designer         |
+| 6   | Rizky  | Rizky Alam          | @rizkyalamz   | Backend Web Developer, Infra/System Engineer   |
+| 7   | Raka   | Raka Pratama        | @tamagossi    | Full Stack Web Developer                       |
+| 8   | Rijal  | Muhamad Rijal       | @MhdRijal     | Full Stack Web Developer                       |
+| 9   | Agus   | Agus Wesly          | @aguswesly    | Full Stack Web Developer                       |
+| 10  | Rendi  | Rendi Bayu Setiawan | @straynekoren | Full Stack Web Developer                       |
+| 11  | Maahir | M. Maahir Maulana   | @maulana48    | Backend Web Developer                          |
+| 12  | Obi    | Obi Pranata         | @obipranata   | Full Stack Web Developer                       |
