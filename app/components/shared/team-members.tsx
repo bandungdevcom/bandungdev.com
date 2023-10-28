@@ -14,7 +14,7 @@ export function TeamMembers({ teamMembers }: { teamMembers: User[] }) {
 					<li key={member.id}>
 						<Card className="flex h-full flex-col gap-4 p-4">
 							<img
-								className="h-32 w-32 rounded-full object-cover"
+								className="h-24 w-24 rounded-full object-cover"
 								src={`https://api.dicebear.com/7.x/thumbs/svg?seed=${
 									member.fullname || "anonym"
 								}`}
@@ -23,12 +23,16 @@ export function TeamMembers({ teamMembers }: { teamMembers: User[] }) {
 							<div className="line-clamp-2 flex flex-1 flex-col gap-1 space-y-4">
 								<div>
 									<h3>{member.fullname || "anonym"}</h3>
-									<p className="">{`@${member.username || "anonym"}`}</p>
+									<p className="text-primary">{`@${
+										member.username || "anonym"
+									}`}</p>
 								</div>
-								<p className="text-muted-foreground">
-									Software Engineer Google
+								<p className="font-medium text-muted-foreground">
+									Software Engineer
 									<br />
-									<span className="font-medium">
+									Google
+									<br />
+									<span className="font-normal">
 										Full Stack Web Developer with JavaScript, Node.js,
 										TypeScript, React
 									</span>
