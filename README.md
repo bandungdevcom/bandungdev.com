@@ -156,22 +156,45 @@ After a success push, then it will automatically run `prisma generate`.
 
 #### Data for Credentials
 
-Create `users.json` in `prisma/seed-data` folder with the format below. You can
-focus on certain users who want to be able to sign in in development, so it
-doesn't have to be everyone.
+Create `users.json` in `prisma/seed-credential` folder with the format below.
+You can focus on certain users who want to be able to sign in in development, so
+it doesn't have to be everyone. Password is also optional as there is an
+authentication method with OAuth that is not require a password.
 
 ```json
 [
   {
+    "fullname": "User One",
     "email": "user1@example.com",
     "username": "username",
     "password": "set_the_password_1"
   },
   {
+    "fullname": "User Two",
     "email": "user2@example.com",
     "username": "username2"
   }
   // ...
+]
+```
+
+Create `team-members.json` in `prisma/seed-credential` folder with the format
+below. This is not related to the users to do auth.
+
+```json
+[
+  {
+    "fullname": "Team Member One",
+    "username": "teammember1",
+    "email": "teammember1@example.com",
+    "tags": ["TEAM", "DEVELOPER"]
+  },
+  {
+    "fullname": "Team Member Two",
+    "username": "teammember2",
+    "email": "teammember2@example.com",
+    "tags": ["TEAM", "ADVISOR"]
+  }
 ]
 ```
 

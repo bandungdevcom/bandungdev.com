@@ -1,8 +1,8 @@
 import { prisma } from "~/libs/db.server"
 import { debugCode } from "~/utils/debug"
 
+import dataTeamMembers from "./seed-credential/team-members.json"
 import { dataEvents } from "./seed-data/events"
-import { dataTeamMembers } from "./seed-data/team-members"
 import { dataUserTags } from "./seed-data/user-tags"
 
 async function main() {
