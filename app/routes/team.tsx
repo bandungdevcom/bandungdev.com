@@ -23,7 +23,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 	return json({ teamMembers })
 }
 
-export default function EventsRoute() {
+export default function TeamRoute() {
 	const { teamMembers } = useLoaderData<typeof loader>()
 
 	return (
