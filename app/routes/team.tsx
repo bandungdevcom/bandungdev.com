@@ -14,9 +14,12 @@ export const meta: MetaFunction = () => [
 ]
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-	const teamMembers = await prisma.user.findMany({
-		where: { tags: { some: { symbol: "TEAM" } } },
-	})
+	const [teamMembers] = await prisma.$transaction([
+		prisma.user.findMany({
+			where: { tags: { some: { symbol: "TEAM" } } },
+			include: { tags: true },
+		}),
+	])
 	return json({ teamMembers })
 }
 

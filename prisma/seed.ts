@@ -44,7 +44,7 @@ async function seedTeamMembers() {
 		where: { symbol: "TEAM" },
 	})
 	const UNKNOWN = await prisma.userTag.findUnique({
-		where: { symbol: "TEAM" },
+		where: { symbol: "UNKNOWN" },
 	})
 	if (!TEAM || !UNKNOWN) return null
 
