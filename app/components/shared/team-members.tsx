@@ -15,9 +15,12 @@ export function TeamMembers({ teamMembers }: { teamMembers: User[] }) {
 						<Card className="flex h-full flex-col gap-4 p-4">
 							<img
 								className="h-24 w-24 rounded-full object-cover"
-								src={`https://api.dicebear.com/7.x/thumbs/svg?seed=${
-									member.fullname || "anonym"
-								}`}
+								src={
+									member.imageURL ||
+									`https://api.dicebear.com/7.x/thumbs/svg?seed=${
+										member.fullname || "anonym"
+									}`
+								}
 								alt={member.fullname || "anonym"}
 							/>
 							<div className="line-clamp-2 flex flex-1 flex-col gap-1 space-y-4">
@@ -28,14 +31,21 @@ export function TeamMembers({ teamMembers }: { teamMembers: User[] }) {
 									}`}</p>
 								</div>
 								<p className="font-medium text-muted-foreground">
-									Software Engineer
-									<br />
-									Google
-									<br />
-									<span className="font-normal">
-										Full Stack Web Developer with JavaScript, Node.js,
-										TypeScript, React
-									</span>
+									{member.role && (
+										<>
+											{member.role}
+											<br />
+										</>
+									)}
+									{member.affiliation && (
+										<>
+											{member.affiliation}
+											<br />
+										</>
+									)}
+									{member.bio && (
+										<span className="font-normal">{member.bio}</span>
+									)}
 								</p>
 							</div>
 						</Card>
