@@ -27,7 +27,6 @@ export default function EventsRoute() {
 
 	return (
 		<div className="relative">
-			{/* <div className="spectrum-background" /> */}
 			<GradientBackground />
 
 			<section className="section-auto relative">
