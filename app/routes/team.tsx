@@ -6,7 +6,7 @@ import {
 import { useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs/db.server"
-import { stringify } from "~/utils/string"
+import { TeamMembers } from "~/components/shared/team-members"
 
 export const meta: MetaFunction = () => [
 	{ title: "BandungDev Team" },
@@ -14,29 +14,37 @@ export const meta: MetaFunction = () => [
 ]
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-	const [teamMembers] = await prisma.$transaction([
+	const [mainTeamMembers, developerTeamMembers] = await prisma.$transaction([
 		prisma.user.findMany({
 			where: { tags: { some: { symbol: "TEAM" } } },
-			include: { tags: true },
+		}),
+		prisma.user.findMany({
+			where: { tags: { some: { symbol: "DEVELOPER" } } },
 		}),
 	])
-	return json({ teamMembers })
+	return json({ mainTeamMembers, developerTeamMembers })
 }
 
 export default function TeamRoute() {
-	const { teamMembers } = useLoaderData<typeof loader>()
+	const { mainTeamMembers, developerTeamMembers } =
+		useLoaderData<typeof loader>()
 
 	return (
 		<div>
-			<section className="section-auto">
+			<section className="section-team">
 				<header className="space-y-4">
 					<h1>Team Members</h1>
-					<p>Will be updated soon</p>
 				</header>
 			</section>
 
-			<section className="section-auto space-y-4">
-				<pre>{stringify(teamMembers)}</pre>
+			<section className="section-team space-y-4">
+				<h2>Main Committee Team</h2>
+				<TeamMembers teamMembers={mainTeamMembers as any} />
+			</section>
+
+			<section className="section-team space-y-4">
+				<h2>Website Team</h2>
+				<TeamMembers teamMembers={developerTeamMembers as any} />
 			</section>
 		</div>
 	)
