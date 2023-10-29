@@ -4,12 +4,14 @@ import {
 	type LoaderFunctionArgs,
 } from "@remix-run/node"
 
-export async function action({ request }: ActionFunctionArgs) {
+// eslint-disable-next-line require-await
+export async function action ({ request }: ActionFunctionArgs) {
 	// Clear credential
 
 	return redirect("/signin")
 }
 
+// eslint-disable-next-line require-await
 export async function loader({ request }: LoaderFunctionArgs) {
 	// Clear credential
 
