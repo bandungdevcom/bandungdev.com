@@ -18,10 +18,14 @@ datasource db {
 model User {
   id String @id @default(cuid())
 
-  fullname String?
-  username String?       @unique(map: "User.username_unique")
-  email    String        @unique(map: "User.email_unique")
-  password UserPassword?
+  fullname    String?
+  username    String?       @unique(map: "User.username_unique")
+  email       String        @unique(map: "User.email_unique")
+  role        String?
+  affiliation String?
+  bio         String?
+  imageURL    String?       @db.Text
+  password    UserPassword?
 
   tags UserTag[]
 
