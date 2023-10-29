@@ -12,7 +12,7 @@ export function EventsList({ events }: { events: Event[] }) {
 		<ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 			{events.map(event => (
 				<li key={event.id}>
-					<Card className="group h-full rounded-xl p-6">
+					<Card className="group h-full rounded-xl p-6 transition hover:shadow-lg">
 						<div className="relative w-full overflow-hidden rounded-lg">
 							<img
 								className="aspect-video w-full rounded-lg"
