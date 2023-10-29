@@ -40,7 +40,7 @@ export default function EventsRoute() {
 				</header>
 			</section>
 
-			<section className="section-auto relative min-w-full space-y-4">
+			<section className="section-content relative space-y-4">
 				<EventsList events={events as any} />
 			</section>
 		</div>
