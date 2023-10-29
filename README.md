@@ -173,13 +173,21 @@ authentication method with OAuth that is not require a password.
     "fullname": "User One",
     "email": "user1@example.com",
     "username": "username",
-    "tags": ["TEAM", "DEVELOPER"]
+    "imageURL": "https://picsum.photos/200",
+    "tags": ["TEAM", "DEVELOPER"],
+    "role": "Fullstack web developer",
+    "affiliation": "Google",
+    "bio": "Full Stack Web Developer with JavaScript, Node.js, TypeScript, React"
   },
   {
     "fullname": "User Two",
     "email": "user2@example.com",
     "username": "username2",
-    "tags": ["TEAM", "ADVISOR"]
+    "imageURL": "https://picsum.photos/200",
+    "tags": ["TEAM", "ADVISOR"],
+    "role": "Software engineer",
+    "affiliation": "Google",
+    "bio": "Software engineer with 5 years experience"
   }
   // ...
 ]
