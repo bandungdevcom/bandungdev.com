@@ -8,7 +8,6 @@ import { useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs/db.server"
 import { EventsList } from "~/components/shared/events"
-import { GradientBackground } from "~/components/shared/gradient"
 import { SearchInput } from "~/components/ui/search-input"
 
 export const meta: MetaFunction = () => [
@@ -27,7 +26,7 @@ export default function EventsRoute() {
 
 	return (
 		<div className="relative">
-			<GradientBackground />
+			<div className="spectrum-background" />
 
 			<section className="section-auto relative">
 				<header className="space-y-4 pt-16">
