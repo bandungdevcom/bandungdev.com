@@ -6,7 +6,7 @@ import {
 import { useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs/db.server"
-import { stringify } from "~/utils/string"
+import { TeamMembers } from "~/components/shared/team-members"
 
 export const meta: MetaFunction = () => [
 	{ title: "BandungDev Members" },
@@ -14,7 +14,16 @@ export const meta: MetaFunction = () => [
 ]
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-	const members = await prisma.user.findMany()
+	const members = await prisma.user.findMany({
+		where: {
+			tags: {
+				some: {
+					symbol: "MEMBER",
+				},
+			},
+		},
+	})
+
 	return json({ members })
 }
 
@@ -23,15 +32,14 @@ export default function EventsRoute() {
 
 	return (
 		<div>
-			<section className="section-auto">
+			<section className="section-team">
 				<header className="space-y-4">
 					<h1>Community Members</h1>
-					<p>Will be updated soon</p>
 				</header>
 			</section>
 
-			<section className="section-auto space-y-4">
-				<pre>{stringify(members)}</pre>
+			<section className="section-team space-y-4">
+				<TeamMembers teamMembers={members as any} />
 			</section>
 		</div>
 	)
