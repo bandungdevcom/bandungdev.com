@@ -39,7 +39,7 @@ export default function EventsRoute() {
 			</section>
 
 			<section className="section-team space-y-4">
-				<TeamMembers teamMembers={members as any} />
+				<TeamMembers teamMembers={members} />
 			</section>
 		</div>
 	)
