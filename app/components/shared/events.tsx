@@ -1,9 +1,10 @@
 import { type Event } from "@prisma/client"
 
+import type { Jsonify } from "~/types/jsonify"
 import { formatDateTimeRelative } from "~/utils/datetime"
 import { Card } from "~/components/ui/card"
 
-export function EventsList({ events }: { events: Event[] }) {
+export function EventsList({ events }: { events: Jsonify<Event[]> }) {
 	if (events.length <= 0) {
 		return <p>No events or still in planning.</p>
 	}

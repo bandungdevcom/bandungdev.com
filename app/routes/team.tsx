@@ -39,12 +39,12 @@ export default function TeamRoute() {
 
 			<section className="section-team space-y-4">
 				<h2>Main Committee Team</h2>
-				<TeamMembers teamMembers={mainTeamMembers as any} />
+				<TeamMembers teamMembers={mainTeamMembers} />
 			</section>
 
 			<section className="section-team space-y-4">
 				<h2>Website Team</h2>
-				<TeamMembers teamMembers={developerTeamMembers as any} />
+				<TeamMembers teamMembers={developerTeamMembers} />
 			</section>
 		</div>
 	)
