@@ -72,12 +72,12 @@ export default function Index() {
 
 			<section className="section-content space-y-8">
 				<h2>Upcoming Events</h2>
-				<EventsList events={upcomingEvents as any} />
+				<EventsList events={upcomingEvents} />
 			</section>
 
 			<section className="section-content space-y-8">
 				<h2>Past Events</h2>
-				<EventsList events={pastEvents as any} />
+				<EventsList events={pastEvents} />
 			</section>
 		</div>
 	)

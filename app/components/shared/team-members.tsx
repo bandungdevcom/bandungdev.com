@@ -1,8 +1,9 @@
 import { type User } from "@prisma/client"
 
+import type { Jsonify } from "~/types/jsonify"
 import { Card } from "~/components/ui/card"
 
-export function TeamMembers({ teamMembers }: { teamMembers: User[] }) {
+export function TeamMembers({ teamMembers }: { teamMembers: Jsonify<User>[] }) {
 	if (teamMembers.length <= 0) {
 		return <p>There are no members yet.</p>
 	}

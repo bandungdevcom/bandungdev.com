@@ -41,7 +41,7 @@ export default function EventsRoute() {
 			</section>
 
 			<section className="section-content relative space-y-4">
-				<EventsList events={events as any} />
+				<EventsList events={events} />
 			</section>
 		</div>
 	)
