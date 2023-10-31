@@ -96,15 +96,10 @@
     @apply h-40 sm:h-48 md:h-56;
   }
   .spectrum-background {
-    @apply absolute top-0 left-0 w-full h-screen animate-move-gradient bg-blend-hard-light
-    md:h-[80vh] lg:h-[125vh]
-    after:block after:w-full after:h-full after:absolute after:top-0 after:left-0
-    after:bg-gradient-to-t after:from-white;
-    background: linear-gradient(to right, #2563EB, #21B298, #1DCDFE, #EBED8A 99%),
-      linear-gradient(to top left, #EBED8A 25%, transparent, #DFF5CE),
-      linear-gradient(to top right, #EBED8A, #2563ebb3, transparent 30%),
-      radial-gradient(circle, #EBED8A, #EBED8A, transparent);
-    background-size: 2000% 2000%;
+		@apply bg-no-repeat bg-cover;
+		background-image: url('public/bg-gradient.svg'),
+			linear-gradient(to top, hsl(var(--background)), transparent);
+		background-blend-mode: screen;
   }
 }
 
