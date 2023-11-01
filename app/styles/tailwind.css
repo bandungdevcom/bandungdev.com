@@ -96,7 +96,7 @@
     @apply h-40 sm:h-48 md:h-56;
   }
   .spectrum-background {
-		@apply bg-no-repeat bg-cover;
+		@apply bg-no-repeat bg-cover absolute top-0 left-0 w-full h-screen -z-10 lg:h-[125vh];
 		background-image: url('public/bg-gradient.svg'),
 			linear-gradient(to top, hsl(var(--background)), transparent);
 		background-blend-mode: screen;

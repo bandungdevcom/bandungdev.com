@@ -25,7 +25,9 @@ export default function EventsRoute() {
 	const [searchValue, setSearchValue] = useState("")
 
 	return (
-		<div className="relative spectrum-background">
+		<div className="relative">
+			<div className="spectrum-background" />
+
 			<section className="section-auto relative">
 				<header className="space-y-4 pt-16">
 					<h1 className="mb-10 text-center">Event</h1>
