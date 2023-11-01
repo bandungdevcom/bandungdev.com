@@ -21,10 +21,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
 function NavigationBar() {
 	const [scrollHeight, setScrollHeight] = useState(0)
 
+	const handleSetScrollHeight = () => {
+		setScrollHeight(window.scrollY)
+	}
+
 	useEffect(() => {
-		window.addEventListener("scroll", () => {
-			setScrollHeight(window.scrollY)
-		})
+		window.addEventListener("scroll", handleSetScrollHeight)
+
+		return () => {
+			window.removeEventListener("scroll", handleSetScrollHeight)
+		}
 	}, [])
 
 	return (
