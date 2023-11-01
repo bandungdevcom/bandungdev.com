@@ -25,11 +25,11 @@ export default function EventsRoute() {
 	const [searchValue, setSearchValue] = useState("")
 
 	return (
-		<div className="relative">
+		<div>
 			<div className="spectrum-background" />
 
 			<section className="section-auto relative">
-				<header className="space-y-4 pt-16">
+				<header className="space-y-4">
 					<h1 className="mb-10 text-center">Event</h1>
 					<SearchInput
 						className="mx-auto block max-w-md"

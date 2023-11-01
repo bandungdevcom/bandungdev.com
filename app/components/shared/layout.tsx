@@ -36,8 +36,8 @@ function NavigationBar() {
 	return (
 		<nav
 			className={cn(
-				"fixed top-0 z-50 flex w-full justify-between gap-8 p-2 transition sm:p-4",
-				scrollHeight > 100 && "bg-primary-foreground/40 backdrop-blur-sm",
+				"sticky top-0 z-50 flex w-full justify-between gap-8 p-2 transition sm:p-4",
+				scrollHeight > 100 && "bg-white",
 			)}
 		>
 			<div id="logo">
