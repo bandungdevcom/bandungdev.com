@@ -83,42 +83,51 @@
 }
 
 @layer components {
-	.navlink {
-		@apply hover-opacity font-bold;
-	}
-	.navlink-active {
-		@apply navlink text-blue-700;
-	}
-	.h-hero {
-		@apply h-72 sm:h-80 md:h-96;
-	}
-	.h-hero-sm {
-		@apply h-40 sm:h-48 md:h-56;
-	}
+  .navlink {
+    @apply hover-opacity font-bold;
+  }
+  .navlink-active {
+    @apply navlink text-blue-700;
+  }
+  .h-hero {
+    @apply h-72 sm:h-80 md:h-96;
+  }
+  .h-hero-sm {
+    @apply h-40 sm:h-48 md:h-56;
+  }
+  .spectrum-background {
+		@apply bg-no-repeat bg-cover absolute top-0 left-0 w-full h-screen -z-10 lg:h-[125vh];
+		background-image: url('public/bg-gradient.svg'),
+			linear-gradient(to top, hsl(var(--background)), transparent);
+		background-blend-mode: screen;
+  }
 }
 
 @layer utilities {
-	.section-auto {
-		@apply mx-auto max-w-3xl px-4 py-10;
-	}
+  .section-auto {
+    @apply mx-auto max-w-3xl px-4 py-10;
+  }
 	.section-team {
 		@apply mx-auto max-w-6xl px-4 py-10;
 	}
-	.p-layout {
-		@apply px-2 sm:px-4;
-	}
-	.flex-center {
-		@apply flex items-center justify-center;
-	}
-	.text-p {
-		@apply text-base sm:text-lg;
-	}
-	.hover-opacity {
-		@apply transition hover:opacity-70;
-	}
-	.prose-config {
-		@apply prose lg:prose-lg;
-		@apply prose-a:hover-opacity prose-a:font-semibold prose-a:no-underline;
-		@apply prose-code:before:content-none prose-code:after:content-none;
-	}
+  .section-content {
+    @apply mx-auto max-w-6xl px-4 py-10;
+  }
+  .p-layout {
+    @apply px-2 sm:px-4;
+  }
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+  .text-p {
+    @apply text-base sm:text-lg;
+  }
+  .hover-opacity {
+    @apply transition hover:opacity-70;
+  }
+  .prose-config {
+    @apply prose lg:prose-lg;
+    @apply prose-a:hover-opacity prose-a:font-semibold prose-a:no-underline;
+    @apply prose-code:before:content-none prose-code:after:content-none;
+  }
 }

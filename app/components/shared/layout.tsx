@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import { NavLink } from "@remix-run/react"
 
 import { configNavItems } from "~/configs/nav-items"
@@ -18,8 +19,27 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 function NavigationBar() {
+	const [scrollHeight, setScrollHeight] = useState(0)
+
+	const handleSetScrollHeight = () => {
+		setScrollHeight(window.scrollY)
+	}
+
+	useEffect(() => {
+		window.addEventListener("scroll", handleSetScrollHeight)
+
+		return () => {
+			window.removeEventListener("scroll", handleSetScrollHeight)
+		}
+	}, [])
+
 	return (
-		<nav className={cn("flex justify-between gap-8 p-2 shadow-sm sm:p-4")}>
+		<nav
+			className={cn(
+				"sticky top-0 z-50 flex w-full justify-between gap-8 p-2 transition sm:p-4",
+				scrollHeight > 100 && "bg-white",
+			)}
+		>
 			<div id="logo">
 				<NavLink to="/">
 					<Logo className="transition-opacity hover:opacity-70" />

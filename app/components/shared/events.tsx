@@ -10,19 +10,22 @@ export function EventsList({ events }: { events: Jsonify<Event[]> }) {
 	}
 
 	return (
-		<ul className="space-y-4">
+		<ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 			{events.map(event => (
 				<li key={event.id}>
-					<Card className="flex gap-4 p-4">
-						<div>
+					<Card className="group h-full rounded-xl p-6 transition hover:shadow-lg">
+						<div className="relative w-full overflow-hidden rounded-lg">
 							<img
-								className="rounded-lg"
+								className="aspect-video w-full rounded-lg"
 								src="https://picsum.photos/300/200"
 								alt={event.title}
 							/>
+							<div className="absolute left-0 top-0 flex h-full w-full translate-y-44 cursor-pointer items-center justify-center bg-secondary/50 text-lg font-bold text-secondary-foreground opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+								Read More
+							</div>
 						</div>
 
-						<div className="space-y-4">
+						<div className="mt-5 space-y-4">
 							<h3>{event.title}</h3>
 							<p className="text-muted-foreground">{event.description}</p>
 							<p>
