@@ -24,22 +24,22 @@ export const meta: MetaFunction = () => [
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
 	const routeUrl = new URL(request.url)
-	const keyword = routeUrl.searchParams.get("keyword")
+	const querySearch = routeUrl.searchParams.get("q")
 
 	let filterArgs: Prisma.EventFindManyArgs<DefaultArgs> = {}
 
-	if (keyword) {
+	if (querySearch) {
 		filterArgs = {
 			where: {
 				OR: [
 					{
 						title: {
-							contains: keyword,
+							contains: querySearch,
 						},
 					},
 					{
 						description: {
-							contains: keyword,
+							contains: querySearch,
 						},
 					},
 				],
@@ -69,8 +69,8 @@ export default function EventsRoute() {
 						<SearchInput
 							className="block w-full pr-12"
 							placeholder="Cari event, contoh: Javascript"
-							name="keyword"
-							defaultValue={searchParams.get("keyword") || ""}
+							name="q"
+							defaultValue={searchParams.get("q") || ""}
 						/>
 
 						<button className="absolute right-5 top-0 h-full" type="submit">

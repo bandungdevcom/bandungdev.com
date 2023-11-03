@@ -3,15 +3,10 @@ import React from "react"
 import { cn } from "~/utils/cn"
 
 export interface SearchInputProps
-	extends React.InputHTMLAttributes<HTMLElement> {
-	setValue?: React.ChangeEventHandler<HTMLInputElement>
-}
+	extends React.InputHTMLAttributes<HTMLElement> {}
 
 export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
-	(
-		{ type = "text", className, name, placeholder, value, setValue, ...props },
-		ref,
-	) => {
+	({ type = "text", className, name, placeholder, value, ...props }, ref) => {
 		return (
 			<input
 				ref={ref}
@@ -23,7 +18,6 @@ export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
 				)}
 				placeholder={placeholder}
 				value={value}
-				onChange={setValue}
 				{...props}
 			/>
 		)
