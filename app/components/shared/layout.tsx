@@ -3,11 +3,11 @@ import { NavLink } from "@remix-run/react"
 
 import { configNavItems } from "~/configs/nav-items"
 import { cn } from "~/utils/cn"
+import debounce from "~/utils/debounce"
 import { Logo } from "~/components/shared/logo"
 import { SocialLinks } from "~/components/shared/social-links"
 import { ButtonLink } from "~/components/ui/button-link"
 import { NavLinks } from "~/components/ui/navlinks"
-import debounce from "~/utils/debounce"
 
 export function Layout({ children }: { children: React.ReactNode }) {
 	return (
@@ -20,8 +20,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 function NavigationBar() {
-	const [isShowNavbarBackground, setIsShowNavbarBackground] = useState<boolean>(false)
-	const SCROLL_OFFSET: number = 100;
+	const [isShowNavbarBackground, setIsShowNavbarBackground] =
+		useState<boolean>(false)
+	const SCROLL_OFFSET: number = 100
 
 	const handleSetScrollHeight = debounce(() => {
 		setIsShowNavbarBackground(window.scrollY > SCROLL_OFFSET)
