@@ -7,6 +7,7 @@ import { Logo } from "~/components/shared/logo"
 import { SocialLinks } from "~/components/shared/social-links"
 import { ButtonLink } from "~/components/ui/button-link"
 import { NavLinks } from "~/components/ui/navlinks"
+import debounce from "~/utils/debounce"
 
 export function Layout({ children }: { children: React.ReactNode }) {
 	return (
@@ -19,11 +20,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 function NavigationBar() {
-	const [scrollHeight, setScrollHeight] = useState(0)
+	const [isShowNavbarBackground, setIsShowNavbarBackground] = useState<boolean>(false)
+	const SCROLL_OFFSET: number = 100;
 
-	const handleSetScrollHeight = () => {
-		setScrollHeight(window.scrollY)
-	}
+	const handleSetScrollHeight = debounce(() => {
+		setIsShowNavbarBackground(window.scrollY > SCROLL_OFFSET)
+	}, 100)
 
 	useEffect(() => {
 		window.addEventListener("scroll", handleSetScrollHeight)
@@ -31,13 +33,13 @@ function NavigationBar() {
 		return () => {
 			window.removeEventListener("scroll", handleSetScrollHeight)
 		}
-	}, [])
+	}, [handleSetScrollHeight])
 
 	return (
 		<nav
 			className={cn(
 				"sticky top-0 z-50 flex w-full justify-between gap-8 p-2 transition sm:p-4",
-				scrollHeight > 100 && "bg-white",
+				isShowNavbarBackground && "bg-white",
 			)}
 		>
 			<div id="logo">
