@@ -3,14 +3,14 @@ import { redirect } from "@remix-run/node"
 import { configRedirects } from "~/configs/redirects"
 
 export function redirectRouteToURL(request: Request) {
-	const url = new URL(request.url)
+  const url = new URL(request.url)
 
-	const foundItem = configRedirects.find(
-		item => item.path.trim() === url.pathname,
-	)
+  const foundItem = configRedirects.find(
+    item => item.path.trim() === url.pathname,
+  )
 
-	if (!foundItem) return null
-	if (foundItem.url && !foundItem.to) return redirect(foundItem.url)
-	if (!foundItem.url && foundItem.to) return redirect(foundItem.to)
-	return null
+  if (!foundItem) return null
+  if (foundItem.url && !foundItem.to) return redirect(foundItem.url)
+  if (!foundItem.url && foundItem.to) return redirect(foundItem.to)
+  return null
 }

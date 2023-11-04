@@ -4,38 +4,38 @@ import { cn } from "~/utils/cn"
 import { buttonVariants } from "~/components/ui/button"
 
 interface ButtonAnchorProps
-	extends React.DetailedHTMLProps<
-			React.AnchorHTMLAttributes<HTMLAnchorElement>,
-			HTMLAnchorElement
-		>,
-		VariantProps<typeof buttonVariants> {}
+  extends React.DetailedHTMLProps<
+      React.AnchorHTMLAttributes<HTMLAnchorElement>,
+      HTMLAnchorElement
+    >,
+    VariantProps<typeof buttonVariants> {}
 
 const ButtonAnchor = ({
-	href = "/",
-	variant = "default",
-	size = "default",
-	className,
-	children,
-	...props
+  href = "/",
+  variant = "default",
+  size = "default",
+  className,
+  children,
+  ...props
 }: ButtonAnchorProps) => {
-	return (
-		<a
-			href={href}
-			target="_blank"
-			rel="noreferrer noopener"
-			className={cn(
-				"flex cursor-pointer flex-wrap gap-2",
-				buttonVariants({
-					variant,
-					size,
-					className,
-				}),
-			)}
-			{...props}
-		>
-			{children}
-		</a>
-	)
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer noopener"
+      className={cn(
+        "flex cursor-pointer flex-wrap gap-2",
+        buttonVariants({
+          variant,
+          size,
+          className,
+        }),
+      )}
+      {...props}
+    >
+      {children}
+    </a>
+  )
 }
 ButtonAnchor.displayName = "ButtonAnchor"
 

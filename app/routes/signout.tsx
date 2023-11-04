@@ -1,17 +1,17 @@
 import {
-	redirect,
-	type ActionFunctionArgs,
-	type LoaderFunctionArgs,
+  redirect,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
 } from "@remix-run/node"
 
 export function action({ request }: ActionFunctionArgs) {
-	// Clear credential
+  // Clear credential
 
-	return redirect("/signin")
+  return redirect("/signin")
 }
 
 export function loader({ request }: LoaderFunctionArgs) {
-	// Clear credential
+  // Clear credential
 
-	return redirect("/signin")
+  return redirect("/signin")
 }
