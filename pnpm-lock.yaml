@@ -11,9 +11,6 @@ dependencies:
   '@conform-to/zod':
     specifier: ^0.9.1
     version: 0.9.1(@conform-to/dom@0.9.1)(zod@3.22.4)
-  '@fontsource-variable/anybody':
-    specifier: 5.0.19
-    version: 5.0.19
   '@fontsource-variable/inter':
     specifier: 5.0.15
     version: 5.0.15
@@ -1331,10 +1328,6 @@ packages:
 
   /@floating-ui/utils@0.1.6:
     resolution: {integrity: sha512-OfX7E2oUDYxtBvsuS4e/jSn4Q9Qb6DzgeYtsAdkPZ47znpoNsMgZw0+tVijiv3uGNR6dgNlty6r9rzIzHjtd/A==}
-    dev: false
-
-  /@fontsource-variable/anybody@5.0.19:
-    resolution: {integrity: sha512-eblCvmc9h73AX8EiHpq+MCpcXaMcRfnce+AaKLwhXr6EBcbIucj4jqN5PymJ+rx+oiIJpLpj9GeYCRj7FhCdEg==}
     dev: false
 
   /@fontsource-variable/inter@5.0.15:
