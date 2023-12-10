@@ -13,9 +13,9 @@ export default function AboutRoute() {
   return (
     <div className="site-container space-y-12">
       <header className="site-header">
-        <h1 className="inline-flex items-center gap-2 text-primary">
+        <h1 className="inline-flex items-center gap-2">
           <Iconify icon="ph:info-duotone" />
-          <span>About</span>
+          <span className="text-gradient">About</span>
         </h1>
       </header>
 

@@ -139,7 +139,7 @@ export function PaginationNavigation({
 
     if (!isPossible) {
       return (
-        <span className="flex w-8 select-none justify-center rounded-md p-2 opacity-10">
+        <span className="flex w-8 select-none justify-center rounded-md p-2 opacity-20">
           {icon}
         </span>
       )
@@ -188,7 +188,7 @@ export function PaginationNavigation({
                   className={cn(
                     // Use width to have consistent width although different numbers
                     "focus-ring flex w-8 justify-center rounded-md p-1 transition hover:opacity-75",
-                    isActive && "bg-secondary text-primary",
+                    isActive && "bg-secondary text-secondary-foreground",
                     !isActive && "text-muted-foreground hover:bg-secondary",
                   )}
                 >

@@ -31,10 +31,7 @@ export function ContentIntro() {
         <span
           className={cn(
             "text-5xl sm:text-6xl",
-            "py-4 font-display tracking-tight text-primary",
-            "bg-gradient-to-r bg-clip-text text-transparent",
-            "from-slate-800 to-slate-500",
-            "dark:from-white dark:to-slate-500",
+            "text-gradient py-4 font-display tracking-tight",
           )}
         >
           BandungDev

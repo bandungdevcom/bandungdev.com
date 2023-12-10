@@ -40,7 +40,7 @@
     --card-foreground: 211 41% 99% /* slate-50 */;
     --popover: 229 84% 5% /* slate-950 */;
     --popover-foreground: 211 41% 99% /* slate-50 */;
-    --primary: 216 20% 35% /* slate-600 */;
+    --primary: 216 20% 35% /* slate-400 */;
     --primary-foreground: 211 41% 99% /* slate-50 */;
     --secondary: 218 33% 18% /* slate-800 */;
     --secondary-foreground: 211 41% 99% /* slate-50 */;
@@ -139,6 +139,10 @@
  * Custom utilities
  */
 @layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r bg-clip-text text-primary-foreground text-transparent;
+    @apply from-slate-800 to-slate-500 dark:from-white dark:to-slate-500;
+  }
   .focus-ring {
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }

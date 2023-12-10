@@ -9,7 +9,7 @@ export default function ExamplesRoute() {
   return (
     <div className="site-container space-y-12 pt-4">
       <header>
-        <h1 className="inline-flex items-center gap-2 text-primary">
+        <h1 className="inline-flex items-center gap-2">
           <Iconify icon="ph:bounding-box-duotone" />
           <Link to="/examples">Examples</Link>
         </h1>

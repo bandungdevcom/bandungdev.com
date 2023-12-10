@@ -65,9 +65,9 @@ function SiteFooterSectionExtra({ isRounded = true }: { isRounded?: boolean }) {
       )}
     >
       <p className="text-center text-sm sm:text-left">
-        <span>BandungDev.com is </span>
+        <span>This BandungDev.com website is </span>
         <AnchorFooter href="https://github.com/bandungdevcom">
-          open source
+          open sourced on GitHub
         </AnchorFooter>
       </p>
 
