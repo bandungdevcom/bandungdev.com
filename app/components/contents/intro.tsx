@@ -33,13 +33,14 @@ export function ContentIntro() {
             "text-5xl sm:text-6xl",
             "py-4 font-display tracking-tight text-primary",
             "bg-gradient-to-r bg-clip-text text-transparent",
-            "from-slate-800 to-slate-600",
-            "dark:from-slate-200 dark:to-slate-400",
+            "from-slate-800 to-slate-500",
+            "dark:from-white dark:to-slate-500",
           )}
         >
           BandungDev
         </span>
       </h1>
+
       <div className="space-y-2">
         <p className="text-lg">
           The curated software developer and engineering community in Bandung,
