@@ -1,15 +1,24 @@
 // https://pris.ly/d/prisma-schema
-
-generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
-}
+// https://github.com/remix-run/indie-stack/blob/main/prisma/schema.prisma
+// https://github.com/epicweb-dev/epic-stack/blob/main/prisma/schema.prisma
+// https://github.com/planetscale/beam/blob/main/prisma/schema.prisma
+// Visualize with https://prismaliser.app
 
 datasource db {
   provider     = "mysql"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters", "fullTextSearch", "fullTextIndex", "metrics", "views"]
+}
+
+// Uncomment this to enable Prisma Docs Generator
+// generator docs {
+//   provider = "node node_modules/prisma-docs-generator"
+// }
 
 // -----------------------------------------------------------------------------
 // User
@@ -18,22 +27,86 @@ datasource db {
 model User {
   id String @id @default(cuid())
 
-  fullname    String?
-  username    String?       @unique(map: "User.username_unique")
-  email       String        @unique(map: "User.email_unique")
-  role        String?
-  affiliation String?
-  bio         String?
-  imageURL    String?       @db.Text
-  password    UserPassword?
+  email    String  @unique
+  username String  @unique
+  phone    String? @unique // numeric string
 
-  tags UserTag[]
+  fullname String
+  nickname String?
+
+  password    Password?
+  connections Connection[]
+  roles       Role[]
+
+  images   UserImage[] // multiple user images / avatars / profile pictures
+  profiles UserProfile[]
+  posts    Post[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([id])
+  @@index([email])
+  @@index([username])
+  @@index([phone])
 }
 
-model UserPassword {
+model UserProfile {
+  id String @id @default(cuid())
+
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String
+
+  headline String?
+  bio      String? @db.Text
+  links    Json?
+
+  isPrimary Boolean? @default(true)
+  isPublic  Boolean? @default(true)
+  modeName  String?  @default("DEFAULT")
+  sequence  Int?     @default(1)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([id, userId])
+  @@index([userId])
+}
+
+model Role {
+  id String @id @default(cuid())
+
+  sequence    Int?    @unique // 1, 2, 3, ...
+  symbol      String  @unique // ROOT, ADMIN, MEMBER, ...
+  name        String  @unique // Root, Admin, Member, ...
+  description String? @db.Text // Summary of abilities
+
+  users       User[]
+  permissions Permission[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([symbol])
+}
+
+model Permission {
+  id String @id @default(cuid())
+
+  action      String // create, read, update, delete
+  entity      String // user, post, etc.
+  access      String // own or any
+  description String? @db.Text // details of the permission ability
+
+  roles Role[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([action, entity, access])
+}
+
+model Password {
   id String @id @default(cuid())
 
   user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
@@ -43,141 +116,113 @@ model UserPassword {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("UserPassword")
 }
 
-model UserTag {
+model Connection {
   id String @id @default(cuid())
 
-  symbol String @unique // TEAM  | MEMBER | ...
-  name   String @unique // Team  | Member | ...
-
-  users User[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-// -----------------------------------------------------------------------------
-// Event
-// -----------------------------------------------------------------------------
-
-model Event {
-  id String @id @default(cuid())
-
-  title       String
-  description String?   @db.Text
-  datetime    DateTime?
-  imageURL    String?   @db.Text
-  isFeatured  Boolean   @default(false)
-
-  status   EventStatus? @relation(fields: [statusId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  statusId String?
-
-  category   EventCategory? @relation(fields: [categoryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  categoryId String?
-
-  // locationAddress LocationAddress
+  providerName String
+  providerId   String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+
+  @@unique([providerId, providerName])
+  @@index([userId])
+  @@map("UserConnection")
+}
+
+model UserImage {
+  id String @id @default(cuid())
+
+  url     String
+  altText String?
+
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([id, userId])
+  @@index([userId])
+}
+
+// -----------------------------------------------------------------------------
+// Post
+// -----------------------------------------------------------------------------
+
+model Post {
+  id String @id @default(cuid())
+
+  slug    String @unique
+  title   String @db.Text
+  content String @db.Text
+  excerpt String @db.Text
+
+  status   PostStatus @relation(fields: [statusId], references: [id])
+  statusId String
+
+  images PostImage[]
+
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
   @@index([statusId])
-  @@index([categoryId])
+  @@index([userId, updatedAt]) // Extra index for user and updatedAt
 }
 
-model EventStatus {
+model PostStatus {
   id String @id @default(cuid())
 
-  sequence    Int     @unique // 1 | 2 | 3 | ...
-  symbol      String  @unique // "PUBLIC" | "PRIVATE"
-  name        String  @unique // "Public" | "Private"
-  description String? @db.Text // "Long description"
+  sequence    Int?    @unique // 1, 2, 3, ...
+  symbol      String  @unique // DRAFT, PUBLISHED, ARCHIVED, ...
+  name        String  @unique // Draft, Published, Archived, ...
+  description String? @db.Text // Status definition
 
-  events Event[]
+  posts Post[]
 }
 
-model EventCategory {
+model PostImage {
   id String @id @default(cuid())
 
-  sequence    Int?    @unique // 1 | 2 | 3 | ...
-  symbol      String  @unique // "MEETUP"
-  name        String  @unique // "Meetup"
-  description String? @db.Text // "Long description"
+  url     String
+  altText String?
 
-  events Event[]
-}
-
-// -----------------------------------------------------------------------------
-// Location and Address
-// -----------------------------------------------------------------------------
-
-model LocationAddress {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  label String // Location label name
-
-  address    String? // The complete combined Location address
-  addressURL String? // https://goo.gl/maps/1xABCDEF123456
-
-  street        String? // Street name
-  streetDetails String? // Street or location details, such as floor number
-  subDistrict   String?
-  district      String?
-  city          String?
-  province      String?
-  postalCode    String?
-  countryCode   String?
-
-  countryId     String?
-  provinceId    String?
-  cityId        String?
-  districtId    String?
-  subDistrictId String?
-
-  // Geolocation
-  latitude  Decimal? // -90 to 90, Example: -6.1234567
-  longitude Decimal? // -180 to 180, Example: 106.1234567
-}
-
-// -----------------------------------------------------------------------------
-// Partner
-// -----------------------------------------------------------------------------
-
-model Partner {
-  id String @id @default(cuid())
-
-  name        String
-  description String? @db.Text
-  imageURL    String? @db.Text
-
-  category   PartnerCategory @relation(fields: [categoryId], references: [id])
-  categoryId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  postId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([categoryId])
-}
-
-model PartnerCategory {
-  id String @id @default(cuid())
-
-  sequence    Int     @unique // 1 | 2 | 3 | ...
-  symbol      String  @unique // "PUBLIC" | "PRIVATE"
-  name        String  @unique // "Public" | "Private"
-  description String? @db.Text // "Long description"
-
-  partners Partner[]
+  @@index([postId])
 }
 
 // -----------------------------------------------------------------------------
-// Example
+// Examples
 // -----------------------------------------------------------------------------
 
 model Example {
   id String @id @default(cuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Image {
+  id String @id @default(cuid())
+
+  url     String
+  altText String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
