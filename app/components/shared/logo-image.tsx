@@ -6,6 +6,7 @@ import { cn } from "~/utils/cn"
 const logoImageVariants = cva("", {
   variants: {
     size: {
+      xs: "w-32",
       sm: "w-40",
       default: "w-48",
       lg: "w-80",

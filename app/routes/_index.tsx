@@ -25,7 +25,7 @@ export default function IndexRoute() {
         )}
       />
 
-      <div className="site-section pt-20">
+      <div className="site-section pt-32 sm:pt-40">
         <ContentIntro />
       </div>
     </div>

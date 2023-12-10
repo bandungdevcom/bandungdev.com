@@ -9,6 +9,7 @@ import { Iconify } from "~/components/ui/iconify"
 import { configNavigationItems, type NavItem } from "~/configs/navigation"
 import { configSite } from "~/configs/site"
 import { useRootLoaderData } from "~/hooks/use-root-loader-data"
+import { useScrollPosition } from "~/hooks/use-scroll-position"
 import { cn } from "~/utils/cn"
 
 export function SiteNavigation() {
@@ -22,13 +23,17 @@ export function SiteNavigation() {
 
 function SiteNavigationSmall() {
   const { userSession } = useRootLoaderData()
+  const scrollPosition = useScrollPosition()
 
   return (
     <nav
       className={cn(
-        "flex px-4 py-2 lg:hidden",
-        "sticky top-0 z-20 items-center justify-between gap-2",
-        "bg-background/50 backdrop-blur-lg backdrop-saturate-150",
+        "fixed top-0 z-40 flex w-full px-4 py-2 lg:hidden",
+        "items-center justify-between gap-2",
+        "transition duration-200 ease-in-out",
+        scrollPosition > 20
+          ? "bg-background/75 backdrop-blur backdrop-saturate-150"
+          : "bg-transparent",
       )}
     >
       <div className="flex items-center justify-between gap-2">
@@ -36,7 +41,7 @@ function SiteNavigationSmall() {
           to="/"
           className="focus-ring block rounded-xs transition hover:text-primary"
         >
-          <LogoImage />
+          <LogoImage size="xs" />
         </Link>
 
         <ThemeButton size="sm" />
@@ -73,14 +78,17 @@ function SiteNavigationSmall() {
 
 function SiteNavigationLarge() {
   const { userSession } = useRootLoaderData()
+  const scrollPosition = useScrollPosition()
 
   return (
     <nav
       className={cn(
-        "sticky top-0 z-40 hidden p-4 lg:flex",
+        "fixed top-0 z-40 hidden w-full p-4 lg:flex",
         "items-center justify-between gap-2",
         "transition duration-200 ease-in-out",
-        "bg-background/50 backdrop-blur-lg backdrop-saturate-150",
+        scrollPosition > 40
+          ? "bg-background/75 backdrop-blur backdrop-saturate-150"
+          : "bg-transparent",
       )}
     >
       <div className="flex items-center justify-between gap-2">
