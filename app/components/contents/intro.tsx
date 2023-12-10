@@ -3,18 +3,18 @@ import { Badge } from "~/components/ui/badge"
 import { cn } from "~/utils/cn"
 
 export function ContentIntro() {
+  const logoLight = "/images/logos/svg/bandungdev-logo.svg"
+  const logoDark = "/images/logos/svg/bandungdev-logo-white.svg"
+
   const [theme] = useTheme()
-  const imageUrl =
-    theme === Theme.LIGHT
-      ? "/images/logos/svg/bandungdev-logo.svg"
-      : "/images/logos/svg/bandungdev-logo-white.svg"
+  const imageUrl = theme === Theme.LIGHT ? logoLight : logoDark
 
   return (
     <div className="space-y-10">
       <header className="space-y-10 [text-wrap:balance]">
         <h1 className="inline-flex items-center gap-2 sm:gap-4">
           <img
-            src={imageUrl}
+            src={theme ? imageUrl : logoLight}
             alt="Icon"
             width={200}
             height={200}

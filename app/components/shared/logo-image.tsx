@@ -22,15 +22,15 @@ interface LogoImageProps
     VariantProps<typeof logoImageVariants> {}
 
 export function LogoImage({ size, className }: LogoImageProps) {
+  const logoLight = "/images/logos/svg/bandungdev-logo-text.svg"
+  const logoDark = "/images/logos/svg/bandungdev-logo-text-white.svg"
+
   const [theme] = useTheme()
-  const imageUrl =
-    theme === Theme.LIGHT
-      ? "/images/logos/svg/bandungdev-logo-text.svg"
-      : "/images/logos/svg/bandungdev-logo-text-white.svg"
+  const imageUrl = theme === Theme.LIGHT ? logoLight : logoDark
 
   return (
     <img
-      src={imageUrl}
+      src={theme ? imageUrl : logoLight}
       alt="BandungDev Logo"
       width={500}
       height={100}
