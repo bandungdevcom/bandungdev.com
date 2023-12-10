@@ -1,80 +1,82 @@
-import { useEffect } from "react"
-import { cssBundleHref } from "@remix-run/css-bundle"
-import type { LinksFunction } from "@remix-run/node"
 import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  useLocation,
-  useNavigation,
-} from "@remix-run/react"
-import sansFontStyles from "@fontsource-variable/inter/index.css"
-import displayFontStyles from "@fontsource/readex-pro/700.css"
-import { Analytics } from "@vercel/analytics/react"
-import NProgress from "nprogress"
+  json,
+  redirect,
+  type HeadersFunction,
+  type LinksFunction,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+} from "@remix-run/node"
+import { Outlet, useLoaderData } from "@remix-run/react"
+import { ThemeProvider, type Theme } from "remix-themes"
 
-import { Layout } from "~/components/shared/layout"
-import tailwindStyles from "~/styles/tailwind.css"
+import { GeneralErrorBoundary } from "~/components/shared/error-boundary"
+import { configDocumentLinks } from "~/configs/document"
+import { Document } from "~/document"
+import { modelUser } from "~/models/user.server"
+import { authenticator } from "~/services/auth.server"
+import { themeSessionResolver } from "~/services/theme.server"
+import { parsedEnvClient } from "~/utils/env.server"
+import { createMeta } from "~/utils/meta"
+import { createSitemap } from "~/utils/sitemap"
 
-export const links: LinksFunction = () => [
-  { rel: "shortcut icon", href: "/favicons/favicon.ico" },
-  {
-    rel: "icon",
-    type: "image/png",
-    sizes: "32x32",
-    href: "/favicon-32x32.png",
-  },
-  {
-    rel: "icon",
-    type: "image/png",
-    sizes: "16x16",
-    href: "/favicon-16x16.png",
-  },
-  {
-    rel: "apple-touch-icon",
-    sizes: "180x180",
-    href: "/apple-touch-icon-precomposed.png",
-  },
-  { rel: "stylesheet", href: displayFontStyles },
-  { rel: "stylesheet", href: sansFontStyles },
-  { rel: "stylesheet", href: tailwindStyles },
-  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
-]
+export const handle = createSitemap()
 
-export default function App() {
-  const navigation = useNavigation()
-  const location = useLocation()
-  const isDashboard = location.pathname.startsWith("/dashboard")
+export const meta: MetaFunction = () =>
+  createMeta({
+    title: "BandungDev",
+    description:
+      "Web app template kit using Remix, React, Tailwind CSS, Radix UI, Prisma ORM, and more.",
+  })
 
-  useEffect(() => {
-    if (navigation.state === "idle") NProgress.done()
-    else NProgress.start()
-  }, [navigation.state])
+export const links: LinksFunction = () => configDocumentLinks
+
+export const headers: HeadersFunction = () => {
+  return { "Accept-CH": "Sec-CH-Prefers-Color-Scheme" }
+}
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { getTheme } = await themeSessionResolver(request)
+
+  const userSession = await authenticator.isAuthenticated(request)
+  if (!userSession) {
+    return json({
+      ENV: parsedEnvClient,
+      theme: getTheme(),
+    })
+  }
+
+  const userData = await modelUser.getForSession({ id: userSession.id })
+  if (!userData) return redirect(`/logout`)
+
+  return json({
+    ENV: parsedEnvClient,
+    theme: getTheme(),
+    userSession,
+    userData,
+  })
+}
+
+export default function RootRoute() {
+  const data = useLoaderData<typeof loader>()
 
   return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        {isDashboard ? (
-          <Outlet />
-        ) : (
-          <Layout>
-            <Outlet />
-          </Layout>
-        )}
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
-        <Analytics />
-      </body>
-    </html>
+    <ThemeProvider specifiedTheme={data.theme} themeAction="/action/set-theme">
+      <Document dataTheme={data.theme}>
+        <Outlet />
+      </Document>
+    </ThemeProvider>
+  )
+}
+
+export function ErrorBoundary() {
+  return (
+    <ThemeProvider
+      specifiedTheme={"light" as Theme}
+      themeAction="/action/set-theme"
+    >
+      <Document>
+        <GeneralErrorBoundary />
+      </Document>
+    </ThemeProvider>
   )
 }

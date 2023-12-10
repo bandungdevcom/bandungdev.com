@@ -1,133 +1,177 @@
+/* Tailwind CSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-	:root {
-		--background: 0 0% 100%;
-		--foreground: 222.2 84% 10%;
-		--card: 0 0% 100%;
-		--card-foreground: 222.2 84% 4.9%;
-		--popover: 0 0% 100%;
-		--popover-foreground: 222.2 84% 4.9%;
-		--primary: 221.2 83.2% 53.3%;
-		--primary-foreground: 210 40% 98%;
-		--secondary: 210 40% 96.1%;
-		--secondary-foreground: 222.2 47.4% 11.2%;
-		--muted: 210 40% 96.1%;
-		--muted-foreground: 215.4 16.3% 46.9%;
-		--accent: 210 40% 96.1%;
-		--accent-foreground: 222.2 47.4% 11.2%;
-		--destructive: 0 84.2% 60.2%;
-		--destructive-foreground: 210 40% 98%;
-		--border: 214.3 31.8% 91.4%;
-		--input: 214.3 31.8% 91.4%;
-		--ring: 221.2 83.2% 53.3%;
-		--radius: 0.3rem;
-	}
-
-	.dark {
-		--background: 222.2 84% 4.9%;
-		--foreground: 210 40% 98%;
-		--card: 222.2 84% 4.9%;
-		--card-foreground: 210 40% 98%;
-		--popover: 222.2 84% 4.9%;
-		--popover-foreground: 210 40% 98%;
-		--primary: 217.2 91.2% 59.8%;
-		--primary-foreground: 222.2 47.4% 11.2%;
-		--secondary: 217.2 32.6% 17.5%;
-		--secondary-foreground: 210 40% 98%;
-		--muted: 217.2 32.6% 17.5%;
-		--muted-foreground: 215 20.2% 65.1%;
-		--accent: 217.2 32.6% 17.5%;
-		--accent-foreground: 210 40% 98%;
-		--destructive: 0 62.8% 30.6%;
-		--destructive-foreground: 210 40% 98%;
-		--border: 217.2 32.6% 17.5%;
-		--input: 217.2 32.6% 17.5%;
-		--ring: 224.3 76.3% 48%;
-	}
-}
+/* 
+ * Get from shadcn UI Themes: https://ui.shadcn.com/themes
+ * Or run `pnpx shadcn-custom-theme`
+ * By default BandungDev is using Tailwind CSS color: Indigo
+*/
 
 @layer base {
-	* {
-		@apply border-border;
-	}
-	body {
-		@apply bg-background text-foreground;
-		@apply selection:bg-blue-200 selection:text-blue-900;
-	}
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
-		@apply font-display font-bold leading-tight tracking-tighter text-foreground;
-	}
-	h1 {
-		@apply text-4xl leading-[1.1] md:text-5xl lg:text-6xl xl:text-7xl;
-	}
-	h2 {
-		@apply text-3xl md:text-4xl;
-	}
-	h3 {
-		@apply text-2xl md:text-3xl;
-	}
-	h4 {
-		@apply text-lg md:text-xl;
-	}
-	b {
-		@apply font-semibold;
-	}
-}
+  :root {
+    --background: 0 0% 100% /* white */;
+    --foreground: 229 84% 5% /* slate-950 */;
+    --card: 0 0% 100% /* white */;
+    --card-foreground: 229 84% 5% /* slate-950 */;
+    --popover: 0 0% 100% /* white */;
+    --popover-foreground: 229 84% 5% /* slate-950 */;
+    --primary: 218 33% 18% /* slate-800 */;
+    --primary-foreground: 211 41% 99% /* slate-50 */;
+    --secondary: 215 32% 92% /* slate-200 */;
+    --secondary-foreground: 223 48% 12% /* slate-900 */;
+    --muted: 210 41% 97% /* slate-100 */;
+    --muted-foreground: 216 17% 47% /* slate-500 */;
+    --accent: 215 95% 93% /* blue-100 */;
+    --accent-foreground: 225 65% 33% /* blue-900 */;
+    --destructive: 0 85% 61% /* red-500 */;
+    --destructive-foreground: 211 41% 99% /* slate-50 */;
+    --border: 215 32% 92% /* slate-200 */;
+    --input: 215 32% 92% /* slate-200 */;
+    --ring: 216 20% 35% /* slate-600 */;
+    --radius: 0.5rem;
+  }
 
-@layer components {
-  .navlink {
-    @apply hover-opacity font-bold;
-  }
-  .navlink-active {
-    @apply navlink text-blue-700;
-  }
-  .h-hero {
-    @apply h-72 sm:h-80 md:h-96;
-  }
-  .h-hero-sm {
-    @apply h-40 sm:h-48 md:h-56;
-  }
-  .spectrum-background {
-		@apply bg-no-repeat bg-cover absolute top-0 left-0 w-full h-screen -z-10 lg:h-[125vh];
-		background-image: url('public/bg-gradient.svg'),
-			linear-gradient(to top, hsl(var(--background)), transparent);
-		background-blend-mode: screen;
+  .dark {
+    --background: 229 84% 5% /* slate-950 */;
+    --foreground: 211 41% 99% /* slate-50 */;
+    --card: 229 84% 5% /* slate-950 */;
+    --card-foreground: 211 41% 99% /* slate-50 */;
+    --popover: 229 84% 5% /* slate-950 */;
+    --popover-foreground: 211 41% 99% /* slate-50 */;
+    --primary: 216 20% 35% /* slate-600 */;
+    --primary-foreground: 211 41% 99% /* slate-50 */;
+    --secondary: 218 33% 18% /* slate-800 */;
+    --secondary-foreground: 211 41% 99% /* slate-50 */;
+    --muted: 218 33% 18% /* slate-800 */;
+    --muted-foreground: 216 21% 66% /* slate-400 */;
+    --accent: 226 71% 41% /* blue-800 */;
+    --accent-foreground: 214 100% 97% /* blue-50 */;
+    --destructive: 0 63% 31% /* red-900 */;
+    --destructive-foreground: 211 41% 99% /* slate-50 */;
+    --border: 218 33% 18% /* slate-800 */;
+    --input: 218 33% 18% /* slate-800 */;
+    --ring: 216 20% 35% /* slate-600 */;
   }
 }
 
-@layer utilities {
-  .section-auto {
-    @apply mx-auto max-w-3xl px-4 py-10;
+/*
+ * Custom layers for default stylings
+ * Feel free to remove them to reset
+ */
+@layer base {
+  * {
+    @apply border-border;
   }
-	.section-team {
-		@apply mx-auto max-w-6xl px-4 py-10;
-	}
-  .section-content {
-    @apply mx-auto max-w-6xl px-4 py-10;
+  body {
+    @apply cursor-default bg-background text-foreground;
+    @apply selection:bg-primary/75 selection:text-white;
   }
-  .p-layout {
-    @apply px-2 sm:px-4;
+  img {
+    @apply selection:bg-primary/25;
   }
-  .flex-center {
-    @apply flex items-center justify-center;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold text-foreground;
   }
-  .text-p {
+  h1 {
+    @apply text-4xl sm:text-5xl;
+  }
+  h2 {
+    @apply text-2xl sm:text-3xl;
+  }
+  h3 {
+    @apply text-xl sm:text-2xl;
+  }
+  h4 {
+    @apply text-lg sm:text-xl;
+  }
+  h5 {
     @apply text-base sm:text-lg;
   }
-  .hover-opacity {
-    @apply transition hover:opacity-70;
+  h6 {
+    @apply text-base;
+  }
+  input[type="date"]::-webkit-inner-spin-button,
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    @apply dark:opacity-0;
+  }
+}
+
+/*
+ * Custom components
+ * It's also possible to use the Tailwind classes into a component
+ */
+@layer components {
+  .site-container {
+    @apply mx-auto min-h-screen w-full max-w-7xl px-4 pt-12;
+  }
+  .site-header {
+    @apply mx-auto w-full max-w-prose space-y-4;
+  }
+  .site-section {
+    @apply mx-auto w-full max-w-prose;
+  }
+  .site-section-md {
+    @apply mx-auto w-full max-w-md;
+  }
+  .site-section-2xl {
+    @apply mx-auto w-full max-w-2xl;
+  }
+  .app-container {
+    @apply mx-auto w-full space-y-6 overflow-hidden p-4;
+  }
+  .app-header {
+    @apply flex w-full flex-wrap;
+  }
+  .app-section {
+    @apply w-full max-w-7xl space-y-2;
+  }
+  .input-natural {
+    @apply border-transparent bg-transparent p-0 placeholder:text-muted-foreground/30;
+    @apply focus:border-transparent focus:outline-none focus:ring-0;
+  }
+}
+
+/*
+ * Custom utilities
+ */
+@layer utilities {
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
   .prose-config {
-    @apply prose lg:prose-lg;
-    @apply prose-a:hover-opacity prose-a:font-semibold prose-a:no-underline;
-    @apply prose-code:before:content-none prose-code:after:content-none;
+    @apply prose prose-slate dark:prose-invert focus:outline-none;
+    @apply prose-headings:font-semibold;
+    @apply prose-a:prose-a-styles;
+    @apply prose-pre:prose-pre-styles;
+    @apply prose-code:prose-code-styles;
   }
+  .prose-a-styles {
+    @apply focus-ring cursor-pointer rounded-xs decoration-muted transition;
+    @apply text-accent-foreground hover:text-accent-foreground/75;
+  }
+  .prose-pre-styles {
+    @apply bg-muted text-foreground;
+  }
+  .prose-code-styles {
+    @apply before:content-none after:content-none;
+  }
+  .prose > ul > li > p {
+    @apply my-0;
+  }
+  .prose > ol > li > p {
+    @apply my-0;
+  }
+}
+
+.tiptap p.is-empty::before {
+  @apply pointer-events-none float-left h-0 text-muted-foreground/30;
+
+  content: attr(data-placeholder);
 }

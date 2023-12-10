@@ -1,24 +1,29 @@
-import type { LinkProps } from "@remix-run/react"
-import { Link } from "@remix-run/react"
-import type { VariantProps } from "class-variance-authority"
+import { Link, type LinkProps } from "@remix-run/react"
+import { type VariantProps } from "class-variance-authority"
 
-import { cn } from "~/utils/cn"
 import { Button, buttonVariants } from "~/components/ui/button"
+import { cn } from "~/utils/cn"
 
 interface ButtonLinkProps
   extends LinkProps,
-    VariantProps<typeof buttonVariants> {}
+    VariantProps<typeof buttonVariants> {
+  disabled?: boolean
+}
 
 const ButtonLink = ({
   variant = "default",
   size = "default",
   className,
   children,
+  disabled,
   ...props
 }: ButtonLinkProps) => {
   return (
     <Link
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(
+        buttonVariants({ variant, size, className }),
+        disabled && "pointer-events-none opacity-50",
+      )}
       {...props}
     >
       {children}
@@ -61,4 +66,4 @@ function ButtonChildLink({ ...props }: ButtonLinkIconProps) {
   )
 }
 
-export { ButtonLink, ButtonNavLink, ButtonChildLink }
+export { ButtonChildLink, ButtonLink, ButtonNavLink }
