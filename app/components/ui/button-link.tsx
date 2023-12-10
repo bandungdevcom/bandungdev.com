@@ -13,6 +13,7 @@ interface ButtonLinkProps
 const ButtonLink = ({
   variant = "default",
   size = "default",
+  isIcon = false,
   className,
   children,
   disabled,
@@ -21,7 +22,7 @@ const ButtonLink = ({
   return (
     <Link
       className={cn(
-        buttonVariants({ variant, size, className }),
+        buttonVariants({ variant, size, isIcon, className }),
         disabled && "pointer-events-none opacity-50",
       )}
       {...props}

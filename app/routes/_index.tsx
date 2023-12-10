@@ -35,7 +35,7 @@ export default function IndexRoute() {
           alt="BandungDev Collage"
           width={2000}
           height={1300}
-          className="select-none"
+          className="select-none rounded-md"
         />
       </section>
     </div>

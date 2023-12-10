@@ -20,6 +20,7 @@ export const ButtonIconAnchor = ({
   href = "/",
   variant,
   size,
+  isIcon,
   className,
   children,
   ...props
@@ -29,7 +30,7 @@ export const ButtonIconAnchor = ({
       href={href}
       target="_blank"
       rel="noreferrer noopener"
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(buttonVariants({ variant, size, isIcon, className }))}
       {...props}
     >
       {children}

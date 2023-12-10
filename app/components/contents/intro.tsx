@@ -1,7 +1,9 @@
 import { Theme, useTheme } from "remix-themes"
 
 import { Badge } from "~/components/ui/badge"
+import { ButtonIconAnchor } from "~/components/ui/button-icon-anchor"
 import { ButtonLink } from "~/components/ui/button-link"
+import { Iconify } from "~/components/ui/iconify"
 import { cn } from "~/utils/cn"
 
 export function ContentIntro() {
@@ -49,6 +51,14 @@ export function ContentIntro() {
         </Badge>
       </div>
       <div className="flex flex-wrap gap-2 sm:gap-4">
+        <ButtonIconAnchor
+          isIcon
+          href="/telegram"
+          size="lg"
+          className="bg-[#0088cc] hover:bg-[#0088cc] hover:opacity-80"
+        >
+          <Iconify icon="mdi:telegram" />
+        </ButtonIconAnchor>
         <ButtonLink size="lg" variant="accent" to="/signup">
           Join Us
         </ButtonLink>
