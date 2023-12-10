@@ -1,68 +1,25 @@
-# 🏯 BandungDev.com
+# BandungDev.com
 
-Bandung Developer Community Website
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Remix](https://img.shields.io/badge/Remix-000000?style=flat-square&logo=remix&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/-Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+![Radix UI](https://img.shields.io/badge/Radix_UI-111111?style=flat-square&logo=framer&logoColor=white)
+![Prisma ORM](https://img.shields.io/badge/Prisma_ORM-2D3748?style=flat-square&logo=prisma&logoColor=white)
+![PlanetScale](https://img.shields.io/badge/PlanetScale-000000?style=flat-square&logo=planetscale&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white)
 
-> 🚧 This web app is still in early and active development
+BandungDev website platform is a 🚧 Work in Progress.
 
 Check out:
 
 - Web: <https://bandungdev.com>
 - Repo: <https://github.com/bandungdevcom/bandungdev.com>
-- Progress: <https://github.com/orgs/bandungdevcom/projects/1>
 
-## Concept
+Project structure based on [Dogokit](https://dogokit.allnimal.com) using Remix,
+React, Tailwind CSS, Radix UI, Prisma ORM, and more.
 
-- [ ] Discover community team and members
-- [ ] Explore various events, online and offline/onsite
-- [ ] Search for jobs and companies
-
-## UI Design
-
-Figma link:
-<https://www.figma.com/file/UXLCWrL8yvpqoUCxY5vOGs/BandungDev.com-UI>
-
-## Getting Started
-
-1. Read about [Remix](https://remix.run) and the
-   [Remix Docs](https://remix.run/docs) to understand about Remix.
-2. If new, focus on Remix basics. Read
-   [Super Simple Start to Remix](https://kentcdodds.com/blog/super-simple-start-to-remix).
-3. If experienced, use various integration such as Prisma ORM and database like
-   MySQL. Read
-   [Blog Tutorial (short)](http://remix.run/docs/en/main/tutorials/blog) and
-   [App Tutorial (long)](http://remix.run/docs/en/main/tutorials/jokes).
-
-## Primary Tech Stack
-
-1. [TypeScript](https://typescriptlang.org): Typed language
-   - Related to JavaScript, HTML, CSS
-2. [React](https://react.dev): UI library
-3. [Remix](https://remix.run): Full stack web framework
-   - [React Router](https://reactrouter.com): Routing
-4. [Tailwind CSS](https://tailwindcss.com): Styling
-5. [Radix UI](https://radix-ui.com): Interactive components
-   - [shadcn UI](https://ui.shadcn.com): Styled interactive components
-6. [Prisma](https://prisma.io): Database ORM
-7. [PlanetScale](https://planetscale.com): MySQL-compatible serverless database
-   platform
-   - [MySQL](https://mysql.com): Database management system (DBMS)
-8. [Docker](https://docker.com): Containerization
-   - [Docker Compose](https://docs.docker.com/compose): Multi-container Docker
-9. [Vercel](https://vercel.com): Web app deployment
-
-Use later:
-
-- [Vitest](https://vitest.dev) vs [Jest](https://jestjs.io)
-- [React Testing Library](https://testing-library.com)
-- [Playwright](https://playwright.dev) vs [Cypress](https://cypress.io)
-
-Don't use:
-
-- styled-components, @emotion, Stitches, Chakra UI, MUI, etc
-- TanStack/React Query, SWR, Axios, etc
-- Redux, Zustand, Jotai, XState, etc
-
-## Development
+## Setup
 
 ### Dependencies
 
@@ -80,72 +37,111 @@ installed:
 pnpm install
 ```
 
-### Code
+This also run the `postinstall` script from `package.json` which by default run
+`prisma generate`.
 
-Format, lint, and build to check if the setup is fine:
+> Note: Not using Bun yet as there are still some issues.
+
+### Prisma Client Generation
+
+By default installing the modules is also running the `postinstall` script that
+generate the Prisma Client (`@prisma/client`) for it to be used in the app.
+
+If it isn't generated or need to generate manually, run:
+
+```sh
+pnpm db:gen
+# prisma generate
+```
+
+### Code Quality
+
+Log, format, lint to check if the setup is fine:
 
 ```sh
 pnpm check
-# run: format lint stylelint build typecheck
-
-pnpm check:fix # to fix most cases if there's an issue
-# run: format:fix lint:fix stylelint:fix
+# check: env typecheck prettier eslint stylelint prisma
 ```
 
-> Note: Ignore non-critical warning about ESLint and TypeScript
+```sh
+pnpm fix
+# fix: prettier eslint stylelint prisma
+```
 
-### Database
+> Note: Can ignore non-critical warning from ESLint and TypeScript
 
-Prisma ORM is used to communicate with the database easily. Since this app is
-primarily using PlanetScale, the migration files are not needed. Therefore, push
-the schema directly there, then the migration will be handled through the
+### Database Instance
+
+Prisma ORM is used to communicate with the database easily.
+
+If prefer using Docker and Docker Compose for local development,
+[follow this guide on database](docs/GUIDE_DATABASE.md).
+
+The app will be deployed primarily using PlanetScale, the migration files are
+not needed. Therefore, push the schema directly there. The migration process
+will be handled through the
 [deploy requests](https://planetscale.com/docs/concepts/deploy-requests).
+Although using an ORM, there's still also a way to run a raw query.
 
 Also read:
 
 - [Prisma with PlanetScale](https://prisma.io/docs/guides/database/planetscale)
 - [PlanetScale with Prisma](https://planetscale.com/docs/prisma/prisma-quickstart)
 
-If prefer using Docker and Docker Compose for local development,
-[follow this guide](docs/DATABASE.md).
-
 ### Environment Variables
 
-Create the `.env` file from the example `.env` file.
+Create the `.env` file from `.env.example`. This is the one for local
+development, not production
 
 ```sh
 cp -i .env.example .env
 ```
 
-> This .env file is only for local development, not production
+Configure the required environment variables if on local, otherwise in the
+project settings on other environments.
 
-Let's configure the required environment variables in the `.env` file if local,
-otherwise in the project settings, for:
+If necessary, create the `.env.production` for production access. Adjust
+accordingly if need for `staging`, `test`, etc.
 
-- `DATABASE_URL`
-- `SESSION_SECRET`
+```sh
+cp -i .env.example .env.production
+```
 
-For the database, either choose to use PlanetScale or local Docker container. If
-prefer using Docker and Docker Compose for local development,
+Required:
+
+- `APP_URL`: For example, `http://localhost:3000`
+- `DATABASE_URL`: For example, `mysql://user:password@localhost:3060/bandungdev`
+- `SESSION_SECRET`: For example, `the_secret_text`
+
+#### Database Setup
+
+For the database, either choose to use MySQL or PostgreSQL from local system,
+Docker container, services like [PlanetScale](https://planetscale.com) (MySQL)
+or [Neon](https://neon.tech) (PostgreSQL).
+
+If prefer using Docker and Docker Compose for local development,
 [follow this guide](docs/DATABASE.md).
 
-If not using any local database, create a [PlanetScale](https://planetscale.com)
-account to have a MySQL instance for development. After the database has been
-created, "Get the connection string" and select "Prisma", then copy the full
+#### MySQL Database with PlanetScale
+
+To start quickly, create a [PlanetScale](https://planetscale.com) account to
+have a MySQL instance for development and production. After the database has
+been created, "Get the connection string", select "Prisma", then copy the full
 `DATABASE_URL`.
 
 > Keep in mind the free plan only allow for 1 database. So either later keep it,
-> delete it when unused, or upgrade the plan.
+> delete it when unused, or upgrade the plan. There's also a verification with a
+> payment card, even though it's still free to start.
 
 Generate a random string for the `SESSION_SECRET` using
 `openssl rand -base64 32` on the terminal or put any long random text.
 
 ```sh
-DATABASE_URL="mysql://username:password@aws.connect.psdb.cloud/bandungdev?sslaccept=strict"
+DATABASE_URL="mysql://username:password@aws.connect.psdb.cloud/database-name?sslaccept=strict"
 SESSION_SECRET="random_secret_text"
 ```
 
-#### Schema to Push
+### Database Operations
 
 Sync between Prisma schema and the database directly, by making schema changes
 with `prisma db push`, which can be done regularly while updating the models:
@@ -155,45 +151,31 @@ pnpm db:push
 # prisma db push
 ```
 
+> Note: Only need to push the schema in development. No need for migration
+> files.
+
 Even with local development without PlanetScale, pushing the schema directly is
-still okay when
+still okay when in development or
 [prototyping the schema](https://prisma.io/docs/concepts/components/prisma-migrate/db-push).
 After a success push, then it will automatically run `prisma generate`.
 
-#### Data for Credentials
-
-Create `users.json` in `prisma/seed-credential` folder with the format below.
-You can focus on certain users who want to be able to sign in in development, so
-it doesn't have to be everyone. Password is also optional as there is an
-authentication method with OAuth that is not require a password.
+Optionally, create `users.json` in `prisma/credentials` folder with the format
+below. Can focus on certain users who want to be able to sign in in development,
+so it doesn't have to be everyone.
 
 ```json
 [
   {
-    "fullname": "User One",
-    "email": "user1@example.com",
+    "fullname": "User Name",
     "username": "username",
-    "imageURL": "https://picsum.photos/200",
-    "tags": ["TEAM", "DEVELOPER"],
-    "role": "Fullstack web developer",
-    "affiliation": "Google",
-    "bio": "Full Stack Web Developer with JavaScript, Node.js, TypeScript, React"
-  },
-  {
-    "fullname": "User Two",
-    "email": "user2@example.com",
-    "username": "username2",
-    "imageURL": "https://picsum.photos/200",
-    "tags": ["TEAM", "ADVISOR"],
-    "role": "Software engineer",
-    "affiliation": "Google",
-    "bio": "Software engineer with 5 years experience"
+    "nickname": "User",
+    "email": "user@user.com",
+    "password": "useruser",
+    "roleSymbol": "ADMIN"
   }
   // ...
 ]
 ```
-
-#### Data for Seed
 
 Then seed the initial data when needed:
 
@@ -211,96 +193,41 @@ pnpm build
 # remix build
 ```
 
-> This will also run `prisma generate` too before the build
+This will also run `prisma generate` too before the build.
 
-Then try run the app in production mode:
+Then try to run the app in production mode:
 
 ```sh
 pnpm start
 ```
 
-> This repo has been officially deployed to Vercel and hosted at
-> <https://bandungdev.com>
+If familiar with deploying node applications, the built-in Remix app server is
+production-ready. Make sure to deploy the output of `remix build`
 
-### Develop Locally
+- `build/`
+- `public/build/`
 
-If everything works fine, start the Remix development server like so:
+### Development
+
+Finally, develop the app while running the development server:
 
 ```sh
 pnpm dev
-# remix dev
+# remix dev --manual
 ```
 
-This starts the app in development mode, rebuilding assets on file changes.
+Open <http://localhost:3000> and it's ready!
 
-Open up [http://localhost:3000](http://localhost:3000) and it should be ready to
-go!
+## What's Next?
 
-Regularly, either push or generate the schema after changing the Prisma schema
-or database models.
-
-```sh
-pnpm db:push
-# prisma db push
-
-pnpm db:gen
-# prisma generate
-```
-
-### Checking Dependencies
-
-To keep the dependencies up to date, use [taze](https://github.com/antfu/taze).
-
-```sh
-pnpm dlx taze
-# or if installed globally
-taze
-```
-
-## Deployment
-
-This repo has been setup to auto deploy to Vercel automatically on Git push. Can
-also be deployed to other new projects on Vercel.
-
-After having run the `create-remix` command and selected "Vercel" as a
-deployment target, [import the Git repository](https://vercel.com/new) into
-Vercel.
-
-Configure the required environment variables in project settings for:
-
-- `DATABASE_URL`
-- `SESSION_SECRET`
-
-Then deploy it. There should be the deployed URL like
-<https://bandungdev.vercel.app>.
+Develop the app as usual, the Remix way.
 
 ## References
 
-### Related
+### Inspirations
 
-Remix app setup:
+- SurabayaDev
 
-- [💿 Remix Indie Stack](https://github.com/remix-run/indie-stack)
-- [🚀 Epic Stack](https://github.com/epicweb-dev/epic-stack)
-- [🐶 Dogokit Remix](https://github.com/dogokit/dogokit-remix)
-- [🐻 Bearmentor](https://github.com/bearmentor/bearmentor)
-- [⏪ Rewinds](https://github.com/mhaidarhanif/rewinds)
+---
 
-## Contributors
-
-(Ordered by join date)
-
-| No  | Nick   | Full Name           | Username      | Role                                           | Scope              |
-| --- | ------ | ------------------- | ------------- | ---------------------------------------------- | ------------------ |
-| 1   | Haidar | M Haidar Hanif      | @mhaidarhanif | Lead, Full Stack Web Developer, UI/UX Designer | All                |
-| 2   | Hendi  | Hendi Santika       | ...           | Software Developer                             | System             |
-| 3   | Didiet | Didiet Pambudiono   | @didietap     | Infra Engineer                                 | System             |
-| 4   | Fikri  | Fikri Alwan         | @FikriAR19    | Frontend Web Developer                         | All                |
-| 5   | Abui   | Abui Muliadi        | @abuiiam      | Frontend Web Developer, UI/UX Designer         | Frontend           |
-| 6   | Rizky  | Rizky Alam          | @rizkyalamz   | Backend Web Developer, Infra/System Engineer   | Backend / REST API |
-| 7   | Raka   | Raka Pratama        | @tamagossi    | Full Stack Web Developer                       | ?                  |
-| 8   | Rijal  | Muhamad Rijal       | @MhdRijal     | Full Stack Web Developer                       | All                |
-| 9   | Agus   | Agus Wesly          | @aguswesly    | Full Stack Web Developer                       | All                |
-| 10  | Rendi  | Rendi Bayu Setiawan | @straynekoren | Full Stack Web Developer                       | All                |
-| 11  | Maahir | M. Maahir Maulana   | @maulana48    | Backend Web Developer                          | Backend / REST API |
-| 12  | Obi    | Obi Pranata         | @obipranata   | Full Stack Web Developer                       | ?                  |
+©️ BandungDev
