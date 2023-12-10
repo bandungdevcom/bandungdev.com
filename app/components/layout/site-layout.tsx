@@ -7,7 +7,7 @@ export function SiteLayout({
   children,
 }: React.HTMLAttributes<HTMLElement>) {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className={cn("flex min-h-screen flex-col")}>
       <SiteNavigation />
 
       <main className={cn("flex-1", className)}>{children}</main>
