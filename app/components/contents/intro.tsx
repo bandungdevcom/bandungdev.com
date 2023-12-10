@@ -12,7 +12,12 @@ export function ContentIntro() {
   return (
     <div className="space-y-10">
       <header className="space-y-10 [text-wrap:balance]">
-        <h1 className="inline-flex items-center gap-2 sm:gap-4">
+        <h1
+          className={cn(
+            "inline-flex select-none items-center gap-2 sm:gap-4",
+            "transition duration-500 ease-in-out hover:-translate-y-2",
+          )}
+        >
           <img
             src={theme ? imageUrl : logoLight}
             alt="Icon"

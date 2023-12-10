@@ -20,7 +20,7 @@ export default function IndexRoute() {
         className={cn(
           "absolute -z-10 block h-96 w-full",
           "bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]",
-          "from-slate-200 via-slate-100/25 to-slate-50/20",
+          "from-slate-300 via-slate-200/25 to-slate-100/20",
           "dark:from-slate-800 dark:via-slate-900/25 dark:to-slate-950/20",
         )}
       />
