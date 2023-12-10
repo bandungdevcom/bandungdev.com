@@ -13,57 +13,49 @@ export function ContentIntro() {
 
   return (
     <div className="space-y-10">
-      <header className="space-y-10 [text-wrap:balance]">
-        <h1
+      <h1
+        className={cn(
+          "inline-flex select-none items-center gap-2 sm:gap-4",
+          "transition duration-500 ease-in-out hover:-translate-y-2",
+        )}
+      >
+        <img
+          src={theme ? imageUrl : logoLight}
+          alt="Icon"
+          width={200}
+          height={200}
+          className="w-20 sm:w-24"
+        />
+        <span
           className={cn(
-            "inline-flex select-none items-center gap-2 sm:gap-4",
-            "transition duration-500 ease-in-out hover:-translate-y-2",
+            "text-5xl sm:text-6xl",
+            "py-4 font-display tracking-tight text-primary",
+            "bg-gradient-to-r bg-clip-text text-transparent",
+            "from-slate-800 to-slate-600",
+            "dark:from-slate-200 dark:to-slate-400",
           )}
         >
-          <img
-            src={theme ? imageUrl : logoLight}
-            alt="Icon"
-            width={200}
-            height={200}
-            className="w-20 sm:w-24"
-          />
-          <span
-            className={cn(
-              "text-5xl sm:text-6xl",
-              "py-4 font-display tracking-tight text-primary",
-              "bg-gradient-to-r bg-clip-text text-transparent",
-              "from-slate-800 to-slate-600",
-              "dark:from-slate-200 dark:to-slate-400",
-            )}
-          >
-            BandungDev
-          </span>
-        </h1>
-        <div className="space-y-2">
-          <p className="text-lg">
-            The curated software developer and engineering community in Bandung,
-            Indonesia. <b>BandungDev</b> is collaborating with various other
-            tech communities. We aim to improve the educational activities.
-          </p>
-          <Badge
-            variant="outline"
-            className="font-mono text-base tracking-wider"
-          >
-            #HelloHelloBandungDev
-          </Badge>
-        </div>
-      </header>
-
-      <section className="site-section">
-        <div className="flex flex-wrap gap-2 sm:gap-4">
-          <ButtonLink size="lg" variant="accent" to="/signup">
-            Join Us
-          </ButtonLink>
-          <ButtonLink size="lg" variant="secondary" to="/events">
-            Explore Events
-          </ButtonLink>
-        </div>
-      </section>
+          BandungDev
+        </span>
+      </h1>
+      <div className="space-y-2">
+        <p className="text-lg">
+          The curated software developer and engineering community in Bandung,
+          Indonesia. <b>BandungDev</b> is collaborating with various other tech
+          communities. We aim to improve the educational activities.
+        </p>
+        <Badge variant="outline" className="font-mono text-base tracking-wider">
+          #HelloHelloBandungDev
+        </Badge>
+      </div>
+      <div className="flex flex-wrap gap-2 sm:gap-4">
+        <ButtonLink size="lg" variant="accent" to="/signup">
+          Join Us
+        </ButtonLink>
+        <ButtonLink size="lg" variant="secondary" to="/events">
+          Explore Events
+        </ButtonLink>
+      </div>
     </div>
   )
 }

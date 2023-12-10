@@ -120,9 +120,6 @@
   .site-section-md {
     @apply mx-auto w-full max-w-md;
   }
-  .site-section-2xl {
-    @apply mx-auto w-full max-w-2xl;
-  }
   .app-container {
     @apply mx-auto w-full space-y-6 overflow-hidden p-4;
   }

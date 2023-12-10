@@ -25,9 +25,19 @@ export default function IndexRoute() {
         )}
       />
 
-      <div className="site-section pt-32 sm:pt-40">
+      <section className="site-section py-32 sm:py-40">
         <ContentIntro />
-      </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-7xl">
+        <img
+          src="/photos/bandungdev-photo-collage.jpg"
+          alt="BandungDev Collage"
+          width={2000}
+          height={1300}
+          className="select-none"
+        />
+      </section>
     </div>
   )
 }
