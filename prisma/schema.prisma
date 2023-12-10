@@ -228,6 +228,9 @@ model Event {
   statusId String
   status   EventStatus @relation(fields: [statusId], references: [id])
 
+  categoryId String?
+  category   EventCategory? @relation(fields: [categoryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
   locationId String?
   location   Location? @relation(fields: [locationId], references: [id])
 
@@ -245,6 +248,7 @@ model Event {
   @@index([statusId])
   @@index([imageId])
   @@index([locationId])
+  @@index([categoryId])
 }
 
 model EventImage {
@@ -263,9 +267,20 @@ model EventStatus {
   id String @id @default(cuid())
 
   sequence    Int?    @unique // 1, 2, 3, ...
-  symbol      String  @unique // DRAFT, PUBLISHED, ...
-  name        String  @unique // Draft, Published, ...
+  symbol      String  @unique // DRAFT, PUBLISHED, UNLISTED, ...
+  name        String  @unique // Draft, Published, Unlisted, ...
   description String? @db.Text // Status definition
+
+  events Event[]
+}
+
+model EventCategory {
+  id String @id @default(cuid())
+
+  sequence    Int?    @unique // 1, 2, 3, ...
+  symbol      String  @unique // MEETUP, SEMINAR, WORKSHOP, WFC
+  name        String  @unique // Meetup, Seminar, Workshop, Work from Cafe
+  description String? @db.Text // Long description
 
   events Event[]
 }
@@ -277,10 +292,17 @@ model EventStatus {
 model Location {
   id String @id @default(cuid())
 
-  label       String
-  address     String? // The complete combined address
-  mapsUrl     String? // https://goo.gl/maps/1xABCDEF123456
-  externalUrl Json?
+  label String @db.Text
+
+  categoryId String
+  category   LocationCategory @relation(fields: [categoryId], references: [id])
+
+  // ONLINE
+  links Json?
+
+  // OFFLINE / HYBRID
+  address String? @db.Text // Complete combined address
+  mapsUrl String? @db.Text // https://goo.gl/maps/1xABCDEF123456
 
   lat Decimal? // Latitude -90 to 90, Example: -6.1234567
   lng Decimal? // Longitude -180 to 180, Example: 106.1234567
@@ -298,6 +320,19 @@ model Location {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([categoryId])
+}
+
+model LocationCategory {
+  id String @id @default(cuid())
+
+  sequence    Int?    @unique // 1, 2, 3, ...
+  symbol      String  @unique // ONLINE, OFFLINE, HYBRID
+  name        String  @unique // Online, Offline, Hybrid
+  description String? @db.Text // Long description
+
+  locations Location[]
 }
 
 // -----------------------------------------------------------------------------
