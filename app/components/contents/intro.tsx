@@ -1,5 +1,7 @@
 import { Theme, useTheme } from "remix-themes"
+
 import { Badge } from "~/components/ui/badge"
+import { ButtonLink } from "~/components/ui/button-link"
 import { cn } from "~/utils/cn"
 
 export function ContentIntro() {
@@ -37,15 +39,31 @@ export function ContentIntro() {
             BandungDev
           </span>
         </h1>
-        <p className="text-lg">
-          The curated software developer and engineering community in Bandung,
-          Indonesia. <b>BandungDev</b> is collaborating with various other tech
-          communities. We aim to improve the educational activities.
-        </p>
-        <Badge variant="outline" className="font-mono text-base tracking-wider">
-          #HelloHelloBandungDev
-        </Badge>
+        <div className="space-y-2">
+          <p className="text-lg">
+            The curated software developer and engineering community in Bandung,
+            Indonesia. <b>BandungDev</b> is collaborating with various other
+            tech communities. We aim to improve the educational activities.
+          </p>
+          <Badge
+            variant="outline"
+            className="font-mono text-base tracking-wider"
+          >
+            #HelloHelloBandungDev
+          </Badge>
+        </div>
       </header>
+
+      <section className="site-section">
+        <div className="flex flex-wrap gap-2 sm:gap-4">
+          <ButtonLink size="lg" variant="accent" to="/signup">
+            Join Us
+          </ButtonLink>
+          <ButtonLink size="lg" variant="secondary" to="/events">
+            Explore Events
+          </ButtonLink>
+        </div>
+      </section>
     </div>
   )
 }

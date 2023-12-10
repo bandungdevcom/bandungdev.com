@@ -23,8 +23,8 @@
     --secondary-foreground: 223 48% 12% /* slate-900 */;
     --muted: 210 41% 97% /* slate-100 */;
     --muted-foreground: 216 17% 47% /* slate-500 */;
-    --accent: 215 95% 93% /* blue-100 */;
-    --accent-foreground: 225 65% 33% /* blue-900 */;
+    --accent: 226 71% 41% /* blue-800 */;
+    --accent-foreground: 215 95% 93% /* blue-100 */;
     --destructive: 0 85% 61% /* red-500 */;
     --destructive-foreground: 211 41% 99% /* slate-50 */;
     --border: 215 32% 92% /* slate-200 */;
@@ -46,7 +46,7 @@
     --secondary-foreground: 211 41% 99% /* slate-50 */;
     --muted: 218 33% 18% /* slate-800 */;
     --muted-foreground: 216 21% 66% /* slate-400 */;
-    --accent: 226 71% 41% /* blue-800 */;
+    --accent: 217 91% 60% /* blue-500 */;
     --accent-foreground: 214 100% 97% /* blue-50 */;
     --destructive: 0 63% 31% /* red-900 */;
     --destructive-foreground: 211 41% 99% /* slate-50 */;
@@ -109,7 +109,7 @@
  */
 @layer components {
   .site-container {
-    @apply mx-auto min-h-screen w-full max-w-7xl px-4 pt-12;
+    @apply mx-auto min-h-screen w-full max-w-7xl px-4 pt-20 sm:pt-32;
   }
   .site-header {
     @apply mx-auto w-full max-w-prose space-y-4;
@@ -154,7 +154,7 @@
   }
   .prose-a-styles {
     @apply focus-ring cursor-pointer rounded-xs decoration-muted transition;
-    @apply text-accent-foreground hover:text-accent-foreground/75;
+    @apply text-accent hover:text-accent/75;
   }
   .prose-pre-styles {
     @apply bg-muted text-foreground;
