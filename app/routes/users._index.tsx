@@ -23,6 +23,7 @@ export const meta: MetaFunction = () =>
   })
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
+  // IDEA: Refactor this into a model
   const config = getPaginationConfigs({ request, defaultLimit: 8 })
   const contains = config.queryParam
 
