@@ -11,8 +11,30 @@ export const configSitemapGroups: ConfigSitemapGroup[] = [
   {
     title: "Links",
     items: [
-      { name: "Telegram", url: "https://t.me/bandungdevcom" },
-      { name: "GitHub", url: "https://github.com/bandungdevcom" },
+      { name: "Telegram", to: "/telegram" },
+      { name: "GitHub", to: "/github" },
+      { name: "Instagram", to: "/instagram" },
+    ],
+  },
+  {
+    title: "Sponsors",
+    items: [
+      { name: "CodePolitan", url: "https://codepolitan.com" },
+      { name: "Allnimal", url: "https://allnimal.com" },
+      { name: "Catamyst", url: "https://catamyst.com" },
+    ],
+  },
+  {
+    title: "Community Partners",
+    items: [
+      { name: "Bearmentor", url: "https://bearmentor.com" },
+      {
+        name: "Web Programming UNPAS",
+        url: "https://youtube.com/c/webprogrammingunpas",
+      },
+      { name: "Programmer Zaman Now", url: "https://programmerzamannow.com" },
+      { name: "JVM Indonesia", url: "https://t.me/jvmindonesia" },
+      { name: "BandungPy", url: "https://t.me/bandung_py" },
     ],
   },
 ]
