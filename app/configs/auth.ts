@@ -14,7 +14,7 @@ export const configAuth: ConfigAuth = {
   ],
   services: [
     { label: "GitHub", provider: AuthStrategies.GITHUB, isEnabled: true },
-    { label: "Google", provider: AuthStrategies.GOOGLE, isEnabled: false },
+    { label: "Google", provider: AuthStrategies.GOOGLE, isEnabled: true },
   ],
 }
 
