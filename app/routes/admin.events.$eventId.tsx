@@ -30,8 +30,8 @@ import { TextareaAutosize } from "~/components/ui/textarea-autosize"
 import { requireUser } from "~/helpers/auth"
 import { useAppUserLoaderData } from "~/hooks/use-app-loader-data"
 import { prisma } from "~/libs/db.server"
-import { modelUserPost } from "~/models/user-post.server"
-import { schemaPost } from "~/schemas/post"
+import { modelAdminEvent } from "~/models/admin-event.server"
+import { schemaEvent } from "~/schemas/event"
 import { invariant, invariantResponse } from "~/utils/invariant"
 import { createMeta } from "~/utils/meta"
 import { createSitemap } from "~/utils/sitemap"
@@ -41,51 +41,54 @@ import { createTimer } from "~/utils/timer"
 export const handle = createSitemap()
 
 export const meta: MetaFunction<typeof loader> = ({ params, data }) => {
-  const post = data?.post
+  const event = data?.event
 
-  if (!post) {
+  if (!event) {
     return createMeta({
-      title: "Post not found",
-      description: `Cannot find post with slug ${params.postSlug}`,
+      title: "Event not found",
+      description: `Cannot find event with slug ${params.eventSlug}`,
     })
   }
   return createMeta({
-    title: post.title,
-    description: post.excerpt,
+    title: event.title,
+    description: event.description,
   })
 }
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
-  invariant(params.postId, "params.postId unavailable")
-  const { userId } = await requireUser(request)
-  const post = await modelUserPost.getById({ userId, id: params.postId })
-  invariantResponse(post, "Post not found", { status: 404 })
-  return json({ post })
+  invariant(params.eventId, "params.eventId unavailable")
+  const { userId: organizerId } = await requireUser(request)
+  const event = await modelAdminEvent.getById({
+    organizerId,
+    id: params.eventId,
+  })
+  invariantResponse(event, "Event not found", { status: 404 })
+  return json({ event })
 }
 
-export default function UserPostsPostIdRoute() {
-  const { post } = useLoaderData<typeof loader>()
+export default function UserEventsEventIdRoute() {
+  const { event } = useLoaderData<typeof loader>()
   const actionData = useActionData<typeof action>()
   const navigation = useNavigation()
-  const { postStatuses } = useAppUserLoaderData()
+  const { eventStatuses } = useAppUserLoaderData()
 
-  const [form, { userId, id, slug, title, content }] = useForm<
-    z.infer<typeof schemaPost>
+  const [form, { organizerId, id, slug, title, content }] = useForm<
+    z.infer<typeof schemaEvent>
   >({
-    id: "update-post",
+    id: "update-event",
     lastSubmission: actionData?.submission,
     shouldRevalidate: "onInput",
-    constraint: getFieldsetConstraint(schemaPost),
+    constraint: getFieldsetConstraint(schemaEvent),
     onValidate({ formData }) {
-      return parse(formData, { schema: schemaPost })
+      return parse(formData, { schema: schemaEvent })
     },
-    defaultValue: { ...post, userId: post.userId },
+    defaultValue: { ...event, organizerId: event.organizerId },
   })
 
   const isSubmitting = navigation.state === "submitting"
-  const isPostUpdated = post.createdAt !== post.updatedAt
-  const isPostDraft = post.status.symbol === "DRAFT"
-  const isPostPublished = !isPostDraft
+  const isEventUpdated = event.createdAt !== event.updatedAt
+  const isEventDraft = event.status.symbol === "DRAFT"
+  const isEventPublished = !isEventDraft
 
   const [titleValue, setTitleValue] = useState(title.defaultValue ?? "")
   const slugRef = useRef<HTMLInputElement>(null)
@@ -97,8 +100,8 @@ export default function UserPostsPostIdRoute() {
 
   function handleReset() {
     form.ref.current?.reset()
-    setTitleValue(post.title)
-    setContentValue(post.content)
+    setTitleValue(event.title)
+    setContentValue(event.content ?? "")
   }
 
   function handleUpdateSlug() {
@@ -110,7 +113,7 @@ export default function UserPostsPostIdRoute() {
     contentControl.change(htmlString)
   }
 
-  if (!post) return null
+  if (!event) return null
 
   return (
     <div className="app-container">
@@ -138,20 +141,20 @@ export default function UserPostsPostIdRoute() {
                   <span>Reset</span>
                 </Button>
                 <FormDelete
-                  action="/user/posts/delete"
-                  intentValue="user-delete-post-by-id"
-                  itemText={`a post: ${truncateText(post.title)} (${
-                    post.slug
+                  action="/user/events/delete"
+                  intentValue="user-delete-event-by-id"
+                  itemText={`a event: ${truncateText(event.title)} (${
+                    event.slug
                   })`}
-                  defaultValue={post.id}
+                  defaultValue={event.id}
                   requireUser
-                  userId={post.userId}
+                  userId={event.organizerId}
                 />
                 <ButtonLink
                   variant="outline"
                   size="xs"
-                  to={`/posts/${post.slug}`}
-                  disabled={isPostDraft}
+                  to={`/events/${event.slug}`}
+                  disabled={isEventDraft}
                 >
                   <Iconify icon="ph:arrow-square-out-duotone" />
                   <span>View</span>
@@ -168,38 +171,38 @@ export default function UserPostsPostIdRoute() {
                   iconComponent={
                     <Iconify
                       icon={
-                        isPostPublished
+                        isEventPublished
                           ? "ph:book-open-duotone"
                           : "ph:book-open-text-duotone"
                       }
                     />
                   }
                 >
-                  <span>{isPostPublished ? "Unpublish" : "Publish"}</span>
+                  <span>{isEventPublished ? "Unpublish" : "Publish"}</span>
                 </ButtonLoading>
 
                 <FormChangeStatus
-                  itemId="postId"
-                  action="/user/posts/patch"
-                  intentValue="change-post-status"
-                  dialogTitle="Change post's status"
-                  dialogDescription={`Change the status of post: ${post.title} (${post.slug})`}
-                  itemStatuses={postStatuses}
-                  item={post as any}
+                  itemId="eventId"
+                  action="/user/events/patch"
+                  intentValue="change-event-status"
+                  dialogTitle="Change event's status"
+                  dialogDescription={`Change the status of event: ${event.title} (${event.slug})`}
+                  itemStatuses={eventStatuses}
+                  item={event as any}
                 />
               </div>
             </div>
           </section>
 
           <section className="mx-auto w-full max-w-prose space-y-4">
-            <input type="hidden" {...conform.input(userId)} />
+            <input type="hidden" {...conform.input(organizerId)} />
             <input type="hidden" {...conform.input(id)} />
 
             <div className="text-xs text-muted-foreground">
               <Timestamp
-                isUpdated={isPostUpdated}
-                createdAt={post.createdAt}
-                updatedAt={post.updatedAt}
+                isUpdated={isEventUpdated}
+                createdAt={event.createdAt}
+                updatedAt={event.updatedAt}
               />
             </div>
 
@@ -277,9 +280,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const submission = await parse(formData, {
     async: true,
-    schema: schemaPost.superRefine(async (data, ctx) => {
+    schema: schemaEvent.superRefine(async (data, ctx) => {
       const { id, slug } = data
-      const existingSlug = await prisma.post.findUnique({
+      const existingSlug = await prisma.event.findUnique({
         where: { slug, NOT: { id } },
         select: { id: true },
       })
@@ -299,8 +302,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json({ status: "error", submission }, { status: 400 })
   }
 
-  const post = await modelUserPost.update(submission.value)
+  const event = await modelAdminEvent.update(submission.value)
 
   await timer.delay()
-  return redirect(`/user/posts/${post.id}`)
+  return redirect(`/user/events/${event.id}`)
 }

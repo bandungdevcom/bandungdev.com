@@ -3,7 +3,7 @@ import { json, type ActionFunctionArgs } from "@remix-run/node"
 import { z } from "zod"
 
 import { prisma } from "~/libs/db.server"
-import { modelPostStatus } from "~/models/post-status.server"
+import { modelEventStatus } from "~/models/event-status.server"
 import { invariantResponse } from "~/utils/invariant"
 import { createTimer } from "~/utils/timer"
 
@@ -13,7 +13,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
   const submission = parse(formData, {
     schema: z.object({
-      postId: z.string(),
+      eventId: z.string(),
       statusSymbol: z.string(),
     }),
   })
@@ -22,15 +22,15 @@ export async function action({ request }: ActionFunctionArgs) {
     return json(submission, { status: 400 })
   }
 
-  const id = submission.value.postId
-  const postStatus = await modelPostStatus.getBySymbol({
+  const id = submission.value.eventId
+  const eventStatus = await modelEventStatus.getBySymbol({
     symbol: submission.value.statusSymbol,
   })
-  invariantResponse(postStatus, "Post status is unavailable", { status: 404 })
+  invariantResponse(eventStatus, "Event status is unavailable", { status: 404 })
 
-  await prisma.post.update({
+  await prisma.event.update({
     where: { id },
-    data: { statusId: postStatus.id },
+    data: { statusId: eventStatus.id },
   })
 
   await timer.delay()
