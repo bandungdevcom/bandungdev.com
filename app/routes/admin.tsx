@@ -1,19 +1,27 @@
-import { type LoaderFunctionArgs } from "@remix-run/node"
-import { Outlet, isRouteErrorResponse, useRouteError } from "@remix-run/react"
+import { json, type LoaderFunctionArgs } from "@remix-run/node"
+import { isRouteErrorResponse, Outlet, useRouteError } from "@remix-run/react"
 import { SidebarNavItems } from "~/components/shared/sidebar-nav-items"
 import { Separator } from "~/components/ui/separator"
 import { configNavigationItems } from "~/configs/navigation"
 import { useAppMode } from "~/hooks/use-app-mode"
+import { modelEventStatus } from "~/models/event-status.server"
 
 import { authenticator } from "~/services/auth.server"
+import { invariantResponse } from "~/utils/invariant"
 import { createSitemap } from "~/utils/sitemap"
 
 export const handle = createSitemap()
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
+  // TODO: Check for role of admin, not only a user
   await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
-  // IDEA: Check for role of admin, not only a user
-  return null
+
+  const eventStatuses = await modelEventStatus.getAll()
+  invariantResponse(eventStatuses, "Event statuses are unavailable", {
+    status: 404,
+  })
+
+  return json({ eventStatuses })
 }
 
 export default function AdminLayoutRoute() {

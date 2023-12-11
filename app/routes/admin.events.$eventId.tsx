@@ -28,7 +28,7 @@ import { Iconify } from "~/components/ui/iconify"
 import { Separator } from "~/components/ui/separator"
 import { TextareaAutosize } from "~/components/ui/textarea-autosize"
 import { requireUser } from "~/helpers/auth"
-import { useAppUserLoaderData } from "~/hooks/use-app-loader-data"
+import { useAppAdminLoaderData } from "~/hooks/use-app-loader-data"
 import { prisma } from "~/libs/db.server"
 import { modelAdminEvent } from "~/models/admin-event.server"
 import { schemaEvent } from "~/schemas/event"
@@ -70,7 +70,7 @@ export default function UserEventsEventIdRoute() {
   const { event } = useLoaderData<typeof loader>()
   const actionData = useActionData<typeof action>()
   const navigation = useNavigation()
-  const { eventStatuses } = useAppUserLoaderData()
+  const { eventStatuses } = useAppAdminLoaderData()
 
   const [form, { organizerId, id, slug, title, content }] = useForm<
     z.infer<typeof schemaEvent>

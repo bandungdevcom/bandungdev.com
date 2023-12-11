@@ -1,4 +1,3 @@
-import { createEventSlug, extractEventSlug } from "~/helpers/event"
 import { createPostSlug, extractPostSlug, getPostExcerpt } from "~/helpers/post"
 import { prisma } from "~/libs/db.server"
 import { hashPassword } from "~/utils/encryption.server"
@@ -17,12 +16,12 @@ import dataRoles from "./data/roles.json"
  * Enable and disable seed items by commenting them
  */
 const enabledSeedItems = [
-  // "permissions",
-  // "roles",
-  // "users",
-  // "postStatuses",
-  // "posts",
-  // "eventStatuses",
+  "permissions",
+  "roles",
+  "users",
+  "postStatuses",
+  "posts",
+  "eventStatuses",
   "events",
 ]
 
@@ -251,10 +250,6 @@ async function seedEvents() {
   if (!organizer) return null
   const organizerId = organizer.id
 
-  const events = await prisma.event.findMany({
-    select: { id: true, slug: true },
-  })
-
   const eventStatuses = await prisma.eventStatus.findMany({
     select: { id: true, symbol: true },
   })
@@ -263,11 +258,6 @@ async function seedEvents() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { statusSymbol, ...eventSanitized } = eventRaw
 
-    const slug = createSlug(eventRaw.title) // original-slug
-    const eventSlug = createEventSlug(eventRaw.title) // modified-slug-nanoid123
-    const existingEvent = events.find(event => {
-      return slug === extractEventSlug(event.slug)
-    })
     const status = eventStatuses.find(
       status => status.symbol === eventRaw.statusSymbol,
     )
@@ -277,13 +267,11 @@ async function seedEvents() {
       where: { slug: eventRaw.slug },
       update: {
         ...eventSanitized,
-        slug: existingEvent?.slug || eventSlug,
         statusId: status.id,
         organizerId,
       },
       create: {
         ...eventSanitized,
-        slug: existingEvent?.slug || eventSlug,
         statusId: status.id,
         organizerId,
       },

@@ -5,12 +5,10 @@ import { useMatchesData } from "~/hooks/use-root-loader-data"
 export function useAppUserLoaderData() {
   const appUserData = useMatchesData("routes/user") as {
     postStatuses: PostStatus[]
-    eventStatuses: EventStatus[]
   }
 
   return {
     postStatuses: appUserData?.postStatuses,
-    eventStatuses: appUserData?.eventStatuses,
   }
 }
 
