@@ -2,7 +2,6 @@ import { createPostSlug, extractPostSlug, getPostExcerpt } from "~/helpers/post"
 import { prisma } from "~/libs/db.server"
 import { hashPassword } from "~/utils/encryption.server"
 import { logEnv } from "~/utils/log.server"
-import { getPlaceholderAvatarUrl } from "~/utils/placeholder"
 import { createSlug } from "~/utils/string"
 
 import dataCredentialUsers from "./credentials/users.json"
@@ -118,7 +117,6 @@ async function seedUsers() {
     const userData = {
       ...userRaw,
       roles: { connect: { symbol: userCredential.roleSymbol } },
-      images: { create: { url: getPlaceholderAvatarUrl(userRaw.username) } },
     }
 
     const existingUser = await prisma.user.findUnique({

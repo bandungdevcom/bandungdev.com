@@ -57,22 +57,22 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   })
 }
 
-export default function UsersRoute() {
+export default function MembersRoute() {
   const { users, ...loaderData } = useLoaderData<typeof loader>()
 
   return (
     <div className="site-container space-y-12">
       <header className="site-header">
-        <h1 className="inline-flex items-center gap-2">
+        <h1 className="inline-flex flex-wrap items-center gap-2">
           <Iconify icon="ph:users-four-duotone" />
-          <span className="text-gradient">Users</span>
+          <span className="text-gradient py-2">Community Members</span>
         </h1>
       </header>
 
       <section className="site-section">
         <PaginationSearch
           itemName="user"
-          searchPlaceholder="Search users with keyword..."
+          searchPlaceholder="Search community members..."
           count={users.length}
           {...loaderData}
         />

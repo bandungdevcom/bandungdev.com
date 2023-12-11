@@ -39,8 +39,8 @@ export const configNavigationItems: NavItem[] = [
     isEnabled: true,
   },
   {
-    path: "/users",
-    text: "Users",
+    path: "/members",
+    text: "Members",
     icon: "ph:users-four-duotone",
     isEnabled: true,
   },
