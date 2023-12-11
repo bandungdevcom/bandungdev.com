@@ -72,14 +72,14 @@ export default function SearchRoute() {
 
   return (
     <div className="site-container space-y-12">
-      <header className="site-header">
+      <header className="site-header max-w-4xl">
         <h1 className="inline-flex items-center gap-2">
           <Iconify icon="ph:scroll-duotone" />
           <span className="text-gradient">Events</span>
         </h1>
       </header>
 
-      <section className="site-section">
+      <section className="site-section max-w-4xl">
         <PaginationSearch
           itemName="event"
           searchPlaceholder="Search events with keyword..."
@@ -88,7 +88,7 @@ export default function SearchRoute() {
         />
       </section>
 
-      <section className="site-section">
+      <section className="site-section max-w-4xl">
         <ul className="space-y-12">
           {events.map(event => (
             <li key={event.id}>

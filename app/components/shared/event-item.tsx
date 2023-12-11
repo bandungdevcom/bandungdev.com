@@ -15,7 +15,14 @@ export function EventItem({
 
   return (
     <div className="flex justify-between gap-4">
-      <div className="basis-3/5 space-y-2">
+      <Link
+        className="focus-ring block basis-8/12 transition hover:opacity-75"
+        to={`/events/${event.slug}`}
+      >
+        <ImageCover src={event.image?.url} />
+      </Link>
+
+      <div className="basis-4/12 space-y-2">
         <div>
           <h3>
             <Link
@@ -37,13 +44,6 @@ export function EventItem({
           View Event
         </ButtonLink>
       </div>
-
-      <Link
-        className="focus-ring block basis-2/5 transition hover:opacity-75"
-        to={`/events/${event.slug}`}
-      >
-        <ImageCover src={event.image?.url} />
-      </Link>
     </div>
   )
 }

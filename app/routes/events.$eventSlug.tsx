@@ -3,8 +3,8 @@ import {
   type LoaderFunctionArgs,
   type MetaFunction,
 } from "@remix-run/node"
-import { Link, useLoaderData, type Params } from "@remix-run/react"
-import { BadgePostStatus } from "~/components/shared/badge-post-status"
+import { useLoaderData, type Params } from "@remix-run/react"
+import { BadgeEventStatus } from "~/components/shared/badge-event-status"
 import { ViewHTML } from "~/components/shared/view-html"
 
 import {
@@ -15,13 +15,12 @@ import { FormChangeStatus } from "~/components/shared/form-change-status"
 import { ImageCover } from "~/components/shared/image-cover"
 import { Timestamp } from "~/components/shared/timestamp"
 import { Alert } from "~/components/ui/alert"
-import { AvatarAuto } from "~/components/ui/avatar-auto"
 import { ButtonLink } from "~/components/ui/button-link"
 import { Iconify } from "~/components/ui/iconify"
 import { useRootLoaderData } from "~/hooks/use-root-loader-data"
 import { prisma } from "~/libs/db.server"
-import { modelPostStatus } from "~/models/post-status.server"
-import { modelPost } from "~/models/post.server"
+import { modelEventStatus } from "~/models/event-status.server"
+import { modelEvent } from "~/models/event.server"
 import { formatDateDMY } from "~/utils/datetime"
 import { invariant, invariantResponse } from "~/utils/invariant"
 import { createMeta } from "~/utils/meta"
@@ -30,121 +29,109 @@ import { createSitemap } from "~/utils/sitemap"
 export const handle = createSitemap()
 
 export const meta: MetaFunction<typeof loader> = ({ params, data }) => {
-  const post = data?.post
+  const event = data?.event
 
-  if (!post) {
+  if (!event) {
     return createMeta({
-      title: "Post not found",
-      description: `Cannot find post with slug ${params.postSlug}`,
+      title: "Event not found",
+      description: `Cannot find event with slug ${params.eventSlug}`,
     })
   }
   return createMeta({
-    title: post.title,
-    description: post.excerpt,
+    title: event.title,
+    description: event.description,
   })
 }
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  invariant(params.postSlug, "params.postSlug unavailable")
+  invariant(params.eventSlug, "params.eventSlug unavailable")
 
-  const [post, postStatuses] = await prisma.$transaction([
-    modelPost.getBySlug({ slug: params.postSlug }),
-    modelPostStatus.getAll(),
+  const [event, eventStatuses] = await prisma.$transaction([
+    modelEvent.getBySlug({ slug: params.eventSlug }),
+    modelEventStatus.getAll(),
   ])
 
-  invariantResponse(post, "Post not found", { status: 404 })
-  invariantResponse(postStatuses, "Post statuses unavailable", { status: 404 })
+  invariantResponse(event, "Event not found", { status: 404 })
+  invariantResponse(eventStatuses, "Event statuses unavailable", {
+    status: 404,
+  })
 
-  return json({ post, postStatuses })
+  return json({ event, eventStatuses })
 }
 
-export default function PostSlugRoute() {
+export default function EventSlugRoute() {
   const { userSession } = useRootLoaderData()
-  const { post, postStatuses } = useLoaderData<typeof loader>()
+  const { event, eventStatuses } = useLoaderData<typeof loader>()
 
-  const isOwner = post.userId === userSession?.id
-  const isUpdated = post.createdAt !== post.updatedAt
-  const isArchived = post.status.symbol === "ARCHIVED"
+  const isOwner = event.organizerId === userSession?.id
+  const isUpdated = event.createdAt !== event.updatedAt
+  const isArchived = event.status.symbol === "ARCHIVED"
 
   return (
-    <div className="site-container space-y-8 pt-0">
+    <div className="site-container space-y-8 pt-20 sm:pt-20">
       <ImageCover
-        src={post.images[0]?.url}
-        className="mx-auto w-full max-w-4xl"
+        src={event.image?.url}
+        className="mx-auto w-full max-w-4xl object-contain"
         width={900}
-        height={400}
+        height={450}
       />
 
       <header className="site-header">
         {isArchived && (
           <Alert>
-            This post has been archived by on {formatDateDMY(post.updatedAt)}
+            This event has been archived by on {formatDateDMY(event.updatedAt)}
           </Alert>
         )}
 
-        <h1>{post.title}</h1>
+        <h1>{event.title}</h1>
 
-        <div className="space-y-2">
-          <Link
-            to={`/${post.user.username}`}
-            className="flex items-center gap-2 transition hover:opacity-75"
-          >
-            <AvatarAuto user={post.user} imageUrl={post.user.images[0]?.url} />
-            <div className="space-y-0">
-              <h6>{post.user.fullname}</h6>
-              <p className="text-sm text-muted-foreground">
-                @{post.user.username}
-              </p>
-            </div>
-          </Link>
-
-          <div className="text-xs text-muted-foreground">
-            <Timestamp
-              isUpdated={isUpdated}
-              createdAt={post.createdAt}
-              updatedAt={post.updatedAt}
-            />
-          </div>
+        <div className="text-xs text-muted-foreground">
+          <Timestamp
+            isUpdated={isUpdated}
+            createdAt={event.createdAt}
+            updatedAt={event.updatedAt}
+          />
         </div>
 
         {!isOwner && (
           <div>
-            <BadgePostStatus status={post.status} />
+            <BadgeEventStatus status={event.status} />
           </div>
         )}
 
         {isOwner && (
           <div className="flex flex-wrap gap-2">
             <FormChangeStatus
-              itemId="postId"
-              action="/user/posts/patch"
-              intentValue="change-post-status"
-              dialogTitle="Change post's status"
-              dialogDescription={`Change the status of post: ${post.title} (${post.slug})`}
-              itemStatuses={postStatuses}
-              item={post as any}
+              itemId="eventId"
+              action="/user/events/patch"
+              intentValue="change-event-status"
+              dialogTitle="Change event's status"
+              dialogDescription={`Change the status of event: ${event.title} (${event.slug})`}
+              itemStatuses={eventStatuses}
+              item={event as any}
             />
             <ButtonLink
-              to={`/user/posts/${post.id}`}
+              to={`/user/events/${event.id}`}
               variant="outline"
               size="xs"
             >
               <Iconify icon="ph:note-pencil" />
-              <span>Edit Post</span>
+              <span>Edit Event</span>
             </ButtonLink>
           </div>
         )}
       </header>
 
       <section className="site-section pb-20 pt-4">
-        <ViewHTML>{post.content}</ViewHTML>
+        {event.content && <ViewHTML>{event.content}</ViewHTML>}
+        {!event.content && <p>No content details yet</p>}
       </section>
 
       <section className="site-section">
         <div>
-          <ButtonLink to="/posts" size="sm" variant="secondary">
+          <ButtonLink to="/events" size="sm" variant="secondary">
             <Iconify icon="ph:caret-left" />
-            <span>All posts</span>
+            <span>All events</span>
           </ButtonLink>
         </div>
       </section>
@@ -156,29 +143,29 @@ export function ErrorBoundary() {
   return (
     <GeneralErrorBoundary
       statusHandlers={{
-        404: ({ params }) => <PostSlugErrorMessage params={params} />,
+        404: ({ params }) => <EventSlugErrorMessage params={params} />,
       }}
     />
   )
 }
 
-function PostSlugErrorMessage({ params }: { params: Params }) {
+function EventSlugErrorMessage({ params }: { params: Params }) {
   return (
     <>
       <section className="site-section prose-config">
-        <h1>Sorry, this post could not be found</h1>
-        <p>Cannot find post with the slug "{params.postSlug}"</p>
+        <h1>Sorry, this event could not be found</h1>
+        <p>Cannot find event with the slug "{params.eventSlug}"</p>
         <p>
-          The requested post either doesn’t exist or you don’t have access to
+          The requested event either doesn’t exist or you don’t have access to
           it.
         </p>
       </section>
 
       <ErrorHelpInformation
         extraButtonLinks={
-          <ButtonLink size="sm" variant="secondary" to="/posts">
+          <ButtonLink size="sm" variant="secondary" to="/events">
             <Iconify icon="ph:scroll-duotone" />
-            <span>Go to All Posts</span>
+            <span>Go to All Events</span>
           </ButtonLink>
         }
       />

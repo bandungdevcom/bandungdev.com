@@ -86,7 +86,7 @@ function SiteNavigationLarge() {
         "fixed top-0 z-40 hidden w-full p-4 lg:flex",
         "items-center justify-between gap-2",
         "transition duration-200 ease-in-out",
-        scrollPosition > 40
+        scrollPosition > 30
           ? "bg-background/75 backdrop-blur backdrop-saturate-150"
           : "bg-transparent",
       )}

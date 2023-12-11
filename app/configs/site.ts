@@ -48,7 +48,7 @@ export const configSite = {
   mailingListName: "BandungDev Newsletter",
 
   // Setup all the available paths in app/configs/navigation.ts
-  navItems: ["/", "/about", "/users"],
+  navItems: ["/", "/about", "/events", "/users"],
 }
 
 // The order matters on what being shown first

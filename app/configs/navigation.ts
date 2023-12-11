@@ -27,6 +27,12 @@ export const configNavigationItems: NavItem[] = [
     isEnabled: true,
   },
   {
+    path: "/events",
+    text: "Events",
+    icon: "ph:calendar-blank-duotone",
+    isEnabled: true,
+  },
+  {
     path: "/posts",
     text: "Posts",
     icon: "ph:scroll-duotone",
