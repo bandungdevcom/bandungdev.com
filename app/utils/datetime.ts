@@ -29,6 +29,14 @@ export function formatPublished(date: string | Date | undefined) {
 }
 
 /**
+ * Time
+ */
+
+export function formatTime(date: string | Date | undefined) {
+  return dayjs(date).locale("en").format(`H:mm`)
+}
+
+/**
  * Relative time
  */
 

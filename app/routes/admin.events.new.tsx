@@ -9,7 +9,7 @@ import { createTimer } from "~/utils/timer"
 export const handle = createSitemap()
 
 export const loader = () => {
-  return redirect(`/user/events`)
+  return redirect(`/admin/events`)
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -26,5 +26,5 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   invariantResponse(event, "Event cannot be created", { status: 400 })
 
   await timer.delay()
-  return redirect(`/user/events/${event.id}`)
+  return redirect(`/admin/events/${event.id}`)
 }

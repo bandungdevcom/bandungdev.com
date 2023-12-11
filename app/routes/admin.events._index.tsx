@@ -80,7 +80,7 @@ export default function UserEventsRoute() {
             <span>View Events</span>
           </ButtonLink>
           <FormDelete
-            action="/user/events/delete"
+            action="/admin/events/delete"
             intentValue="user-delete-all-events"
             itemText="all events"
             buttonText="Delete Events"

@@ -33,9 +33,11 @@ import { fixUrl } from "~/utils/url"
 export function EditorTiptapHook({
   content = contentExample,
   handleUpdate,
+  placeholderText = "Write something...",
 }: {
   content?: Content | string
   handleUpdate?: (htmlString: string) => void
+  placeholderText?: string
 }) {
   const editor = useEditor({
     content,
@@ -46,7 +48,7 @@ export function EditorTiptapHook({
       Underline,
       Placeholder.configure({
         placeholder: () => {
-          return "Write something..."
+          return placeholderText
         },
       }),
       Link.configure({

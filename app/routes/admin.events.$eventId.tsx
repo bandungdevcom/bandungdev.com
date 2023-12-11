@@ -72,18 +72,17 @@ export default function UserEventsEventIdRoute() {
   const navigation = useNavigation()
   const { eventStatuses } = useAppAdminLoaderData()
 
-  const [form, { organizerId, id, slug, title, content }] = useForm<
-    z.infer<typeof schemaEvent>
-  >({
-    id: "update-event",
-    lastSubmission: actionData?.submission,
-    shouldRevalidate: "onInput",
-    constraint: getFieldsetConstraint(schemaEvent),
-    onValidate({ formData }) {
-      return parse(formData, { schema: schemaEvent })
-    },
-    defaultValue: { ...event, organizerId: event.organizerId },
-  })
+  const [form, { organizerId, id, slug, title, description, content }] =
+    useForm<z.infer<typeof schemaEvent>>({
+      id: "update-event",
+      lastSubmission: actionData?.submission,
+      shouldRevalidate: "onInput",
+      constraint: getFieldsetConstraint(schemaEvent),
+      onValidate({ formData }) {
+        return parse(formData, { schema: schemaEvent })
+      },
+      defaultValue: { ...event, organizerId: event.organizerId },
+    })
 
   const isSubmitting = navigation.state === "submitting"
   const isEventUpdated = event.createdAt !== event.updatedAt
@@ -141,7 +140,7 @@ export default function UserEventsEventIdRoute() {
                   <span>Reset</span>
                 </Button>
                 <FormDelete
-                  action="/user/events/delete"
+                  action="/admin/events/delete"
                   intentValue="user-delete-event-by-id"
                   itemText={`a event: ${truncateText(event.title)} (${
                     event.slug
@@ -183,7 +182,7 @@ export default function UserEventsEventIdRoute() {
 
                 <FormChangeStatus
                   itemId="eventId"
-                  action="/user/events/patch"
+                  action="/admin/events/patch"
                   intentValue="change-event-status"
                   dialogTitle="Change event's status"
                   dialogDescription={`Change the status of event: ${event.title} (${event.slug})`}
@@ -241,6 +240,18 @@ export default function UserEventsEventIdRoute() {
               <FormErrors>{title}</FormErrors>
             </div>
 
+            <div>
+              <TextareaAutosize
+                name={description.name}
+                defaultValue={description.defaultValue}
+                minRows={1}
+                placeholder="Untitled"
+                spellCheck="false"
+                className="input-natural w-full resize-none text-xl"
+              />
+              <FormErrors>{description}</FormErrors>
+            </div>
+
             <Separator className="my-4" />
 
             <div>
@@ -253,6 +264,7 @@ export default function UserEventsEventIdRoute() {
               <EditorTiptapHook
                 content={contentValue}
                 handleUpdate={handleUpdateContent}
+                placeholderText="Write the content detail about the event..."
               />
             </div>
 
@@ -305,5 +317,5 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const event = await modelAdminEvent.update(submission.value)
 
   await timer.delay()
-  return redirect(`/user/events/${event.id}`)
+  return redirect(`/admin/events/${event.id}`)
 }

@@ -17,11 +17,12 @@ import { Timestamp } from "~/components/shared/timestamp"
 import { Alert } from "~/components/ui/alert"
 import { ButtonLink } from "~/components/ui/button-link"
 import { Iconify } from "~/components/ui/iconify"
+import { Separator } from "~/components/ui/separator"
 import { useRootLoaderData } from "~/hooks/use-root-loader-data"
 import { prisma } from "~/libs/db.server"
 import { modelEventStatus } from "~/models/event-status.server"
 import { modelEvent } from "~/models/event.server"
-import { formatDateDMY } from "~/utils/datetime"
+import { formatDateDMY, formatTime } from "~/utils/datetime"
 import { invariant, invariantResponse } from "~/utils/invariant"
 import { createMeta } from "~/utils/meta"
 import { createSitemap } from "~/utils/sitemap"
@@ -76,6 +77,45 @@ export default function EventSlugRoute() {
         height={450}
       />
 
+      <section className="site-section flex flex-wrap justify-between gap-4">
+        <div>
+          {!isOwner && (
+            <div>
+              <BadgeEventStatus status={event.status} />
+            </div>
+          )}
+
+          {isOwner && (
+            <div className="flex flex-wrap gap-2">
+              <FormChangeStatus
+                itemId="eventId"
+                action="/admin/events/patch"
+                intentValue="change-event-status"
+                dialogTitle="Change event's status"
+                dialogDescription={`Change the status of event: ${event.title} (${event.slug})`}
+                itemStatuses={eventStatuses}
+                item={event as any}
+              />
+              <ButtonLink
+                to={`/admin/events/${event.id}`}
+                variant="outline"
+                size="xs"
+              >
+                <Iconify icon="ph:note-pencil" />
+                <span>Edit Event</span>
+              </ButtonLink>
+            </div>
+          )}
+        </div>
+
+        <Timestamp
+          className="text-xs text-muted-foreground"
+          isUpdated={isUpdated}
+          createdAt={event.createdAt}
+          updatedAt={event.updatedAt}
+        />
+      </section>
+
       <header className="site-header">
         {isArchived && (
           <Alert>
@@ -84,47 +124,37 @@ export default function EventSlugRoute() {
         )}
 
         <h1>{event.title}</h1>
+        <h2 className="text-xl">{event.description}</h2>
 
-        <div className="text-xs text-muted-foreground">
-          <Timestamp
-            isUpdated={isUpdated}
-            createdAt={event.createdAt}
-            updatedAt={event.updatedAt}
-          />
+        <div className="space-y-2">
+          <p className="flex justify-between gap-4">
+            <b className="basis-2/12">Date:</b>
+            <span className="basis-10/12">{formatDateDMY(event.date)}</span>
+          </p>
+          <p className="flex justify-between gap-4">
+            <b className="basis-2/12">Time:</b>
+            <span className="basis-10/12">
+              {formatTime(event.timeStart)} – {formatTime(event.timeEnd)}
+            </span>
+          </p>
+          <p className="flex justify-between gap-4">
+            <b className="basis-2/12">Location:</b>
+            <span className="basis-10/12">{event.locationId} (FIXME)</span>
+          </p>
         </div>
-
-        {!isOwner && (
-          <div>
-            <BadgeEventStatus status={event.status} />
-          </div>
-        )}
-
-        {isOwner && (
-          <div className="flex flex-wrap gap-2">
-            <FormChangeStatus
-              itemId="eventId"
-              action="/user/events/patch"
-              intentValue="change-event-status"
-              dialogTitle="Change event's status"
-              dialogDescription={`Change the status of event: ${event.title} (${event.slug})`}
-              itemStatuses={eventStatuses}
-              item={event as any}
-            />
-            <ButtonLink
-              to={`/user/events/${event.id}`}
-              variant="outline"
-              size="xs"
-            >
-              <Iconify icon="ph:note-pencil" />
-              <span>Edit Event</span>
-            </ButtonLink>
-          </div>
-        )}
       </header>
+
+      <section className="site-section">
+        <Separator />
+      </section>
 
       <section className="site-section pb-20 pt-4">
         {event.content && <ViewHTML>{event.content}</ViewHTML>}
         {!event.content && <p>No content details yet</p>}
+      </section>
+
+      <section className="site-section">
+        <Separator />
       </section>
 
       <section className="site-section">

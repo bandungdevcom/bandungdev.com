@@ -15,7 +15,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     if (!submission.value) return json(submission)
     await modelAdminEvent.deleteAll(submission.value)
     await timer.delay()
-    return redirect(`/user/events`)
+    return redirect(`/admin/events`)
   }
 
   if (intent === "user-delete-event-by-id") {
@@ -23,7 +23,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     if (!submission.value) return json(submission)
     await modelAdminEvent.deleteById(submission.value)
     await timer.delay()
-    return redirect(`/user/events`)
+    return redirect(`/admin/events`)
   }
 
   await timer.delay()
