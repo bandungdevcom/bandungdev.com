@@ -52,7 +52,7 @@ export function IndicatorUser({ align = "end", size }: IndicatorUserProps) {
     "/user/dashboard",
     "/user/posts",
     "/user/settings",
-    "/user/notifications",
+    // "/user/events" // For applied and joined events
   ]
 
   const devNavItems = ["/admin", "/blank"]
