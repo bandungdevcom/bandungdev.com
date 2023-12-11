@@ -1,12 +1,14 @@
+import { createEventSlug, extractEventSlug } from "~/helpers/event"
 import { createPostSlug, extractPostSlug, getPostExcerpt } from "~/helpers/post"
 import { prisma } from "~/libs/db.server"
 import { hashPassword } from "~/utils/encryption.server"
 import { logEnv } from "~/utils/log.server"
+import { getPlaceholderAvatarUrl } from "~/utils/placeholder"
 import { createSlug } from "~/utils/string"
 
-// EDITME: JSON data for seeding
-import { getPlaceholderAvatarUrl } from "~/utils/placeholder"
 import dataCredentialUsers from "./credentials/users.json"
+import dataEventStatuses from "./data/event-statuses.json"
+import { dataEvents } from "./data/events"
 import dataPostStatuses from "./data/post-statuses.json"
 import dataPosts from "./data/posts.json"
 import dataRoles from "./data/roles.json"
@@ -15,11 +17,13 @@ import dataRoles from "./data/roles.json"
  * Enable and disable seed items by commenting them
  */
 const enabledSeedItems = [
-  "permissions",
-  "roles",
-  "users",
-  "postStatuses",
-  "posts",
+  // "permissions",
+  // "roles",
+  // "users",
+  // "postStatuses",
+  // "posts",
+  // "eventStatuses",
+  "events",
 ]
 
 async function main() {
@@ -31,6 +35,8 @@ async function main() {
     users: seedUsers,
     postStatuses: seedPostStatuses,
     posts: seedPosts,
+    eventStatuses: seedEventStatuses,
+    events: seedEvents,
   }
 
   for (const seedName of enabledSeedItems) {
@@ -214,6 +220,78 @@ async function seedPosts() {
     if (!post) return null
 
     console.info(`📜 Upserted post ${post.title} / ${post.slug}`)
+  }
+}
+
+async function seedEventStatuses() {
+  console.info("\n🪧 Seed event statuses")
+  console.info("🪧 Count event statuses", await prisma.eventStatus.count())
+  // console.info("🪧 Deleted event statuses", await prisma.eventStatus.deleteMany())
+  console.time("🪧 Upserted event statuses")
+
+  for (const statusRaw of dataEventStatuses) {
+    const status = await prisma.eventStatus.upsert({
+      where: { symbol: statusRaw.symbol },
+      create: statusRaw,
+      update: statusRaw,
+    })
+    console.info(`🪧 Upserted event status ${status.symbol} / ${status.name}`)
+  }
+  console.timeEnd("🪧 Upserted event statuses")
+}
+
+async function seedEvents() {
+  console.info("\n📜 Seed events")
+  console.info("📜 Count events", await prisma.event.count())
+  console.info("📜 Deleted events", await prisma.event.deleteMany())
+
+  const organizer = await prisma.user.findUnique({
+    where: { username: "bandungdev" },
+  })
+  if (!organizer) return null
+  const organizerId = organizer.id
+
+  const events = await prisma.event.findMany({
+    select: { id: true, slug: true },
+  })
+
+  const eventStatuses = await prisma.eventStatus.findMany({
+    select: { id: true, symbol: true },
+  })
+
+  for (const eventRaw of dataEvents) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { statusSymbol, ...eventSanitized } = eventRaw
+
+    const slug = createSlug(eventRaw.title) // original-slug
+    const eventSlug = createEventSlug(eventRaw.title) // modified-slug-nanoid123
+    const existingEvent = events.find(event => {
+      return slug === extractEventSlug(event.slug)
+    })
+    const status = eventStatuses.find(
+      status => status.symbol === eventRaw.statusSymbol,
+    )
+    if (!status) return null
+
+    const event = await prisma.event.upsert({
+      where: { slug: eventRaw.slug },
+      update: {
+        ...eventSanitized,
+        slug: existingEvent?.slug || eventSlug,
+        statusId: status.id,
+        organizerId,
+      },
+      create: {
+        ...eventSanitized,
+        slug: existingEvent?.slug || eventSlug,
+        statusId: status.id,
+        organizerId,
+      },
+    })
+
+    if (!event) return null
+
+    console.info(`📜 Upserted event ${event.title} / ${event.slug}`)
   }
 }
 

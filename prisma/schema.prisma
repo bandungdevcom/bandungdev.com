@@ -239,7 +239,7 @@ model Event {
   imageId String?
   image   EventImage? @relation(fields: [imageId], references: [id])
 
-  organizerId String @unique
+  organizerId String
   organizer   User   @relation("EventOrganizer", fields: [organizerId], references: [id])
   applicants  User[] @relation("EventApplicant")
   attendees   User[] @relation("EventAttendee")
@@ -251,6 +251,7 @@ model Event {
   @@index([imageId])
   @@index([locationId])
   @@index([categoryId])
+  @@index([organizerId])
 }
 
 model EventImage {
