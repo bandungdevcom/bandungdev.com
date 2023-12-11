@@ -19,12 +19,8 @@ if (!clientID || !clientSecret) {
 export const githubStrategy = new GitHubStrategy<UserSession>(
   { clientID, clientSecret, callbackURL },
   async ({ profile }) => {
-    console.log({ profile })
-
     const email = profile.emails[0]?.value.trim().toLowerCase()
     if (!email) throw new AuthorizationError("Email is not found")
-
-    console.log({ email })
 
     const fullname = profile._json.name
     const username = profile._json.login.replace(/-/g, "_")
@@ -40,7 +36,6 @@ export const githubStrategy = new GitHubStrategy<UserSession>(
       providerName,
       providerId,
     })
-    console.log({ user })
 
     if (!user) {
       throw new AuthorizationError("Failed to continue with GitHub")
