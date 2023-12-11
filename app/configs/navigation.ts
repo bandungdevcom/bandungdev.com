@@ -112,6 +112,11 @@ export const configNavigationItems: NavItem[] = [
     text: "Users",
   },
   {
+    path: "/admin/events",
+    icon: "ph:calendar-blank-duotone",
+    text: "Events",
+  },
+  {
     path: "/admin/posts",
     icon: "ph:scroll-duotone",
     text: "Posts",

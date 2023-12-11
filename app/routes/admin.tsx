@@ -23,9 +23,9 @@ export default function AdminLayoutRoute() {
   const navItems = [
     "/admin/dashboard",
     "/admin/users",
+    "/admin/events",
     "/admin/posts",
     "/admin/settings",
-    "/admin/notifications",
     "/logout",
   ]
   const extraNavItems = ["/user"]
