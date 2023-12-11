@@ -166,8 +166,8 @@ model Post {
 
   slug    String @unique
   title   String @db.Text
-  content String @db.Text
   excerpt String @db.Text
+  content String @db.Text // Rich HTML Text
 
   statusId String
   status   PostStatus @relation(fields: [statusId], references: [id])
@@ -218,8 +218,10 @@ model PostImage {
 model Event {
   id String @id @default(cuid())
 
-  title       String @db.Text
-  description String @db.Text
+  slug        String  @unique
+  title       String  @db.Text
+  description String  @db.Text
+  content     String? @db.Text // Rich HTML Text
 
   date      DateTime @db.Date
   timeStart DateTime @db.Time()
