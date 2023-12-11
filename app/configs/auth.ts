@@ -7,17 +7,24 @@
 import { type AuthStrategy } from "~/services/auth.server"
 import { AuthStrategies } from "~/services/auth_strategies"
 
-type ConfigAuth = {
-  services: {
-    label: string
-    provider: AuthStrategy
-    isEnabled?: boolean
-  }[]
-}
-
 export const configAuth: ConfigAuth = {
+  forms: [
+    { label: "Password", provider: AuthStrategies.FORM, isEnabled: true },
+    { label: "Magic Link", provider: AuthStrategies.FORM, isEnabled: false },
+  ],
   services: [
     { label: "GitHub", provider: AuthStrategies.GITHUB, isEnabled: true },
     { label: "Google", provider: AuthStrategies.GOOGLE, isEnabled: false },
   ],
+}
+
+type ConfigAuth = {
+  forms: AuthProvider[]
+  services: AuthProvider[]
+}
+
+type AuthProvider = {
+  label: string
+  provider: AuthStrategy
+  isEnabled?: boolean
 }
