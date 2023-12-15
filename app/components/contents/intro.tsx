@@ -15,31 +15,33 @@ export function ContentIntro() {
 
   return (
     <div className="space-y-10">
-      <h1
-        className={cn(
-          "inline-flex select-none items-center gap-2 sm:gap-4",
-          "transition duration-500 ease-in-out hover:-translate-y-2",
-        )}
-      >
-        <img
-          src={theme ? imageUrl : logoLight}
-          alt="Icon"
-          width={200}
-          height={200}
-          className="w-20 sm:w-24"
-        />
-        <span
+      <header>
+        <div
           className={cn(
-            "text-5xl sm:text-6xl",
-            "text-gradient py-4 font-display tracking-tight",
+            "inline-flex select-none flex-wrap items-center justify-center gap-2 sm:gap-4",
+            "transition duration-500 ease-in-out hover:-translate-y-2",
           )}
         >
-          BandungDev
-        </span>
-      </h1>
+          <img
+            src={theme ? imageUrl : logoLight}
+            alt="Icon"
+            width={200}
+            height={200}
+            className="w-16 sm:w-20"
+          />
+          <h1
+            className={cn(
+              "text-4xl sm:text-5xl",
+              "text-gradient py-2 font-display tracking-tight",
+            )}
+          >
+            BandungDev
+          </h1>
+        </div>
+      </header>
 
       <div className="space-y-2">
-        <p className="text-lg">
+        <p className="sm:text-lg">
           The curated software developer and engineering community in Bandung,
           Indonesia. <b>BandungDev</b> is collaborating with various other tech
           communities. We aim to improve the educational activities.

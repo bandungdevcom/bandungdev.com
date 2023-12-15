@@ -18,7 +18,7 @@ export default function IndexRoute() {
     <div className="mx-auto min-h-screen w-full max-w-7xl px-4">
       <div
         className={cn(
-          "absolute -z-10 block h-96 w-full",
+          "absolute -z-10 block h-96 w-11/12",
           "bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]",
           "from-slate-300 via-slate-200/25 to-slate-100/20",
           "dark:from-slate-800 dark:via-slate-900/25 dark:to-slate-950/20",

@@ -6,11 +6,11 @@ import { cn } from "~/utils/cn"
 const logoImageVariants = cva("", {
   variants: {
     size: {
-      xs: "w-32",
-      sm: "w-40",
-      default: "w-48",
-      lg: "w-80",
-      xl: "w-96",
+      xs: "w-28 sm:w-32",
+      sm: "w-32 sm:w-40",
+      default: "w-40 sm:w-44",
+      lg: "w-44 sm:w-80",
+      xl: "w-80 sm:w-96",
     },
   },
   defaultVariants: {
@@ -33,8 +33,8 @@ export function LogoImage({ size, className }: LogoImageProps) {
     <img
       src={theme ? imageUrl : logoLight}
       alt="BandungDev Logo"
-      width={500}
-      height={100}
+      width={400}
+      height={80}
       className={cn(logoImageVariants({ size, className }))}
     />
   )
