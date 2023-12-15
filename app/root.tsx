@@ -24,8 +24,7 @@ export const handle = createSitemap()
 export const meta: MetaFunction = () =>
   createMeta({
     title: "BandungDev",
-    description:
-      "Web app template kit using Remix, React, Tailwind CSS, Radix UI, Prisma ORM, and more.",
+    description: "Developer community in Bandung, West Java, Indonesia.",
   })
 
 export const links: LinksFunction = () => configDocumentLinks

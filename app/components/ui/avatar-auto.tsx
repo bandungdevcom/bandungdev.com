@@ -7,7 +7,7 @@ import { cn } from "~/utils/cn"
 import { getPlaceholderAvatarUrl } from "~/utils/placeholder"
 import { getNameInitials } from "~/utils/string"
 
-export const avatarAutoVariants = cva("", {
+export const avatarAutoVariants = cva("border", {
   variants: {
     size: {
       xs: "h-5 w-5",
