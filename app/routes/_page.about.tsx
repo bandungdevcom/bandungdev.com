@@ -1,6 +1,6 @@
 import { type MetaFunction } from "@remix-run/node"
-
-import { Iconify } from "~/components/ui/iconify"
+import { ContentAbout } from "~/components/contents/about"
+import { BackgroundGradientFullHeight } from "~/components/shared/background-gradient-full-height"
 import { createMeta } from "~/utils/meta"
 
 export const meta: MetaFunction = () =>
@@ -11,17 +11,11 @@ export const meta: MetaFunction = () =>
 
 export default function AboutRoute() {
   return (
-    <div className="site-container space-y-12">
-      <header className="site-header">
-        <h1 className="inline-flex items-center gap-2">
-          <Iconify icon="ph:info-duotone" />
-          <span className="text-gradient">About</span>
-        </h1>
-      </header>
+    <div className="mx-auto min-h-screen w-full max-w-7xl px-4">
+      <BackgroundGradientFullHeight/>
 
-      <section className="site-section prose-config">
-        <h1>The story of BandungDev</h1>
-        <p>This is the paragraph after heading one.</p>
+      <section className="site-section py-32 sm:py-40">
+        <ContentAbout />
       </section>
     </div>
   )
