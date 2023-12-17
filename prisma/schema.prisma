@@ -39,8 +39,9 @@ model User {
   roles       Role[]
 
   images   UserImage[] // multiple user images / avatars / profile pictures
-  profiles UserProfile[] // multiple user profiles
+  profile UserProfile?
   posts    Post[]
+  tags UserTag[]
 
   organizedEvents Event[] @relation("EventOrganizer")
   appliedEvents   Event[] @relation("EventApplicant")
@@ -58,7 +59,7 @@ model User {
 model UserProfile {
   id String @id @default(cuid())
 
-  userId String
+  userId String @unique
   user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   headline String?
@@ -75,6 +76,18 @@ model UserProfile {
 
   @@unique([id, userId])
   @@index([userId])
+}
+
+model UserTag {
+  id String @id @default(cuid())
+
+  symbol String @unique // TEAM  | MEMBER | ...
+  name   String @unique // Team  | Member | ...
+
+  users User[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Role {
