@@ -1,5 +1,6 @@
 import { type MetaFunction } from "@remix-run/node"
 import { ContentAbout } from "~/components/contents/about"
+import ContentTeam from "~/components/contents/team"
 import { BackgroundGradientFullHeight } from "~/components/shared/background-gradient-full-height"
 import { createMeta } from "~/utils/meta"
 
@@ -16,6 +17,14 @@ export default function AboutRoute() {
 
       <section className="site-section py-32 sm:py-40">
         <ContentAbout />
+      </section>
+
+      <section className="site-container py-32 sm:py-40">
+        <ContentTeam title="Main Committee Team" />
+      </section>
+
+      <section className="site-container py-32 sm:py-40">
+        <ContentTeam title="Website Team" />
       </section>
     </div>
   )
