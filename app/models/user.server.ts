@@ -38,6 +38,41 @@ export const modelUser = {
     })
   },
 
+  getTeam() {
+    return prisma.user.findMany({
+      select: {
+        id: true,
+        fullname: true,
+        username: true,
+        images: { select: { url: true }, orderBy: { updatedAt: "desc" } },
+        profile: {
+          select: {
+            headline: true,
+            bio: true
+          }
+        }
+      }
+    })
+  },
+  
+  getPerson({ id }: Pick<User, "id">) {
+    return prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        fullname: true,
+        username: true,
+        images: { select: { url: true }, orderBy: { updatedAt: "desc" } },
+        profile: {
+          select: {
+            headline: true,
+            bio: true
+          }
+        }
+      }
+    })
+  },
+
   getForSession({ id }: Pick<User, "id">) {
     return prisma.user.findUnique({
       where: { id },
@@ -61,7 +96,7 @@ export const modelUser = {
     return prisma.user.findUnique({
       where: { username },
       include: {
-        profiles: true,
+        profile: true,
         roles: { select: { symbol: true, name: true } },
         images: { select: { url: true }, orderBy: { updatedAt: "desc" } },
       },
