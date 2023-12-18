@@ -130,15 +130,18 @@ async function seedUsers() {
       where: { email: userData.email },
       update: {
         ...userData,
-        password: userHasPassword
-          ? { update: { hash: await hashPassword(userCredential.password) } }
-          : undefined,
+        password:
+          userCredential.password && userHasPassword
+            ? { update: { hash: await hashPassword(userCredential.password) } }
+            : undefined,
       },
       create: {
         ...userData,
-        password: {
-          create: { hash: await hashPassword(userCredential.password) },
-        },
+        password: userCredential.password
+          ? {
+              create: { hash: await hashPassword(userCredential.password) },
+            }
+          : undefined,
       },
     })
 
