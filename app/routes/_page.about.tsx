@@ -2,8 +2,7 @@ import { json, type MetaFunction } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { ContentAbout } from "~/components/contents/about"
 import ContentTeam from "~/components/contents/team"
-import { BackgroundGradientFullHeight } from "~/components/shared/background-gradient-full-height"
-import { prisma } from "~/libs/db.server"
+import { modelUser } from "~/models/user.server"
 import { createMeta } from "~/utils/meta"
 
 export const meta: MetaFunction = () =>
@@ -13,74 +12,24 @@ export const meta: MetaFunction = () =>
   })
 
 export const loader = async () => {
-  const [teamCommitee, teamDeveloper] = await prisma.$transaction([
-    prisma.user.findMany({
-      where: {
-        tags: {
-          some: {
-            symbol: "TEAM"
-          }
-        }
-      },
-      select: {
-        id: true,
-        fullname: true,
-        username: true,
-        images: { select: { url: true }, orderBy: { updatedAt: "desc" } },
-        profile: {
-          select: {
-            headline: true,
-            bio: true
-          }
-        }
-      }
-    }),
-    prisma.user.findMany({
-      where: {
-        tags: {
-          some: {
-            symbol: "DEVELOPER"
-          }
-        }
-      },
-      select: {
-        id: true,
-        fullname: true,
-        username: true,
-        images: { select: { url: true }, orderBy: { updatedAt: "desc" } },
-        profile: {
-          select: {
-            headline: true,
-            bio: true
-          }
-        }
-      }
-    })
-  ])
+  const teamUsers = await modelUser.getAllByTag({ tag: "TEAM" })
 
   return json({
-    teamCommitee,
-    teamDeveloper
+    teamUsers,
   })
 }
 
 export default function AboutRoute() {
-  const { teamCommitee, teamDeveloper } = useLoaderData<typeof loader>()
+  const { teamUsers } = useLoaderData<typeof loader>()
 
   return (
-    <div className="mx-auto min-h-screen w-full max-w-7xl px-4">
-      <BackgroundGradientFullHeight/>
-
-      <section className="site-section py-32 sm:py-40">
+    <div className="site-container space-y-12">
+      <section className="site-section">
         <ContentAbout />
       </section>
 
-      <section className="site-container py-32 sm:py-40">
-        <ContentTeam title="Main Committee Team" team={teamCommitee} />
-      </section>
-
-      <section className="site-container py-32 sm:py-40">
-        <ContentTeam title="Website Team" team={teamDeveloper} />
+      <section>
+        <ContentTeam title="Our Team" users={teamUsers as any} />
       </section>
     </div>
   )
