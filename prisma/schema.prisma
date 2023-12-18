@@ -38,10 +38,10 @@ model User {
   connections Connection[]
   roles       Role[]
 
-  images   UserImage[] // multiple user images / avatars / profile pictures
+  images  UserImage[] // multiple user images / avatars / profile pictures
   profile UserProfile?
-  posts    Post[]
-  tags UserTag[]
+  posts   Post[]
+  tags    UserTag[]
 
   organizedEvents Event[] @relation("EventOrganizer")
   appliedEvents   Event[] @relation("EventApplicant")
@@ -81,13 +81,15 @@ model UserProfile {
 model UserTag {
   id String @id @default(cuid())
 
-  symbol String @unique // TEAM  | MEMBER | ...
-  name   String @unique // Team  | Member | ...
+  sequence    Int?    @unique // 1, 2, 3, ...
+  symbol      String  @unique // TEAM  | MEMBER | ...
+  name        String  @unique // Team  | Member | ...
+  description String? @db.Text // long description about tag
 
   users User[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Role {
