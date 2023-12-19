@@ -22,7 +22,7 @@ export function AppNavigation() {
           to="/"
           className="focus-ring block rounded-xs transition hover:opacity-75"
         >
-          <LogoImage size="sm" />
+          <LogoImage size="xs" />
         </Link>
 
         <ThemeButton size="xs" />

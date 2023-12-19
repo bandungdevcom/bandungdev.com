@@ -12,9 +12,9 @@ const clientSecret = parsedEnv.GITHUB_CLIENT_SECRET || ""
 const callbackURL = `${parsedEnv.APP_URL}/auth/${AuthStrategies.GITHUB}/callback`
 
 // Enable this to force these to be required
-if (!clientID || !clientSecret) {
-  throw new Error("Missing GITHUB_CLIENT_ID or GITHUB_CLIENT_SECRET")
-}
+// if (!clientID || !clientSecret) {
+//   throw new Error("Missing GITHUB_CLIENT_ID or GITHUB_CLIENT_SECRET")
+// }
 
 export const githubStrategy = new GitHubStrategy<UserSession>(
   { clientID, clientSecret, callbackURL },
