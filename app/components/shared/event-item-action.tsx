@@ -4,7 +4,7 @@ import { FormChangeStatus } from "~/components/shared/form-change-status"
 import { FormDelete } from "~/components/shared/form-delete"
 import { ButtonLink } from "~/components/ui/button-link"
 import { Iconify } from "~/components/ui/iconify"
-import { useAppUserLoaderData } from "~/hooks/use-app-loader-data"
+import { useAppAdminLoaderData } from "~/hooks/use-app-loader-data"
 import { type modelEvent } from "~/models/event.server"
 import { cn } from "~/utils/cn"
 import { truncateText } from "~/utils/string"
@@ -14,7 +14,7 @@ export function EventItemAction({
 }: {
   event: Prisma.PromiseReturnType<typeof modelEvent.getWithStatus>
 }) {
-  const { eventStatuses } = useAppUserLoaderData()
+  const { eventStatuses } = useAppAdminLoaderData()
   if (!event) return null
 
   // Only can View event if PRIVATE, UNLISTED, PUBLISHED, ARCHIVED

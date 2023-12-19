@@ -30,7 +30,7 @@ export const meta: MetaFunction<typeof loader> = ({ params, data }) => {
 
   return createMeta({
     title: `${user.fullname} (@${user.username})`,
-    description: user.profiles[0]?.bio ?? "",
+    description: user.profile?.bio ?? "",
   })
 }
 
@@ -54,7 +54,7 @@ export default function UsernameRoute() {
   const { userSession } = useRootLoaderData()
   const { user } = useLoaderData<typeof loader>()
 
-  const profile = user.profiles[0]
+  const profile = user.profile
   const isOwner = user.id === userSession?.id
 
   return (

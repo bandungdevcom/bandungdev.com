@@ -1,27 +1,33 @@
-import { type MetaFunction } from "@remix-run/node"
+import { json, type MetaFunction } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
 
-import { Iconify } from "~/components/ui/iconify"
+import { ContentAbout } from "~/components/contents/about"
+import { ContentTeam } from "~/components/contents/team"
+import { modelUser } from "~/models/user.server"
 import { createMeta } from "~/utils/meta"
 
 export const meta: MetaFunction = () =>
   createMeta({
-    title: `About`,
-    description: `About BandungDev Remix web app template kit`,
+    title: `About BandungDev and Team`,
+    description: `Story and team of the curated Bandung developer community.`,
   })
 
+export const loader = async () => {
+  const teamUsers = await modelUser.getAllByTag({ tag: "TEAM" })
+  return json({ teamUsers })
+}
+
 export default function AboutRoute() {
+  const { teamUsers } = useLoaderData<typeof loader>()
+
   return (
     <div className="site-container space-y-12">
-      <header className="site-header">
-        <h1 className="inline-flex items-center gap-2">
-          <Iconify icon="ph:info-duotone" />
-          <span className="text-gradient">About</span>
-        </h1>
-      </header>
+      <section className="site-section">
+        <ContentAbout />
+      </section>
 
-      <section className="site-section prose-config">
-        <h1>The story of BandungDev</h1>
-        <p>This is the paragraph after heading one.</p>
+      <section>
+        <ContentTeam title="Our Team" users={teamUsers as any} />
       </section>
     </div>
   )

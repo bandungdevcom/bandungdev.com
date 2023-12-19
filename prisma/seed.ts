@@ -10,12 +10,14 @@ import { dataEvents } from "./data/events"
 import dataPostStatuses from "./data/post-statuses.json"
 import dataPosts from "./data/posts.json"
 import dataRoles from "./data/roles.json"
+import dataTags from "./data/tags.json"
 
 /**
  * Enable and disable seed items by commenting them
  */
 const enabledSeedItems = [
   "permissions",
+  "tags",
   "roles",
   "users",
   "postStatuses",
@@ -29,6 +31,7 @@ async function main() {
 
   const seeds: { [key: string]: () => Promise<any> } = {
     permissions: seedPermissions,
+    tags: seedTags,
     roles: seedRoles,
     users: seedUsers,
     postStatuses: seedPostStatuses,
@@ -67,6 +70,20 @@ async function seedPermissions() {
   }
 
   console.timeEnd("🔑 Created permissions")
+}
+
+async function seedTags() {
+  console.info("\n🪧 Seed tags")
+  console.info("🪧 Count tags", await prisma.userTag.count())
+  console.info("🪧 Deleted tags", await prisma.userTag.deleteMany())
+
+  console.time("🪧 Created tags")
+
+  const userTags = await prisma.userTag.createMany({
+    data: dataTags,
+  })
+
+  console.timeEnd(`🪧 Created User Tags: ${userTags.count} tags`)
 }
 
 async function seedRoles() {
@@ -110,9 +127,39 @@ async function seedUsers() {
     return null
   }
 
-  for (const userCredential of dataCredentialUsers) {
+  const userTags = await prisma.userTag.findMany()
+
+  const TEAM = userTags.find(tag => tag.symbol === "TEAM")
+  const ADVISOR = userTags.find(tag => tag.symbol === "ADVISOR")
+  const DEVELOPER = userTags.find(tag => tag.symbol === "DEVELOPER")
+  const SPEAKER = userTags.find(tag => tag.symbol === "SPEAKER")
+  const MEMBER = userTags.find(tag => tag.symbol === "MEMBER")
+  const UNKNOWN = userTags.find(tag => tag.symbol === "UNKNOWN")
+  if (!TEAM || !ADVISOR || !DEVELOPER || !SPEAKER || !MEMBER || !UNKNOWN)
+    return null
+
+  const dataCredentialUsersSeed = dataCredentialUsers.map(user => {
+    const tagsIds =
+      Array.isArray(user.tags) &&
+      user.tags.map(tag => {
+        if (tag === "TEAM") return { id: TEAM.id }
+        if (tag === "ADVISOR") return { id: ADVISOR.id }
+        if (tag === "DEVELOPER") return { id: DEVELOPER.id }
+        if (tag === "SPEAKER") return { id: SPEAKER.id }
+        if (tag === "MEMBER") return { id: MEMBER.id }
+        if (tag === "UNKNOWN") return { id: UNKNOWN.id }
+        return { id: UNKNOWN.id }
+      })
+
+    return {
+      ...user,
+      tags: tagsIds ? { connect: tagsIds } : undefined,
+    }
+  })
+
+  for (const userCredential of dataCredentialUsersSeed) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, roleSymbol, ...userRaw } = userCredential
+    const { password, profile, roleSymbol, ...userRaw } = userCredential
 
     const userData = {
       ...userRaw,
@@ -134,14 +181,14 @@ async function seedUsers() {
           userCredential.password && userHasPassword
             ? { update: { hash: await hashPassword(userCredential.password) } }
             : undefined,
+        profile: profile ? { update: profile } : undefined,
       },
       create: {
         ...userData,
         password: userCredential.password
-          ? {
-              create: { hash: await hashPassword(userCredential.password) },
-            }
+          ? { create: { hash: await hashPassword(userCredential.password) } }
           : undefined,
+        profile: profile ? { create: profile } : undefined,
       },
     })
 

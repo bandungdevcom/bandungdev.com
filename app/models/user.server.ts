@@ -38,6 +38,17 @@ export const modelUser = {
     })
   },
 
+  getAllByTag({ tag }: { tag: string }) {
+    return prisma.user.findMany({
+      where: { tags: { some: { symbol: tag } } },
+      include: {
+        profile: true,
+        roles: { select: { symbol: true, name: true } },
+        images: { select: { url: true }, orderBy: { updatedAt: "desc" } },
+      },
+    })
+  },
+
   getForSession({ id }: Pick<User, "id">) {
     return prisma.user.findUnique({
       where: { id },
@@ -61,7 +72,7 @@ export const modelUser = {
     return prisma.user.findUnique({
       where: { username },
       include: {
-        profiles: true,
+        profile: true,
         roles: { select: { symbol: true, name: true } },
         images: { select: { url: true }, orderBy: { updatedAt: "desc" } },
       },
@@ -108,7 +119,7 @@ export const modelUser = {
     inviteBy?: string
     inviteCode?: string
   }) {
-    // The logic is in Conform Zod validation
+    // The full logic is in Conform Zod validation
     return prisma.user.create({
       data: {
         fullname: fullname.trim(),
@@ -117,13 +128,12 @@ export const modelUser = {
         roles: { connect: { symbol: "NORMAL" } },
         password: { create: { hash: await hashPassword(password) } },
         images: { create: { url: getPlaceholderAvatarUrl(username) } },
-        // profiles: {
-        //   create: {
-        //     modeName: `Default ${name}`,
-        //     headline: `The headline of ${name}`,
-        //     bio: `The bio of ${name} for longer description.`,
-        //   },
-        // },
+        profile: {
+          create: {
+            headline: `Headline of ${fullname}`,
+            bio: `The bio of ${fullname} for longer description.`,
+          },
+        },
       },
     })
   },

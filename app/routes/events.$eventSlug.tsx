@@ -128,18 +128,18 @@ export default function EventSlugRoute() {
 
         <div className="space-y-2">
           <p className="flex justify-between gap-4">
-            <b className="basis-2/12">Date:</b>
-            <span className="basis-10/12">{formatDateDMY(event.date)}</span>
+            <b className="basis-3/12">Date:</b>
+            <span className="basis-9/12">{formatDateDMY(event.date)}</span>
           </p>
           <p className="flex justify-between gap-4">
-            <b className="basis-2/12">Time:</b>
-            <span className="basis-10/12">
+            <b className="basis-3/12">Time:</b>
+            <span className="basis-9/12">
               {formatTime(event.timeStart)} – {formatTime(event.timeEnd)}
             </span>
           </p>
           <p className="flex justify-between gap-4">
-            <b className="basis-2/12">Location:</b>
-            <span className="basis-10/12">{event.locationId} (FIXME)</span>
+            <b className="basis-3/12">Location:</b>
+            <span className="basis-9/12">{event.locationId} (FIXME)</span>
           </p>
         </div>
       </header>
