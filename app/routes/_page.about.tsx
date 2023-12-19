@@ -1,22 +1,20 @@
 import { json, type MetaFunction } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
+
 import { ContentAbout } from "~/components/contents/about"
-import ContentTeam from "~/components/contents/team"
+import { ContentTeam } from "~/components/contents/team"
 import { modelUser } from "~/models/user.server"
 import { createMeta } from "~/utils/meta"
 
 export const meta: MetaFunction = () =>
   createMeta({
-    title: `About`,
-    description: `About BandungDev Remix web app template kit`,
+    title: `About BandungDev and Team`,
+    description: `Story and team of the curated Bandung developer community.`,
   })
 
 export const loader = async () => {
   const teamUsers = await modelUser.getAllByTag({ tag: "TEAM" })
-
-  return json({
-    teamUsers,
-  })
+  return json({ teamUsers })
 }
 
 export default function AboutRoute() {

@@ -1,30 +1,10 @@
-import { Theme, useTheme } from "remix-themes"
-
 import { cn } from "~/utils/cn"
+import { Anchor } from "~/components/ui/anchor"
 
 export function ContentAbout() {
-  const logoLight = "/images/logos/svg/bandungdev-logo.svg"
-  const logoDark = "/images/logos/svg/bandungdev-logo-white.svg"
-
-  const [theme] = useTheme()
-  const imageUrl = theme === Theme.LIGHT ? logoLight : logoDark
-
   return (
     <div className="space-y-10">
-      <header className="flex justify-center">
-        <div
-          className={cn(
-            "inline-flex select-none flex-wrap items-center justify-center gap-2 sm:gap-4",
-            "transition duration-500 ease-in-out hover:-translate-y-2",
-          )}
-        >
-          <img
-            src={theme ? imageUrl : logoLight}
-            alt="Icon"
-            width={200}
-            height={200}
-            className="w-16 sm:w-20"
-          />
+      <header>
           <h1
             className={cn(
               "text-4xl sm:text-5xl",
@@ -33,10 +13,9 @@ export function ContentAbout() {
           >
             About BandungDev
           </h1>
-        </div>
       </header>
 
-      <div className="prose-config space-y-2">
+      <div className="prose-config">
         <p>
           BandungDev is a tech community for software developers, programmers,
           engineers in Bandung area and around it.
@@ -67,9 +46,9 @@ export function ContentAbout() {
           and much more.
         </p>
         <p>
-          BandungDev primary public community group is on Telegram that just
-          opened on 22 October 2023, with more than 1450 members (in late
-          October 2023).
+          <Anchor href="/telegram">BandungDev primary public community group is on Telegram</Anchor> that just
+          opened on October 2023, with now more than 1700 members (in late
+          December 2023).
         </p>
         <p>
           Our vision is to collaborate with many other tech and software

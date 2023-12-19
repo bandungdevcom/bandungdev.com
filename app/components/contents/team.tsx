@@ -1,6 +1,7 @@
 import { type Prisma } from "@prisma/client"
 import { type modelUser } from "~/models/user.server"
 import { cn } from "~/utils/cn"
+import { AvatarAuto } from "../ui/avatar-auto"
 import { Card } from "../ui/card"
 
 interface ContentTeamsProps {
@@ -12,7 +13,7 @@ interface ContentCardTeamProps {
   user: Prisma.PromiseReturnType<typeof modelUser.getByUsername>
 }
 
-const ContentTeam = ({ title, users }: ContentTeamsProps) => {
+export function ContentTeam({ title, users }: ContentTeamsProps) {
   return (
     <div className="space-y-10">
       <h1
@@ -34,35 +35,23 @@ const ContentTeam = ({ title, users }: ContentTeamsProps) => {
   )
 }
 
-const ContentCardTeam = ({ user }: ContentCardTeamProps) => {
+function ContentCardTeam({ user }: ContentCardTeamProps) {
+  if (!user) return null
+
   return (
     <Card className="flex h-full flex-col gap-4 p-4">
-      <img
-        className="h-24 w-24 rounded-full object-cover"
-        src={`https://api.dicebear.com/7.x/thumbs/svg?seed=${
-          user?.fullname || "anonym"
-        }`}
-        alt={user?.fullname || "anonym"}
-      />
+      <AvatarAuto user={user} imageUrl={user.images[0]?.url} size="lg" />
+
       <div className="line-clamp-2 flex flex-1 flex-col gap-1 space-y-4">
         <div>
-          <h3>{user?.fullname || "anonym"}</h3>
-          <p className="text-primary">{`@${user?.username || "anonym"}`}</p>
+          <h3>{user.fullname}</h3>
+          <p className="text-primary">{`@${user.username}`}</p>
         </div>
-        <p className="font-medium text-muted-foreground">
-          {user?.profile?.headline && (
-            <>
-              {user.profile.headline}
-              <br />
-            </>
-          )}
-          {user?.profile?.bio && (
-            <span className="font-normal">{user.profile.bio}</span>
-          )}
-        </p>
+        {user.profile?.headline && <h4> {user.profile.headline}</h4>}
+        {user.profile?.bio && (
+          <p className="text-muted-foreground">{user.profile.bio}</p>
+        )}
       </div>
     </Card>
   )
 }
-
-export default ContentTeam
