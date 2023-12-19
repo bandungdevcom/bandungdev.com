@@ -139,7 +139,7 @@ async function seedUsers() {
     return null
 
   const dataCredentialUsersSeed = dataCredentialUsers.map(user => {
-    const tagsIds = user.tags.map(tag => {
+    const tagsIds = Array.isArray(user.tags) && user.tags.map(tag => {
       if (tag === "TEAM") return { id: TEAM.id }
       if (tag === "ADVISOR") return { id: ADVISOR.id }
       if (tag === "DEVELOPER") return { id: DEVELOPER.id }
@@ -151,7 +151,7 @@ async function seedUsers() {
 
     return {
       ...user,
-      tags: { connect: tagsIds },
+      tags: tagsIds ? { connect: tagsIds } : undefined,
     }
   })
 
