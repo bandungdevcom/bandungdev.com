@@ -1,19 +1,20 @@
 import { type Prisma } from "@prisma/client"
+import { Link } from "@remix-run/react"
 import { type modelUser } from "~/models/user.server"
 import { cn } from "~/utils/cn"
 import { AvatarAuto } from "../ui/avatar-auto"
 import { Card } from "../ui/card"
 
-interface ContentTeamsProps {
+interface ContentTeamProps {
   title: string
   users: Prisma.PromiseReturnType<typeof modelUser.getAllByTag>
 }
 
-interface ContentCardTeamProps {
+interface UserCardProps {
   user: Prisma.PromiseReturnType<typeof modelUser.getByUsername>
 }
 
-export function ContentTeam({ title, users }: ContentTeamsProps) {
+export function ContentTeam({ title, users }: ContentTeamProps) {
   return (
     <div className="space-y-10">
       <h1
@@ -27,7 +28,7 @@ export function ContentTeam({ title, users }: ContentTeamsProps) {
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {users.map((user, index: number) => (
           <li key={index}>
-            <ContentCardTeam user={user} />
+            <UserCard user={user} />
           </li>
         ))}
       </ul>
@@ -35,21 +36,24 @@ export function ContentTeam({ title, users }: ContentTeamsProps) {
   )
 }
 
-function ContentCardTeam({ user }: ContentCardTeamProps) {
+function UserCard({ user }: UserCardProps) {
   if (!user) return null
 
   return (
-    <Card className="flex h-full flex-col gap-4 p-4">
-      <AvatarAuto user={user} imageUrl={user.images[0]?.url} size="lg" />
+    <Card className="h-full space-y-2 p-4">
+      <Link
+        to={`/${user.username}`}
+        className="block transition hover:opacity-75"
+      >
+        <AvatarAuto user={user} imageUrl={user.images[0]?.url} size="lg" />
+        <h3 className="mt-2">{user.fullname}</h3>
+        <p className="text-primary">{`@${user.username}`}</p>
+      </Link>
 
-      <div className="line-clamp-2 flex flex-1 flex-col gap-1 space-y-4">
-        <div>
-          <h3>{user.fullname}</h3>
-          <p className="text-primary">{`@${user.username}`}</p>
-        </div>
-        {user.profile?.headline && <h4> {user.profile.headline}</h4>}
+      <div>
+        {user.profile?.headline && <h5>{user.profile.headline}</h5>}
         {user.profile?.bio && (
-          <p className="text-muted-foreground">{user.profile.bio}</p>
+          <p className="text-sm text-muted-foreground">{user.profile.bio}</p>
         )}
       </div>
     </Card>
