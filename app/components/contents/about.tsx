@@ -1,18 +1,18 @@
-import { cn } from "~/utils/cn"
 import { Anchor } from "~/components/ui/anchor"
+import { cn } from "~/utils/cn"
 
 export function ContentAbout() {
   return (
     <div className="space-y-10">
       <header>
-          <h1
-            className={cn(
-              "text-4xl sm:text-5xl",
-              "text-gradient py-2 font-display tracking-tight",
-            )}
-          >
-            About BandungDev
-          </h1>
+        <h1
+          className={cn(
+            "text-4xl sm:text-5xl",
+            "text-gradient py-2 font-display tracking-tight",
+          )}
+        >
+          About BandungDev
+        </h1>
       </header>
 
       <div className="prose-config">
@@ -46,15 +46,19 @@ export function ContentAbout() {
           and much more.
         </p>
         <p>
-          <Anchor href="/telegram">BandungDev primary public community group is on Telegram</Anchor> that just
-          opened on October 2023, with now more than 1700 members (in late
-          December 2023).
+          <Anchor href="/telegram">
+            BandungDev primary public community group is on Telegram
+          </Anchor>{" "}
+          that just opened on October 2023, with now more than 1700 members (in
+          late December 2023).
         </p>
         <p>
           Our vision is to collaborate with many other tech and software
           communities in Bandung and around it. Also to inspire other cities to
           build and run their own software developer community. Even BandungDev
-          was inspired by SurabayaDev which already run since a few years ago.
+          was inspired by{" "}
+          <Anchor href="https://surabayadev.org">SurabayaDev</Anchor> which
+          already run since a few years ago.
         </p>
       </div>
     </div>
