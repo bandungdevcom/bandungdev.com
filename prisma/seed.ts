@@ -139,15 +139,17 @@ async function seedUsers() {
     return null
 
   const dataCredentialUsersSeed = dataCredentialUsers.map(user => {
-    const tagsIds = Array.isArray(user.tags) && user.tags.map(tag => {
-      if (tag === "TEAM") return { id: TEAM.id }
-      if (tag === "ADVISOR") return { id: ADVISOR.id }
-      if (tag === "DEVELOPER") return { id: DEVELOPER.id }
-      if (tag === "SPEAKER") return { id: SPEAKER.id }
-      if (tag === "MEMBER") return { id: MEMBER.id }
-      if (tag === "UNKNOWN") return { id: UNKNOWN.id }
-      return { id: UNKNOWN.id }
-    })
+    const tagsIds =
+      Array.isArray(user.tags) &&
+      user.tags.map(tag => {
+        if (tag === "TEAM") return { id: TEAM.id }
+        if (tag === "ADVISOR") return { id: ADVISOR.id }
+        if (tag === "DEVELOPER") return { id: DEVELOPER.id }
+        if (tag === "SPEAKER") return { id: SPEAKER.id }
+        if (tag === "MEMBER") return { id: MEMBER.id }
+        if (tag === "UNKNOWN") return { id: UNKNOWN.id }
+        return { id: UNKNOWN.id }
+      })
 
     return {
       ...user,
