@@ -1,28 +1,42 @@
-import { type Prisma } from "@prisma/client"
 import { Link } from "@remix-run/react"
 
-import { ImageCover } from "~/components/shared/image-cover"
 import { ButtonLink } from "~/components/ui/button-link"
-import { type modelEvent } from "~/models/event.server"
 import { formatPublished } from "~/utils/datetime"
-
-export function EventItem({
-  event,
-}: {
-  event: Prisma.PromiseReturnType<typeof modelEvent.getBySlug>
-}) {
+export interface Event {
+  slug: string
+  title: string
+  description: string
+  updatedAt: string
+  image: {
+    url: string
+  }
+}
+export function EventItem({ event }: { event: Event }) {
   if (!event) return null
 
   return (
     <div className="flex justify-between gap-4">
-      <Link
-        className="focus-ring block basis-8/12 transition hover:opacity-75"
-        to={`/events/${event.slug}`}
-      >
-        <ImageCover src={event.image?.url} />
-      </Link>
+      <div>
+        <Link
+          className="focus-ring block basis-8/12 transition hover:opacity-75 "
+          to={`/events/${event.slug}`}
+        >
+          <img
+            className="aspect-video h-80 bg-cover"
+            alt={event.title}
+            onError={e => {
+              e.currentTarget.src =
+                "images/covers/bandungdev-cover-luma-sharing.png"
+            }}
+            src={
+              event.image?.url ||
+              "images/covers/bandungdev-cover-luma-sharing.png"
+            }
+          />
+        </Link>
+      </div>
 
-      <div className="basis-4/12 space-y-2">
+      <div className="flex-1 space-y-2 p-6">
         <div>
           <h3>
             <Link
