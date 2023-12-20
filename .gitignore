@@ -10,4 +10,4 @@
 /prisma/docs
 /public/build
 tsconfig.tsbuildinfo
-
+prisma/credentials
