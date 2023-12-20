@@ -167,14 +167,14 @@ async function seedUsers() {
     }
 
     const existingUser = await prisma.user.findUnique({
-      where: { email: userData.email },
+      where: { username: userData.username },
       include: { password: { select: { hash: true } } },
     })
 
     const userHasPassword = Boolean(existingUser?.password?.hash)
 
     const user = await prisma.user.upsert({
-      where: { email: userData.email },
+      where: { username: userData.username },
       update: {
         ...userData,
         password:
