@@ -17,9 +17,25 @@ import { type modelUser } from "~/models/user.server"
 import {
   type schemaUserFullName,
   type schemaUserNickName,
+  type schemaUserProfileBio,
+  type schemaUserProfileHeadline,
   type schemaUserUsername,
 } from "~/schemas/user"
 import { type SubmissionResult } from "~/types/submission"
+import { Textarea } from "../ui/textarea"
+
+function transformUserData(
+  user: Prisma.PromiseReturnType<typeof modelUser.getForSession>,
+) {
+  if (!user) return null
+
+  const { profile, ...rest } = user
+  return {
+    ...rest,
+    headline: profile?.headline || "",
+    bio: profile?.bio || "",
+  }
+}
 
 export function FormChangeField({
   label,
@@ -30,13 +46,16 @@ export function FormChangeField({
   user,
 }: {
   label: string
-  field: "username" | "fullname" | "nickname"
+  field: "username" | "fullname" | "nickname" | "headline" | "bio"
   intentValue: string
+  changeProfile?: boolean
   description: string
   schema:
     | typeof schemaUserUsername
     | typeof schemaUserFullName
     | typeof schemaUserNickName
+    | typeof schemaUserProfileHeadline
+    | typeof schemaUserProfileBio
   user: Prisma.PromiseReturnType<typeof modelUser.getForSession>
 }) {
   const fetcher = useFetcher()
@@ -49,8 +68,10 @@ export function FormChangeField({
     onValidate({ formData }) {
       return parse(formData, { schema: schema })
     },
-    defaultValue: user,
+    defaultValue: transformUserData(user),
   })
+
+  const InputComponent = field === "bio" ? Textarea : Input
 
   return (
     <fetcher.Form {...form.props} method="POST">
@@ -71,7 +92,7 @@ export function FormChangeField({
               Save
             </ButtonLoading>
           </div>
-          <Input
+          <InputComponent
             {...conform.input(fields[field])}
             id={fields[field].id}
             placeholder={label}
