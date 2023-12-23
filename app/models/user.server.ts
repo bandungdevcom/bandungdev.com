@@ -60,6 +60,12 @@ export const modelUser = {
         email: true,
         roles: { select: { symbol: true, name: true } },
         images: { select: { url: true }, orderBy: { updatedAt: "desc" } },
+        profile: {
+          select: {
+            bio: true,
+            headline: true,
+          },
+        },
       },
     })
   },
