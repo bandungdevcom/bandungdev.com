@@ -48,7 +48,6 @@ export function FormChangeField({
   label: string
   field: "username" | "fullname" | "nickname" | "headline" | "bio"
   intentValue: string
-  changeProfile?: boolean
   description: string
   schema:
     | typeof schemaUserUsername
