@@ -62,8 +62,8 @@ export const modelUser = {
         images: { select: { url: true }, orderBy: { updatedAt: "desc" } },
         profile: {
           select: {
-            bio: true,
             headline: true,
+            bio: true,
           },
         },
       },
