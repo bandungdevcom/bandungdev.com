@@ -77,7 +77,6 @@ export const schemaUserFullName = z.object({ id, fullname })
 export const schemaUserNickName = z.object({ id, nickname })
 export const schemaUserEmail = z.object({ id, email })
 
-export const schemaUserProfileModeName = z.object({ id, modeName })
 export const schemaUserProfileHeadline = z.object({ id, headline })
 export const schemaUserProfileBio = z.object({ id, bio })
 export const schemaUserProfileLinks = z.object({ id, links })

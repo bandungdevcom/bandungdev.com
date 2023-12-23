@@ -18,6 +18,8 @@ import {
   issueUsernameUnallowed,
   schemaUserFullName,
   schemaUserNickName,
+  schemaUserProfileBio,
+  schemaUserProfileHeadline,
   schemaUserUsername,
 } from "~/schemas/user"
 import { createMeta } from "~/utils/meta"
@@ -77,6 +79,22 @@ export default function UserSettingsRoute() {
           schema={schemaUserNickName}
           user={user}
         />
+        <FormChangeField
+          label="Headline"
+          field="headline"
+          intentValue="user-change-headline"
+          description="A short and interesting phrase to introduce yourself."
+          schema={schemaUserProfileHeadline}
+          user={user}
+        />
+        <FormChangeField
+          label="Bio"
+          field="bio"
+          intentValue="user-change-bio"
+          description="A short paragraph about yourself, your interests, and what you enjoy doing."
+          schema={schemaUserProfileBio}
+          user={user}
+        />
       </section>
     </div>
   )
@@ -118,6 +136,22 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const submission = parse(formData, { schema: schemaUserNickName })
     if (!submission.value) return json(submission, { status: 400 })
     await modelUser.updateNickName(submission.value)
+    await timer.delay()
+    return json(submission)
+  }
+
+  if (intent === "user-change-headline") {
+    const submission = parse(formData, { schema: schemaUserProfileHeadline })
+    if (!submission.value) return json(submission, { status: 400 })
+    await modelUser.updateHeadline(submission.value)
+    await timer.delay()
+    return json(submission)
+  }
+
+  if (intent === "user-change-bio") {
+    const submission = parse(formData, { schema: schemaUserProfileBio })
+    if (!submission.value) return json(submission, { status: 400 })
+    await modelUser.updateBio(submission.value)
     await timer.delay()
     return json(submission)
   }
