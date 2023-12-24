@@ -14,8 +14,6 @@ export interface Event {
 }
 
 export function EventItem({ event }: { event: Event }) {
-  if (!event) return null
-
   const imageUrl =
     event.image?.url || "/images/covers/bandungdev-cover-luma-sharing.png"
 

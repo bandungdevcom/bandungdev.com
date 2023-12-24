@@ -10,8 +10,6 @@ export type User = {
 }
 
 export function UserItem({ user }: { user: User }) {
-  if (!user) return null
-
   return (
     <Link
       to={`/${user.username}`}
