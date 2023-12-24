@@ -47,10 +47,11 @@ export default function IndexRoute() {
 
   return (
     <div className="mx-auto min-h-screen w-full max-w-7xl space-y-20 px-4 sm:space-y-32">
-      <BackgroundGradient />
-
-      <section className="site-section py-32 sm:py-40">
-        <ContentIntro />
+      <section>
+        <BackgroundGradient />
+        <div className="site-section pb-16 pt-32 sm:pb-20 sm:pt-40">
+          <ContentIntro />
+        </div>
       </section>
 
       <section className="mx-auto w-full max-w-7xl">
