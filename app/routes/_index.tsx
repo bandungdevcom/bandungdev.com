@@ -46,7 +46,7 @@ export default function IndexRoute() {
   const { pastEvents, upcomingEvents, users } = useLoaderData<typeof loader>()
 
   return (
-    <div className="mx-auto min-h-screen w-full max-w-7xl px-4">
+    <div className="mx-auto min-h-screen w-full max-w-7xl space-y-20 px-4 sm:space-y-32">
       <BackgroundGradient />
 
       <section className="site-section py-32 sm:py-40">
@@ -63,35 +63,31 @@ export default function IndexRoute() {
         />
       </section>
 
-      <section className="mt-20">
+      <section>
         <ContentEvents
+          events={upcomingEvents as any}
           title="Upcoming Events"
           subtitle="See our upcoming events and join us!"
-          events={upcomingEvents as any}
+          emptyText="There are no upcoming events again yet"
         />
       </section>
 
-      <section className="mt-20">
+      <section>
         <ContentEvents
-          title="Past Events"
           events={pastEvents as any}
+          title="Past Events"
+          subtitle="Some of the finished events"
+          emptyText="There are no past events"
           withSeeMore
         />
       </section>
 
-      <section className="mt-20">
+      <section>
         <ContentMembers
-          subtitle="Join our community and meet other developers in Bandung!"
+          title="Newly Joined Community Members"
+          subtitle="Join our community and meet other developers in Bandung"
+          users={users as any}
           withSeeMore
-          title="Our Community Members"
-          users={
-            users?.map(user => ({
-              fullname: user.fullname,
-              id: user.id,
-              images: user.images,
-              username: user.username,
-            })) ?? []
-          }
         />
       </section>
     </div>
