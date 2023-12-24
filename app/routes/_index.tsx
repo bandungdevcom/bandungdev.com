@@ -1,22 +1,26 @@
-import { json, type LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
-import LatestEvents from "~/components/contents/event-latest"
+import Events from "~/components/contents/events"
 import { ContentIntro } from "~/components/contents/intro"
+import Members from "~/components/contents/members"
 import { BackgroundGradient } from "~/components/shared/background-gradient"
 import { prisma } from "~/libs/db.server"
 import { createSitemap } from "~/utils/sitemap"
 
 export const handle = createSitemap("/", 1)
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async () => {
   /**
    * As searching and filtering might be complex,
    * use Prisma directly, it might be refactored later into the models
    */
-  const events = await prisma.event.findMany({
+  const pastEvents = await prisma.event.findMany({
     where: {
       status: {
         OR: [{ symbol: "PUBLISHED" }, { symbol: "ARCHIVED" }],
+      },
+      date: {
+        lte: new Date(),
       },
     },
     take: 3,
@@ -28,13 +32,40 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     },
   })
 
+  const upcomingEvents = await prisma.event.findMany({
+    where: {
+      status: {
+        OR: [{ symbol: "PUBLISHED" }],
+      },
+      date: {
+        gte: new Date(),
+      },
+    },
+    take: 4,
+    orderBy: {
+      updatedAt: "desc",
+    },
+    include: {
+      image: { select: { id: true, url: true } },
+    },
+  })
+
+  const users = await prisma.user.findMany({
+    take: 8,
+    orderBy: { createdAt: "desc" },
+    include: { images: { select: { url: true } } },
+  })
+
   return json({
-    events,
+    pastEvents,
+    upcomingEvents,
+    users,
   })
 }
 
 export default function IndexRoute() {
-  const { events } = useLoaderData<typeof loader>()
+  const { pastEvents, upcomingEvents, users } = useLoaderData<typeof loader>()
+
   return (
     <div className="mx-auto min-h-screen w-full max-w-7xl px-4">
       <BackgroundGradient />
@@ -53,16 +84,50 @@ export default function IndexRoute() {
         />
       </section>
       <section className="mt-20">
-        <LatestEvents
+        <Events
+          title="Upcoming Events"
+          subtitle="See our upcoming events and join us!"
           events={
-            events?.map(event => ({
+            upcomingEvents?.map(event => ({
               description: event.description,
               image: {
                 url: event.image?.url ?? "",
               },
               slug: event.slug,
               title: event.title,
-              updatedAt: event.updatedAt,
+              date: event.date,
+            })) ?? []
+          }
+        />
+      </section>
+      <section className="mt-20">
+        <Events
+          title="Past Events"
+          events={
+            pastEvents?.map(event => ({
+              description: event.description,
+              image: {
+                url: event.image?.url ?? "",
+              },
+              slug: event.slug,
+              title: event.title,
+              date: event.date,
+            })) ?? []
+          }
+          withSeeMore
+        />
+      </section>
+      <section className="mt-20">
+        <Members
+          subtitle="Join our community and meet other developers in Bandung!"
+          withSeeMore
+          title="Our Community Members"
+          users={
+            users?.map(user => ({
+              fullname: user.fullname,
+              id: user.id,
+              images: user.images,
+              username: user.username,
             })) ?? []
           }
         />

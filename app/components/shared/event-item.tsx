@@ -6,7 +6,7 @@ export interface Event {
   slug: string
   title: string
   description: string
-  updatedAt: string
+  date: string
   image: {
     url: string
   }
@@ -51,7 +51,7 @@ export function EventItem({ event }: { event: Event }) {
         </div>
 
         <p className="text-sm text-muted-foreground">
-          <time>{formatPublished(event.updatedAt)}</time>
+          <time>{formatPublished(event.date)}</time>
         </p>
 
         <ButtonLink variant="secondary" size="sm" to={`/events/${event.slug}`}>
