@@ -1,6 +1,6 @@
 import clsx from "clsx"
-import { EventItem, type Event } from "../shared/event-item"
-import { ButtonLink } from "../ui/button-link"
+import { EventItem, type Event } from "~/components/shared/event-item"
+import { ButtonLink } from "~/components/ui/button-link"
 
 const Events = ({
   events,

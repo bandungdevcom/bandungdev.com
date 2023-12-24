@@ -1,6 +1,6 @@
 import clsx from "clsx"
-import { UserItem, type User } from "../shared/user-item"
-import { ButtonLink } from "../ui/button-link"
+import { UserItem, type User } from "~/components/shared/user-item"
+import { ButtonLink } from "~/components/ui/button-link"
 
 const Members = ({
   users,

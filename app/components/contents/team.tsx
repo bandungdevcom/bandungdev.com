@@ -1,9 +1,9 @@
 import { type Prisma } from "@prisma/client"
 import { Link } from "@remix-run/react"
+import { AvatarAuto } from "~/components/ui/avatar-auto"
+import { Card } from "~/components/ui/card"
 import { type modelUser } from "~/models/user.server"
 import { cn } from "~/utils/cn"
-import { AvatarAuto } from "../ui/avatar-auto"
-import { Card } from "../ui/card"
 
 interface ContentTeamProps {
   title: string
