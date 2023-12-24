@@ -11,6 +11,7 @@ import dataPostStatuses from "./data/post-statuses.json"
 import dataPosts from "./data/posts.json"
 import dataRoles from "./data/roles.json"
 import dataTags from "./data/tags.json"
+import dataLocationCategories from "./data/location-categories.json"
 
 /**
  * Enable and disable seed items by commenting them
@@ -24,6 +25,7 @@ const enabledSeedItems = [
   "posts",
   "eventStatuses",
   "events",
+  "locationCategories",
 ]
 
 async function main() {
@@ -38,6 +40,7 @@ async function main() {
     posts: seedPosts,
     eventStatuses: seedEventStatuses,
     events: seedEvents,
+    locationCategories: seedLocationCategories,
   }
 
   for (const seedName of enabledSeedItems) {
@@ -285,6 +288,23 @@ async function seedEventStatuses() {
     console.info(`🪧 Upserted event status ${status.symbol} / ${status.name}`)
   }
   console.timeEnd("🪧 Upserted event statuses")
+}
+
+async function seedLocationCategories() {
+  console.info("\n🪧 Seed location categories")
+  console.info("🪧 Count location categories", await prisma.locationCategory.count())
+  // console.info("🪧 Deleted location categories", await prisma.locationCategory.deleteMany())
+  console.time("🪧 Upserted location categories")
+
+  for (const locationCategoryRaw of dataLocationCategories) {
+    const locationCategory = await prisma.locationCategory.upsert({
+      where: { symbol: locationCategoryRaw.symbol },
+      create: locationCategoryRaw,
+      update: locationCategoryRaw,
+    })
+    console.info(`🪧 Upserted location category ${locationCategory.symbol} / ${locationCategory.name}`)
+  }
+  console.timeEnd("🪧 Upserted location categories")
 }
 
 async function seedEvents() {

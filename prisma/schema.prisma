@@ -316,7 +316,7 @@ model Location {
   category   LocationCategory @relation(fields: [categoryId], references: [id])
 
   // ONLINE
-  links Json?
+  link String?
 
   // OFFLINE / HYBRID
   address String? @db.Text // Complete combined address

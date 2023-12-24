@@ -12,6 +12,7 @@ async function checkData() {
   console.info("👤 Count user profiles", await prisma.userProfile.count())
   console.info("📜 Count posts", await prisma.post.count())
   console.info("🪧 Count post statuses", await prisma.postStatus.count())
+  console.info("🪧 Count location categories", await prisma.locationCategory.count())
   console.info("📅 Count events", await prisma.event.count())
   console.info("🗓️ Count event statuses", await prisma.eventStatus.count())
 }

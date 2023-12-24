@@ -1,0 +1,14 @@
+[
+    {
+        "symbol": "ONLINE",
+        "name": "Online"
+    },
+    {
+        "symbol": "OFFLINE",
+        "name": "Offline"
+    },
+    {
+        "symbol": "HYBRID",
+        "name": "Hybrid"
+    }
+]
