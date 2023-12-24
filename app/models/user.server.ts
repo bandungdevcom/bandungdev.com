@@ -64,6 +64,7 @@ export const modelUser = {
           select: {
             headline: true,
             bio: true,
+            links: true,
           },
         },
       },
