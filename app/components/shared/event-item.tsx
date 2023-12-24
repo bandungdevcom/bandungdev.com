@@ -15,14 +15,14 @@ export function EventItem({ event }: { event: Event }) {
   if (!event) return null
 
   return (
-    <div className="flex justify-between gap-4">
+    <div className="flex flex-col justify-between gap-4 overflow-hidden rounded-lg shadow-xl sm:flex-row">
       <div>
         <Link
           className="focus-ring block basis-8/12 transition hover:opacity-75 "
           to={`/events/${event.slug}`}
         >
           <img
-            className="aspect-video h-80 bg-cover"
+            className=" aspect-video w-full bg-cover sm:h-40 lg:h-80"
             alt={event.title}
             onError={e => {
               e.currentTarget.src =
@@ -36,7 +36,7 @@ export function EventItem({ event }: { event: Event }) {
         </Link>
       </div>
 
-      <div className="flex-1 space-y-2 p-6">
+      <div className="flex-1 shrink-0 basis-44 space-y-2 p-6">
         <div>
           <h3>
             <Link

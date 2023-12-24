@@ -1,7 +1,7 @@
 import { json, type LoaderFunctionArgs } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
+import LatestEvents from "~/components/contents/event-latest"
 import { ContentIntro } from "~/components/contents/intro"
-import LatestEvents from "~/components/contents/latest-events"
 import { BackgroundGradient } from "~/components/shared/background-gradient"
 import { prisma } from "~/libs/db.server"
 import { createSitemap } from "~/utils/sitemap"
