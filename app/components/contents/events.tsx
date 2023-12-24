@@ -23,7 +23,7 @@ export function ContentEvents({
       {subtitle && <p className="mb-10 sm:text-lg">{subtitle}</p>}
 
       <div className="grid grid-cols-1 gap-8">
-        <ul className="space-y-12">
+        <ul className="space-y-10 md:space-y-20">
           {events.map(event => (
             <li key={event.title}>
               <EventItem event={event} />

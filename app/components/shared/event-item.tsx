@@ -16,29 +16,25 @@ export interface Event {
 export function EventItem({ event }: { event: Event }) {
   if (!event) return null
 
+  const imageUrl =
+    event.image?.url || "/images/covers/bandungdev-cover-luma-sharing.png"
+
   return (
-    <div className="flex flex-col justify-between gap-4 overflow-hidden rounded-lg shadow-xl sm:flex-row">
-      <div>
+    <div className="flex flex-col justify-between gap-4 overflow-hidden shadow-xl md:flex-row md:gap-8">
+      <div className="basis-1/2">
         <Link
-          className="focus-ring block basis-8/12 transition hover:opacity-75 "
+          className="focus-ring block transition hover:opacity-75 "
           to={`/events/${event.slug}`}
         >
           <img
-            className=" aspect-video w-full bg-cover sm:h-40 lg:h-80"
+            className="aspect-video w-full bg-cover object-cover md:max-w-xl"
             alt={event.title}
-            onError={e => {
-              e.currentTarget.src =
-                "images/covers/bandungdev-cover-luma-sharing.png"
-            }}
-            src={
-              event.image?.url ||
-              "images/covers/bandungdev-cover-luma-sharing.png"
-            }
+            src={imageUrl}
           />
         </Link>
       </div>
 
-      <div className="flex-1 shrink-0 basis-44 space-y-2 p-6">
+      <div className="flex-1 shrink-0 basis-1/2 space-y-2">
         <div>
           <h3>
             <Link
@@ -49,7 +45,7 @@ export function EventItem({ event }: { event: Event }) {
             </Link>
           </h3>
 
-          <p className="hidden sm:block">{event.description}</p>
+          <p>{event.description}</p>
         </div>
 
         <p className="text-sm text-muted-foreground">
