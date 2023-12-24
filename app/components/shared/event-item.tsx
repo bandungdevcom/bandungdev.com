@@ -2,6 +2,7 @@ import { Link } from "@remix-run/react"
 
 import { ButtonLink } from "~/components/ui/button-link"
 import { formatPublished } from "~/utils/datetime"
+
 export interface Event {
   slug: string
   title: string
@@ -11,6 +12,7 @@ export interface Event {
     url: string
   }
 }
+
 export function EventItem({ event }: { event: Event }) {
   if (!event) return null
 

@@ -1,8 +1,9 @@
 import { json } from "@remix-run/node"
+
 import { useLoaderData } from "@remix-run/react"
-import Events from "~/components/contents/events"
+import { ContentEvents } from "~/components/contents/events"
 import { ContentIntro } from "~/components/contents/intro"
-import Members from "~/components/contents/members"
+import { ContentMembers } from "~/components/contents/members"
 import { BackgroundGradient } from "~/components/shared/background-gradient"
 import { prisma } from "~/libs/db.server"
 import { createSitemap } from "~/utils/sitemap"
@@ -10,10 +11,8 @@ import { createSitemap } from "~/utils/sitemap"
 export const handle = createSitemap("/", 1)
 
 export const loader = async () => {
-  /**
-   * As searching and filtering might be complex,
-   * use Prisma directly, it might be refactored later into the models
-   */
+  // FIXME: Use Prisma transactions to concurrently get all 3 arrays
+
   const pastEvents = await prisma.event.findMany({
     where: {
       status: {
@@ -83,8 +82,9 @@ export default function IndexRoute() {
           className="select-none rounded-md"
         />
       </section>
+
       <section className="mt-20">
-        <Events
+        <ContentEvents
           title="Upcoming Events"
           subtitle="See our upcoming events and join us!"
           events={
@@ -100,8 +100,9 @@ export default function IndexRoute() {
           }
         />
       </section>
+
       <section className="mt-20">
-        <Events
+        <ContentEvents
           title="Past Events"
           events={
             pastEvents?.map(event => ({
@@ -117,8 +118,9 @@ export default function IndexRoute() {
           withSeeMore
         />
       </section>
+
       <section className="mt-20">
-        <Members
+        <ContentMembers
           subtitle="Join our community and meet other developers in Bandung!"
           withSeeMore
           title="Our Community Members"

@@ -8,6 +8,7 @@ export type User = {
   fullname: string
   images: { url: string }[]
 }
+
 export function UserItem({ user }: { user: User }) {
   if (!user) return null
 
