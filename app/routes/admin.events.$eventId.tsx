@@ -24,6 +24,7 @@ import { FormErrors } from "~/components/ui/form"
 
 import { Timestamp } from "~/components/shared/timestamp"
 import { Button } from "~/components/ui/button"
+import { Card } from "~/components/ui/card"
 import { Iconify } from "~/components/ui/iconify"
 import { Separator } from "~/components/ui/separator"
 import { TextareaAutosize } from "~/components/ui/textarea-autosize"
@@ -193,92 +194,99 @@ export default function UserEventsEventIdRoute() {
             </div>
           </section>
 
-          <section className="mx-auto w-full max-w-prose space-y-4">
-            <input type="hidden" {...conform.input(organizerId)} />
-            <input type="hidden" {...conform.input(id)} />
+          <div className="grid grid-cols-1 md:grid-cols-6">
+            <section className="mx-auto w-full max-w-prose space-y-4 md:col-span-4">
+              <input type="hidden" {...conform.input(organizerId)} />
+              <input type="hidden" {...conform.input(id)} />
 
-            <div className="text-xs text-muted-foreground">
-              <Timestamp
-                isUpdated={isEventUpdated}
-                createdAt={event.createdAt}
-                updatedAt={event.updatedAt}
-              />
-            </div>
-
-            <div>
-              <div className="flex justify-between gap-2">
-                <input
-                  {...conform.input(slug)}
-                  ref={slugRef}
-                  placeholder="untitled"
-                  spellCheck="false"
-                  className="input-natural flex-1 font-mono text-sm"
+              <div className="text-xs text-muted-foreground">
+                <Timestamp
+                  isUpdated={isEventUpdated}
+                  createdAt={event.createdAt}
+                  updatedAt={event.updatedAt}
                 />
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="xs"
-                  onClick={handleUpdateSlug}
-                >
-                  <Iconify icon="ph:lightbulb-duotone" />
-                  <span>Generate Slug</span>
-                </Button>
               </div>
-              <FormErrors>{slug}</FormErrors>
-            </div>
 
-            <div>
-              <TextareaAutosize
-                name={title.name}
-                minRows={1}
-                defaultValue={titleValue}
-                onChange={e => setTitleValue(e.target.value)}
-                placeholder="Untitled"
-                spellCheck="false"
-                className="input-natural w-full resize-none text-4xl font-semibold"
-              />
-              <FormErrors>{title}</FormErrors>
-            </div>
+              <div>
+                <div className="flex justify-between gap-2">
+                  <input
+                    {...conform.input(slug)}
+                    ref={slugRef}
+                    placeholder="untitled"
+                    spellCheck="false"
+                    className="input-natural flex-1 font-mono text-sm"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="xs"
+                    onClick={handleUpdateSlug}
+                  >
+                    <Iconify icon="ph:lightbulb-duotone" />
+                    <span>Generate Slug</span>
+                  </Button>
+                </div>
+                <FormErrors>{slug}</FormErrors>
+              </div>
 
-            <div>
-              <TextareaAutosize
-                name={description.name}
-                defaultValue={description.defaultValue}
-                minRows={1}
-                placeholder="Untitled"
-                spellCheck="false"
-                className="input-natural w-full resize-none text-xl"
-              />
-              <FormErrors>{description}</FormErrors>
-            </div>
+              <div>
+                <TextareaAutosize
+                  name={title.name}
+                  minRows={1}
+                  defaultValue={titleValue}
+                  onChange={e => setTitleValue(e.target.value)}
+                  placeholder="Untitled"
+                  spellCheck="false"
+                  className="input-natural w-full resize-none text-4xl font-semibold"
+                />
+                <FormErrors>{title}</FormErrors>
+              </div>
 
-            <Separator className="my-4" />
+              <div>
+                <TextareaAutosize
+                  name={description.name}
+                  defaultValue={description.defaultValue}
+                  minRows={1}
+                  placeholder="Untitled"
+                  spellCheck="false"
+                  className="input-natural w-full resize-none text-xl"
+                />
+                <FormErrors>{description}</FormErrors>
+              </div>
 
-            <div>
-              <FormErrors>{content}</FormErrors>
-              <input
-                {...conform.input(content, { hidden: true })}
-                ref={contentRef}
-                onChange={e => setContentValue(e.target.value)}
-              />
-              <EditorTiptapHook
-                content={contentValue}
-                handleUpdate={handleUpdateContent}
-                placeholderText="Write the content detail about the event..."
-              />
-            </div>
+              <Separator className="my-4" />
 
-            {/* Manual textarea editor */}
-            <div className="hidden">
-              <textarea
-                placeholder="Add some content..."
-                spellCheck="false"
-                cols={30}
-                rows={20}
-                className="input-natural resize-none"
-              />
-            </div>
-          </section>
+              <div>
+                <FormErrors>{content}</FormErrors>
+                <input
+                  {...conform.input(content, { hidden: true })}
+                  ref={contentRef}
+                  onChange={e => setContentValue(e.target.value)}
+                />
+                <EditorTiptapHook
+                  content={contentValue}
+                  handleUpdate={handleUpdateContent}
+                  placeholderText="Write the content detail about the event..."
+                />
+              </div>
+
+              {/* Manual textarea editor */}
+              <div className="hidden">
+                <textarea
+                  placeholder="Add some content..."
+                  spellCheck="false"
+                  cols={30}
+                  rows={20}
+                  className="input-natural resize-none"
+                />
+              </div>
+            </section>
+            <section className="site-container md:col-span-2">
+              <Card className="space-y-2 p-4">
+                <h2 className="mb-4">Event Location</h2>
+              </Card>
+            </section>
+          </div>
         </fieldset>
       </Form>
     </div>
