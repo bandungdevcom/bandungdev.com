@@ -13,31 +13,31 @@ export const handle = createSitemap("/", 1)
 export const loader = async () => {
   // FIXME: Use Prisma transactions to concurrently get all 3 arrays
 
-  const upcomingEvents = await prisma.event.findMany({
-    where: {
-      status: { OR: [{ symbol: "PUBLISHED" }] },
-      date: { gte: new Date() },
-    },
-    take: 4,
-    orderBy: { updatedAt: "desc" },
-    include: { image: { select: { url: true } } },
-  })
-
-  const pastEvents = await prisma.event.findMany({
-    where: {
-      status: { OR: [{ symbol: "PUBLISHED" }, { symbol: "ARCHIVED" }] },
-      date: { lte: new Date() },
-    },
-    take: 3,
-    orderBy: { updatedAt: "desc" },
-    include: { image: { select: { url: true } } },
-  })
-
-  const users = await prisma.user.findMany({
-    take: 8,
-    orderBy: { createdAt: "desc" },
-    include: { images: { select: { url: true } } },
-  })
+  const [upcomingEvents, pastEvents, users] = await prisma.$transaction([
+    prisma.event.findMany({
+      where: {
+        status: { OR: [{ symbol: "PUBLISHED" }] },
+        date: { gte: new Date() },
+      },
+      take: 4,
+      orderBy: { updatedAt: "desc" },
+      include: { image: { select: { url: true } } },
+    }),
+    prisma.event.findMany({
+      where: {
+        status: { OR: [{ symbol: "PUBLISHED" }, { symbol: "ARCHIVED" }] },
+        date: { lte: new Date() },
+      },
+      take: 3,
+      orderBy: { updatedAt: "desc" },
+      include: { image: { select: { url: true } } },
+    }),
+    prisma.user.findMany({
+      take: 8,
+      orderBy: { createdAt: "desc" },
+      include: { images: { select: { url: true } } },
+    }),
+  ])
 
   return json({ upcomingEvents, pastEvents, users })
 }

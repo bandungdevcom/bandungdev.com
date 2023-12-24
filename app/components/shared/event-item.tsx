@@ -18,7 +18,7 @@ export function EventItem({ event }: { event: Event }) {
     event.image?.url || "/images/covers/bandungdev-cover-luma-sharing.png"
 
   return (
-    <div className="flex flex-col justify-between gap-4 overflow-hidden shadow-xl md:flex-row md:gap-8">
+    <div className="flex flex-col justify-between overflow-hidden shadow-xl md:flex-row md:gap-8">
       <div className="basis-1/2">
         <Link
           className="focus-ring block transition hover:opacity-75 "

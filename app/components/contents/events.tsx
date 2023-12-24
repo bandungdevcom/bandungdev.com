@@ -24,7 +24,7 @@ export function ContentEvents({
         {title}
       </h2>
 
-      {subtitle && <h3 className="mb-10 sm:text-lg">{subtitle}</h3>}
+      {subtitle && <h3 className="mb-10 font-normal sm:text-lg">{subtitle}</h3>}
 
       <div className="grid grid-cols-1 gap-8">
         {!hasEvents && <p className="text-muted-foreground">{emptyText}</p>}
