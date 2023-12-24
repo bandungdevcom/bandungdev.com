@@ -1,5 +1,6 @@
 import { EventItem, type Event } from "~/components/shared/event-item"
 import { ButtonLink } from "~/components/ui/button-link"
+import { Iconify } from "~/components/ui/iconify"
 import { cn } from "~/utils/cn"
 
 export function ContentEvents({
@@ -41,7 +42,8 @@ export function ContentEvents({
       {withSeeMore && (
         <div className="mt-20 flex justify-center">
           <ButtonLink to="/events" variant="default" size="lg">
-            See More Events
+            <Iconify icon="ph:calendar-blank" />
+            <span>See More Events</span>
           </ButtonLink>
         </div>
       )}
