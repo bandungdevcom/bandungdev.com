@@ -13,10 +13,13 @@ import {
 } from "~/components/ui/form"
 import { Iconify } from "~/components/ui/iconify"
 import { Input } from "~/components/ui/input"
+import { Textarea } from "~/components/ui/textarea"
 import { type modelUser } from "~/models/user.server"
 import {
   type schemaUserFullName,
   type schemaUserNickName,
+  type schemaUserProfileBio,
+  type schemaUserProfileHeadline,
   type schemaUserUsername,
 } from "~/schemas/user"
 import { type SubmissionResult } from "~/types/submission"
@@ -30,13 +33,15 @@ export function FormChangeField({
   user,
 }: {
   label: string
-  field: "username" | "fullname" | "nickname"
+  field: "username" | "fullname" | "nickname" | "headline" | "bio"
   intentValue: string
   description: string
   schema:
     | typeof schemaUserUsername
     | typeof schemaUserFullName
     | typeof schemaUserNickName
+    | typeof schemaUserProfileHeadline
+    | typeof schemaUserProfileBio
   user: Prisma.PromiseReturnType<typeof modelUser.getForSession>
 }) {
   const fetcher = useFetcher()
@@ -49,8 +54,15 @@ export function FormChangeField({
     onValidate({ formData }) {
       return parse(formData, { schema: schema })
     },
-    defaultValue: user,
+    defaultValue: {
+      ...user,
+      headline: user?.profile?.headline || "",
+      bio: user?.profile?.bio || "",
+    },
   })
+
+  // IDEA: Make the field match better and scalable, not only for bio
+  const FieldComponent = field === "bio" ? Textarea : Input
 
   return (
     <fetcher.Form {...form.props} method="POST">
@@ -71,7 +83,7 @@ export function FormChangeField({
               Save
             </ButtonLoading>
           </div>
-          <Input
+          <FieldComponent
             {...conform.input(fields[field])}
             id={fields[field].id}
             placeholder={label}
