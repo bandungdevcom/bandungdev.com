@@ -1,7 +1,6 @@
-import clsx from "clsx"
-
 import { EventItem, type Event } from "~/components/shared/event-item"
 import { ButtonLink } from "~/components/ui/button-link"
+import { cn } from "~/utils/cn"
 
 export function ContentEvents({
   events,
@@ -16,7 +15,7 @@ export function ContentEvents({
 }) {
   return (
     <div>
-      <h2 className={clsx("text-3xl font-bold", subtitle ? "mb-4" : "mb-10")}>
+      <h2 className={cn("text-3xl font-bold", subtitle ? "mb-4" : "mb-10")}>
         {title}
       </h2>
 

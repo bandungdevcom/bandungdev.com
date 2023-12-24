@@ -1,6 +1,6 @@
-import clsx from "clsx"
 import { UserItem, type User } from "~/components/shared/user-item"
 import { ButtonLink } from "~/components/ui/button-link"
+import { cn } from "~/utils/cn"
 
 export function ContentMembers({
   users,
@@ -15,7 +15,7 @@ export function ContentMembers({
 }) {
   return (
     <div>
-      <h2 className={clsx("text-3xl font-bold", subtitle ? "mb-4" : "mb-10")}>
+      <h2 className={cn("text-3xl font-bold", subtitle ? "mb-4" : "mb-10")}>
         {title}
       </h2>
 
