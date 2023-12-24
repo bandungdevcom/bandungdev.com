@@ -38,6 +38,7 @@ import { createMeta } from "~/utils/meta"
 import { createSitemap } from "~/utils/sitemap"
 import { createSlug, truncateText } from "~/utils/string"
 import { createTimer } from "~/utils/timer"
+import { RadioGroup, RadioGroupLocationCategoryItem } from "~/components/ui/radio-group"
 
 export const handle = createSitemap()
 
@@ -284,6 +285,10 @@ export default function UserEventsEventIdRoute() {
             <section className="site-container md:col-span-2">
               <Card className="space-y-2 p-4">
                 <h2 className="mb-4">Event Location</h2>
+                <RadioGroup className="grid-cols-2">
+                  <RadioGroupLocationCategoryItem value="OFFLINE">In Person</RadioGroupLocationCategoryItem>
+                  <RadioGroupLocationCategoryItem value="ONLINE">Online</RadioGroupLocationCategoryItem>
+                </RadioGroup>
               </Card>
             </section>
           </div>
