@@ -13,40 +13,24 @@ export const handle = createSitemap("/", 1)
 export const loader = async () => {
   // FIXME: Use Prisma transactions to concurrently get all 3 arrays
 
-  const pastEvents = await prisma.event.findMany({
-    where: {
-      status: {
-        OR: [{ symbol: "PUBLISHED" }, { symbol: "ARCHIVED" }],
-      },
-      date: {
-        lte: new Date(),
-      },
-    },
-    take: 3,
-    orderBy: {
-      updatedAt: "desc",
-    },
-    include: {
-      image: { select: { id: true, url: true } },
-    },
-  })
-
   const upcomingEvents = await prisma.event.findMany({
     where: {
-      status: {
-        OR: [{ symbol: "PUBLISHED" }],
-      },
-      date: {
-        gte: new Date(),
-      },
+      status: { OR: [{ symbol: "PUBLISHED" }] },
+      date: { gte: new Date() },
     },
     take: 4,
-    orderBy: {
-      updatedAt: "desc",
+    orderBy: { updatedAt: "desc" },
+    include: { image: { select: { url: true } } },
+  })
+
+  const pastEvents = await prisma.event.findMany({
+    where: {
+      status: { OR: [{ symbol: "PUBLISHED" }, { symbol: "ARCHIVED" }] },
+      date: { lte: new Date() },
     },
-    include: {
-      image: { select: { id: true, url: true } },
-    },
+    take: 3,
+    orderBy: { updatedAt: "desc" },
+    include: { image: { select: { url: true } } },
   })
 
   const users = await prisma.user.findMany({
@@ -55,11 +39,7 @@ export const loader = async () => {
     include: { images: { select: { url: true } } },
   })
 
-  return json({
-    pastEvents,
-    upcomingEvents,
-    users,
-  })
+  return json({ upcomingEvents, pastEvents, users })
 }
 
 export default function IndexRoute() {
@@ -87,34 +67,14 @@ export default function IndexRoute() {
         <ContentEvents
           title="Upcoming Events"
           subtitle="See our upcoming events and join us!"
-          events={
-            upcomingEvents?.map(event => ({
-              description: event.description,
-              image: {
-                url: event.image?.url ?? "",
-              },
-              slug: event.slug,
-              title: event.title,
-              date: event.date,
-            })) ?? []
-          }
+          events={upcomingEvents as any}
         />
       </section>
 
       <section className="mt-20">
         <ContentEvents
           title="Past Events"
-          events={
-            pastEvents?.map(event => ({
-              description: event.description,
-              image: {
-                url: event.image?.url ?? "",
-              },
-              slug: event.slug,
-              title: event.title,
-              date: event.date,
-            })) ?? []
-          }
+          events={pastEvents as any}
           withSeeMore
         />
       </section>
