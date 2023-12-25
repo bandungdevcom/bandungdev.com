@@ -16,8 +16,9 @@ Check out:
 - Web: <https://bandungdev.com>
 - Repo: <https://github.com/bandungdevcom/bandungdev.com>
 
-Project structure based on [Dogokit](https://dogokit.allnimal.com) using Remix,
-React, Tailwind CSS, Radix UI, Prisma ORM, and more.
+The repo is based on [Dogokit](https://dogokit.allnimal.com) using Remix, React,
+Tailwind CSS, Radix UI, Prisma ORM, and more. For more details and
+documentation, [check its repo](https://github.com/dogokit/dogokit-remix).
 
 ## Setup
 
