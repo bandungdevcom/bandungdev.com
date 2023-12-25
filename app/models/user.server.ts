@@ -259,16 +259,22 @@ export const modelUser = {
     })
   },
 
-  updateLinks({ id, links }: {id: string, links?: string}) {
+  updateLinks({
+    id,
+    links,
+  }: {
+    id: string
+    links?: Array<{ url: string; text?: string }>
+  }) {
     return prisma.user.update({
       where: { id },
-      data: { 
+      data: {
         profile: {
           update: {
-            links,
-          }
-        }
-       },
+            links: links ?? [],
+          },
+        },
+      },
     })
   },
 }
