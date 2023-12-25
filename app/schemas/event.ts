@@ -21,6 +21,8 @@ const content = z.string().optional()
 
 const readingTime = zfd.numeric(z.number().min(0).max(1000)).optional()
 
+const categoryId = z.string({ required_error: "Category is required" })
+
 export const schemaEvent = z.object({
   organizerId,
   id,
@@ -29,6 +31,7 @@ export const schemaEvent = z.object({
   description,
   content,
   readingTime,
+  categoryId,
 })
 
 export const schemaEventDeleteAll = z.object({ organizerId })

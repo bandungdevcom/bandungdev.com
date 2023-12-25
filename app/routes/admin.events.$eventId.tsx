@@ -36,6 +36,7 @@ import { requireUser } from "~/helpers/auth"
 import { useAppAdminLoaderData } from "~/hooks/use-app-loader-data"
 import { prisma } from "~/libs/db.server"
 import { modelAdminEvent } from "~/models/admin-event.server"
+import { modelEventCategory } from "~/models/event-category.server"
 import { schemaEvent } from "~/schemas/event"
 import { invariant, invariantResponse } from "~/utils/invariant"
 import { createMeta } from "~/utils/meta"
@@ -63,31 +64,43 @@ export const meta: MetaFunction<typeof loader> = ({ params, data }) => {
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   invariant(params.eventId, "params.eventId unavailable")
   const { userId: organizerId } = await requireUser(request)
-  const event = await modelAdminEvent.getById({
-    organizerId,
-    id: params.eventId,
-  })
+  const [event, eventCategories] = await prisma.$transaction([
+    modelAdminEvent.getById({
+      organizerId,
+      id: params.eventId,
+    }),
+    modelEventCategory.getAll(),
+  ])
   invariantResponse(event, "Event not found", { status: 404 })
-  return json({ event })
+  invariantResponse(eventCategories, "Event categories not found", {
+    status: 404,
+  })
+  return json({ event, eventCategories })
 }
 
 export default function UserEventsEventIdRoute() {
-  const { event } = useLoaderData<typeof loader>()
+  const { event, eventCategories } = useLoaderData<typeof loader>()
   const actionData = useActionData<typeof action>()
   const navigation = useNavigation()
   const { eventStatuses } = useAppAdminLoaderData()
 
-  const [form, { organizerId, id, slug, title, description, content }] =
-    useForm<z.infer<typeof schemaEvent>>({
-      id: "update-event",
-      lastSubmission: actionData?.submission,
-      shouldRevalidate: "onInput",
-      constraint: getFieldsetConstraint(schemaEvent),
-      onValidate({ formData }) {
-        return parse(formData, { schema: schemaEvent })
-      },
-      defaultValue: { ...event, organizerId: event.organizerId },
-    })
+  const [
+    form,
+    { organizerId, id, slug, title, description, content, categoryId },
+  ] = useForm<z.infer<typeof schemaEvent>>({
+    id: "update-event",
+    lastSubmission: actionData?.submission,
+    shouldRevalidate: "onInput",
+    constraint: getFieldsetConstraint(schemaEvent),
+    onValidate({ formData }) {
+      return parse(formData, { schema: schemaEvent })
+    },
+    defaultValue: {
+      ...event,
+      organizerId: event.organizerId,
+      categoryId: event.categoryId || eventCategories[0]?.id,
+    },
+  })
 
   const isSubmitting = navigation.state === "submitting"
   const isEventUpdated = event.createdAt !== event.updatedAt
@@ -288,13 +301,24 @@ export default function UserEventsEventIdRoute() {
             <section className="site-container md:col-span-2">
               <Card className="space-y-2 p-4">
                 <h2 className="mb-4">Event Location</h2>
-                <RadioGroup className="grid-cols-2">
-                  <RadioGroupLocationCategoryItem value="OFFLINE">
-                    In Person
-                  </RadioGroupLocationCategoryItem>
-                  <RadioGroupLocationCategoryItem value="ONLINE">
-                    Online
-                  </RadioGroupLocationCategoryItem>
+                <RadioGroup className="grid-cols-3">
+                  {conform
+                    .collection(categoryId, {
+                      type: "radio",
+                      options: eventCategories.map(
+                        eventCategory => eventCategory.id,
+                      ),
+                    })
+                    .map((props, index) => (
+                      <RadioGroupLocationCategoryItem
+                        {...props}
+                        key={eventCategories[index]?.id || index}
+                        value={props.value}
+                        type="submit"
+                      >
+                        {eventCategories[index]?.name}
+                      </RadioGroupLocationCategoryItem>
+                    ))}
                 </RadioGroup>
               </Card>
             </section>
