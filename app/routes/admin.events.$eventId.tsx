@@ -77,7 +77,7 @@ export default function UserEventsEventIdRoute() {
   const navigation = useNavigation()
   const { eventStatuses } = useAppAdminLoaderData()
 
-  const [form, { organizerId, id, slug, title, description, content }] =
+  const [form, { organizerId, id, slug, title, description, content, method, url }] =
     useForm<z.infer<typeof schemaEvent>>({
       id: "update-event",
       lastSubmission: actionData?.submission,
@@ -101,6 +101,10 @@ export default function UserEventsEventIdRoute() {
   const [contentValue, setContentValue] = useState(content.defaultValue ?? "")
   const contentRef = useRef<HTMLInputElement>(null)
   const contentControl = useInputEvent({ ref: contentRef })
+
+  const [methodValue, setMethodValue] = useState(method.defaultValue ?? "")
+
+  const [urlValue, setUrlValue] = useState(url.defaultValue ?? "")
 
   function handleReset() {
     form.ref.current?.reset()
@@ -147,9 +151,8 @@ export default function UserEventsEventIdRoute() {
                 <FormDelete
                   action="/admin/events/delete"
                   intentValue="user-delete-event-by-id"
-                  itemText={`a event: ${truncateText(event.title)} (${
-                    event.slug
-                  })`}
+                  itemText={`a event: ${truncateText(event.title)} (${event.slug
+                    })`}
                   defaultValue={event.id}
                   requireUser
                   userId={event.organizerId}
@@ -288,14 +291,23 @@ export default function UserEventsEventIdRoute() {
             <section className="site-container md:col-span-2">
               <Card className="space-y-2 p-4">
                 <h2 className="mb-4">Event Location</h2>
-                <RadioGroup className="grid-cols-2">
-                  <RadioGroupLocationCategoryItem value="OFFLINE">
-                    In Person
-                  </RadioGroupLocationCategoryItem>
-                  <RadioGroupLocationCategoryItem value="ONLINE">
-                    Online
-                  </RadioGroupLocationCategoryItem>
+                <RadioGroup className="grid-cols-2" value={methodValue} onValueChange={(value: 'ONLINE' | 'OFFLINE') => setMethodValue(value)}>
+                  <RadioGroupLocationCategoryItem value="OFFLINE">In Person</RadioGroupLocationCategoryItem>
+                  <RadioGroupLocationCategoryItem value="ONLINE">Online</RadioGroupLocationCategoryItem>
                 </RadioGroup>
+                {methodValue === "OFLINE" ?
+                  // pake form-change-fields
+                  <div className="space-y-2">
+                    {/* ganti label kata reviewer */}
+                    <p>Location</p>
+                    {/* <Input className="w-full" /> */}
+                    {/* add maps url */}
+                  </div>
+                  :
+                  <div className="space-y-2">
+                    <p>Join URL</p>
+                    {/* <Input className="w-full" /> */}
+                  </div>}
               </Card>
             </section>
           </div>

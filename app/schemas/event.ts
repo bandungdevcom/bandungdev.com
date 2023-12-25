@@ -21,6 +21,12 @@ const content = z.string().optional()
 
 const readingTime = zfd.numeric(z.number().min(0).max(1000)).optional()
 
+const method = z.literal('ONLINE').or(z.literal('OFFLINE'));
+
+const location = z.string().optional()
+
+const url = z.union([z.literal(""), z.string().trim().url()])
+
 export const schemaEvent = z.object({
   organizerId,
   id,
@@ -29,6 +35,9 @@ export const schemaEvent = z.object({
   description,
   content,
   readingTime,
+  method,
+  location,
+  url
 })
 
 export const schemaEventDeleteAll = z.object({ organizerId })
