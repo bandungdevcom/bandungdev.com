@@ -237,6 +237,7 @@ model Event {
   title       String  @db.Text
   description String  @db.Text
   content     String? @db.Text // Rich HTML Text
+  url         String? // Url for online or hybrid
 
   date      DateTime @db.Date
   timeStart DateTime @db.Time()
@@ -245,8 +246,14 @@ model Event {
   statusId String
   status   EventStatus @relation(fields: [statusId], references: [id])
 
+  formatId String?
+  format   EventFormat? @relation(fields: [formatId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
   categoryId String?
   category   EventCategory? @relation(fields: [categoryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  mediaId String?
+  media   EventMedia? @relation(fields: [mediaId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   locationId String?
   location   Location? @relation(fields: [locationId], references: [id])
@@ -265,7 +272,9 @@ model Event {
   @@index([statusId])
   @@index([imageId])
   @@index([locationId])
+  @@index([formatId])
   @@index([categoryId])
+  @@index([mediaId])
   @@index([organizerId])
 }
 
@@ -292,13 +301,35 @@ model EventStatus {
   events Event[]
 }
 
-model EventCategory {
+model EventFormat {
   id String @id @default(cuid())
 
   sequence    Int?    @unique // 1, 2, 3, ...
   symbol      String  @unique // MEETUP, SEMINAR, WORKSHOP, WFC
   name        String  @unique // Meetup, Seminar, Workshop, Work from Cafe
   description String? @db.Text // Long description
+
+  events Event[]
+}
+
+model EventCategory {
+  id String @id @default(cuid())
+
+  sequence    Int?    @unique // 1, 2, 3, ...
+  symbol      String  @unique // IN_PERSON, ONLINE, HYBRID
+  name        String  @unique // In Person, Online, Hybrid
+  description String? @db.Text // Long description
+
+  events Event[]
+}
+
+model EventMedia {
+  id String @id @default(cuid())
+
+  sequence    Int?    @unique // 1, 2, 3, ...
+  symbol      String  @unique // ZOOM, GOOGLE_MEET, YOUTUBE, ...
+  name        String  @unique //Zoom, Google Meet, Youtube, ...
+  description String? @unique // Long description
 
   events Event[]
 }
@@ -311,12 +342,6 @@ model Location {
   id String @id @default(cuid())
 
   label String @db.Text
-
-  categoryId String
-  category   LocationCategory @relation(fields: [categoryId], references: [id])
-
-  // ONLINE
-  url String?
 
   // OFFLINE / HYBRID
   address String? @db.Text // Complete combined address
@@ -338,19 +363,6 @@ model Location {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@index([categoryId])
-}
-
-model LocationCategory {
-  id String @id @default(cuid())
-
-  sequence    Int?    @unique // 1, 2, 3, ...
-  symbol      String  @unique // ONLINE, OFFLINE, HYBRID
-  name        String  @unique // Online, Offline, Hybrid
-  description String? @db.Text // Long description
-
-  locations Location[]
 }
 
 // -----------------------------------------------------------------------------
