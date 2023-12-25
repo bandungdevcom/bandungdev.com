@@ -79,7 +79,7 @@ export function FormChangeLinks({
                         to: index > 0 ? index - 1 : index,
                       })}
                     >
-                      <Iconify icon="tabler:arrow-move-up" />
+                      <Iconify icon="ph:arrow-fat-line-up-duotone" />
                     </Button>
                     <Button
                       size="sm"
@@ -90,7 +90,7 @@ export function FormChangeLinks({
                         to: index < 9 ? index + 1 : index,
                       })}
                     >
-                      <Iconify icon="tabler:arrow-move-down" />
+                      <Iconify icon="ph:arrow-fat-line-down-duotone" />
                     </Button>
                     <Button
                       size="sm"
@@ -100,14 +100,14 @@ export function FormChangeLinks({
                         defaultValue: { url: "", text: "" },
                       })}
                     >
-                      <Iconify icon="tabler:backspace-filled" />
+                      <Iconify icon="ph:backspace-duotone" />
                     </Button>
                     <Button
                       size="sm"
                       variant="destructive"
                       {...list.remove(links.name, { index })}
                     >
-                      <Iconify icon="ph:trash" />
+                      <Iconify icon="ph:trash-duotone" />
                     </Button>
                   </div>
                 </section>
@@ -137,9 +137,9 @@ export function FormChangeLinks({
           value="update-user-profile-links"
           variant="outline"
           size="xs"
-          disabled={isSubmitting}
           isLoading={isSubmitting}
-          loadingText="Saving Links..."
+          loadingText="Saving Links"
+          iconComponent={<Iconify icon="ph:floppy-disk-duotone" />}
         >
           Save Links
         </ButtonLoading>
