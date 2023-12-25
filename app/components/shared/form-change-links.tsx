@@ -22,7 +22,7 @@ import { schemaUserProfileLinks, type schemaLink } from "~/schemas/user"
 import { type SubmissionResult } from "~/types/submission"
 import { cn } from "~/utils/cn"
 
-export function UserProfileLinksForm({
+export function FormChangeLinks({
   userProfile,
 }: {
   userProfile?: Pick<UserProfile, "id" | "links">

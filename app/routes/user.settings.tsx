@@ -6,9 +6,9 @@ import {
   type MetaFunction,
 } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
-import { UserProfileLinksForm } from "~/components/settings/user-profile-link"
 
 import { FormChangeField } from "~/components/shared/form-change-field"
+import { FormChangeLinks } from "~/components/shared/form-change-links"
 import { AvatarAuto } from "~/components/ui/avatar-auto"
 import { configSite } from "~/configs/site"
 import { configUnallowedKeywords } from "~/configs/unallowed-keywords"
@@ -98,7 +98,7 @@ export default function UserSettingsRoute() {
           user={user}
         />
 
-        <UserProfileLinksForm
+        <FormChangeLinks
           userProfile={{ id: user.id, links: user.profile?.links ?? [] }}
         />
       </section>
