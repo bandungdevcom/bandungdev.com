@@ -14,8 +14,9 @@ import { type z } from "zod"
 
 import { Alert } from "~/components/ui/alert"
 import { Button } from "~/components/ui/button"
+import { ButtonIcon } from "~/components/ui/button-icon"
 import { ButtonLoading } from "~/components/ui/button-loading"
-import { FormDescription, FormField } from "~/components/ui/form"
+import { FormDescription, FormField, FormLabel } from "~/components/ui/form"
 import { Iconify } from "~/components/ui/iconify"
 import { Input } from "~/components/ui/input"
 import { schemaUserProfileLinks, type schemaLink } from "~/schemas/user"
@@ -54,95 +55,95 @@ export function FormChangeLinks({
       >
         <input hidden {...conform.input(id)} defaultValue={userProfile?.id} />
 
-        <FormField>
-          <h6 id="links">Links</h6>
-          <FormDescription>
-            To link your websites, social media, and projects/products. Limited
-            to 10 items.
-          </FormDescription>
+        <FormField className="space-y-2">
+          <div>
+            <FormLabel id="links">Links</FormLabel>
+            <FormDescription>
+              To link your websites, social media, and projects/products.
+              Limited to 10 items.
+            </FormDescription>
+          </div>
 
           <ol className="space-y-2">
             {linksItems.map((linkItem, index) => (
-              <li key={linkItem.key}>
-                <section className="flex items-center gap-2">
-                  <span className="hidden w-4 text-sm sm:block">
-                    {index + 1}
-                  </span>
-                  <LinkItemFieldset {...linkItem} />
-                  <div className="flex gap-1">
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      disabled={index === 0}
-                      {...list.reorder(links.name, {
-                        from: index,
-                        to: index > 0 ? index - 1 : index,
-                      })}
-                    >
-                      <Iconify icon="ph:arrow-fat-line-up-duotone" />
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      disabled={index === linksItems.length - 1}
-                      {...list.reorder(links.name, {
-                        from: index,
-                        to: index < 9 ? index + 1 : index,
-                      })}
-                    >
-                      <Iconify icon="ph:arrow-fat-line-down-duotone" />
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      {...list.replace(links.name, {
-                        index,
-                        defaultValue: { url: "", text: "" },
-                      })}
-                    >
-                      <Iconify icon="ph:backspace-duotone" />
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="destructive"
-                      {...list.remove(links.name, { index })}
-                    >
-                      <Iconify icon="ph:trash-duotone" />
-                    </Button>
-                  </div>
-                </section>
+              <li key={linkItem.key} className="flex gap-2">
+                <LinkItemFieldset {...linkItem} />
+                <div className="flex gap-1">
+                  <ButtonIcon
+                    size="sm"
+                    variant="outline"
+                    disabled={index === 0}
+                    {...list.reorder(links.name, {
+                      from: index,
+                      to: index > 0 ? index - 1 : index,
+                    })}
+                  >
+                    <Iconify icon="ph:arrow-fat-line-up-duotone" />
+                  </ButtonIcon>
+                  <ButtonIcon
+                    size="sm"
+                    variant="outline"
+                    disabled={index === linksItems.length - 1}
+                    {...list.reorder(links.name, {
+                      from: index,
+                      to: index < 9 ? index + 1 : index,
+                    })}
+                  >
+                    <Iconify icon="ph:arrow-fat-line-down-duotone" />
+                  </ButtonIcon>
+                  <ButtonIcon
+                    size="sm"
+                    variant="outline"
+                    {...list.replace(links.name, {
+                      index,
+                      defaultValue: { url: "", text: "" },
+                    })}
+                  >
+                    <Iconify icon="ph:backspace-duotone" />
+                  </ButtonIcon>
+                  <ButtonIcon
+                    size="sm"
+                    variant="destructive"
+                    {...list.remove(links.name, { index })}
+                  >
+                    <Iconify icon="ph:trash-duotone" />
+                  </ButtonIcon>
+                </div>
               </li>
             ))}
           </ol>
+        </FormField>
+
+        <div className="flex justify-between gap-2">
+          <ButtonLoading
+            type="submit"
+            name="intent"
+            value="update-user-profile-links"
+            variant="outline"
+            size="sm"
+            isLoading={isSubmitting}
+            loadingText="Saving"
+            iconComponent={<Iconify icon="ph:floppy-disk-duotone" />}
+          >
+            Save
+          </ButtonLoading>
 
           <Button
             size="sm"
-            variant="secondary"
+            variant="outline"
             disabled={!isAllowAddLink}
             {...list.insert(links.name)}
           >
             <Iconify icon="ph:plus" />
-            <span>Add link</span>
+            <span>Add</span>
           </Button>
+        </div>
 
-          {links.error && (
-            <Alert variant="destructive" id={links.errorId}>
-              {links.error}
-            </Alert>
-          )}
-        </FormField>
-
-        <ButtonLoading
-          name="intent"
-          value="update-user-profile-links"
-          variant="outline"
-          size="xs"
-          isLoading={isSubmitting}
-          loadingText="Saving Links"
-          iconComponent={<Iconify icon="ph:floppy-disk-duotone" />}
-        >
-          Save Links
-        </ButtonLoading>
+        {links.error && (
+          <Alert variant="destructive" id={links.errorId}>
+            {links.error}
+          </Alert>
+        )}
       </fieldset>
     </fetcher.Form>
   )
@@ -157,7 +158,7 @@ function LinkItemFieldset({ ...config }: LinkItemFieldsetProps) {
 
   return (
     <fieldset ref={ref} className="flex w-full gap-2">
-      <div className="w-full">
+      <div>
         <Input
           placeholder="https://example.com"
           className={cn(url.error && "error")}
@@ -165,6 +166,7 @@ function LinkItemFieldset({ ...config }: LinkItemFieldsetProps) {
         />
         {url.error && <Alert variant="destructive">{url.error}</Alert>}
       </div>
+
       <div>
         <Input
           placeholder="Example Name"
