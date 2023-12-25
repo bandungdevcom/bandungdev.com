@@ -7,22 +7,20 @@ import {
   type FieldsetConfig,
 } from "@conform-to/react"
 import { parse } from "@conform-to/zod"
+import { type UserProfile } from "@prisma/client"
 import { useFetcher } from "@remix-run/react"
 import { useRef } from "react"
-
-import { Icon } from "@iconify/react"
-import { FormDescription, FormField } from "~/components/ui/form"
-import { Alert } from "../ui/alert"
-import { Button } from "../ui/button"
-import { ButtonLoading } from "../ui/button-loading"
-import { Input } from "../ui/input"
-
-import { schemaUserProfileLinks, type schemaLink } from "~/schemas/user"
-import { cn } from "~/utils/cn"
-
-import { type UserProfile } from "@prisma/client"
 import { type z } from "zod"
+
+import { Alert } from "~/components/ui/alert"
+import { Button } from "~/components/ui/button"
+import { ButtonLoading } from "~/components/ui/button-loading"
+import { FormDescription, FormField } from "~/components/ui/form"
+import { Iconify } from "~/components/ui/iconify"
+import { Input } from "~/components/ui/input"
+import { schemaUserProfileLinks, type schemaLink } from "~/schemas/user"
 import { type SubmissionResult } from "~/types/submission"
+import { cn } from "~/utils/cn"
 
 export function UserProfileLinksForm({
   userProfile,
@@ -81,8 +79,7 @@ export function UserProfileLinksForm({
                         to: index > 0 ? index - 1 : index,
                       })}
                     >
-                      <Icon icon={"tabler:arrow-move-up"} />
-                      {/* <IconArrowMoveUp className="icon-xs" /> */}
+                      <Iconify icon="tabler:arrow-move-up" />
                     </Button>
                     <Button
                       size="sm"
@@ -93,7 +90,7 @@ export function UserProfileLinksForm({
                         to: index < 9 ? index + 1 : index,
                       })}
                     >
-                      <Icon icon={"tabler:arrow-move-down"} />
+                      <Iconify icon="tabler:arrow-move-down" />
                     </Button>
                     <Button
                       size="sm"
@@ -103,16 +100,14 @@ export function UserProfileLinksForm({
                         defaultValue: { url: "", text: "" },
                       })}
                     >
-                      {/* <IconBackspaceFilled className="icon-xs" /> */}
-                      <Icon icon={"tabler:backspace-filled"} />
+                      <Iconify icon="tabler:backspace-filled" />
                     </Button>
                     <Button
                       size="sm"
                       variant="destructive"
                       {...list.remove(links.name, { index })}
                     >
-                      {/* <IconTrashXFilled className="icon-xs" /> */}
-                      <Icon icon={"tabler:trash-x"} />
+                      <Iconify icon="ph:trash" />
                     </Button>
                   </div>
                 </section>
@@ -126,8 +121,7 @@ export function UserProfileLinksForm({
             disabled={!isAllowAddLink}
             {...list.insert(links.name)}
           >
-            {/* <IconPlus className="icon-xs" /> */}
-            <Icon icon={"tabler:plus"} />
+            <Iconify icon="ph:plus" />
             <span>Add link</span>
           </Button>
 
@@ -141,12 +135,13 @@ export function UserProfileLinksForm({
         <ButtonLoading
           name="intent"
           value="update-user-profile-links"
-          size="sm"
+          variant="outline"
+          size="xs"
           disabled={isSubmitting}
           isLoading={isSubmitting}
-          loadingText="Saving All Links..."
+          loadingText="Saving Links..."
         >
-          Save All Links
+          Save Links
         </ButtonLoading>
       </fieldset>
     </fetcher.Form>
