@@ -7,11 +7,11 @@ import { createSlug } from "~/utils/string"
 import dataCredentialUsers from "./credentials/users.json"
 import dataEventStatuses from "./data/event-statuses.json"
 import { dataEvents } from "./data/events"
+import dataLocationCategories from "./data/location-categories.json"
 import dataPostStatuses from "./data/post-statuses.json"
 import dataPosts from "./data/posts.json"
 import dataRoles from "./data/roles.json"
 import dataTags from "./data/tags.json"
-import dataLocationCategories from "./data/location-categories.json"
 
 /**
  * Enable and disable seed items by commenting them
@@ -292,7 +292,10 @@ async function seedEventStatuses() {
 
 async function seedLocationCategories() {
   console.info("\n🪧 Seed location categories")
-  console.info("🪧 Count location categories", await prisma.locationCategory.count())
+  console.info(
+    "🪧 Count location categories",
+    await prisma.locationCategory.count(),
+  )
   // console.info("🪧 Deleted location categories", await prisma.locationCategory.deleteMany())
   console.time("🪧 Upserted location categories")
 
@@ -302,7 +305,9 @@ async function seedLocationCategories() {
       create: locationCategoryRaw,
       update: locationCategoryRaw,
     })
-    console.info(`🪧 Upserted location category ${locationCategory.symbol} / ${locationCategory.name}`)
+    console.info(
+      `🪧 Upserted location category ${locationCategory.symbol} / ${locationCategory.name}`,
+    )
   }
   console.timeEnd("🪧 Upserted location categories")
 }

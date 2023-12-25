@@ -60,6 +60,7 @@ const RadioGroupLocationCategoryItem = React.forwardRef<
     </RadioGroupPrimitive.Item>
   )
 })
-RadioGroupLocationCategoryItem.displayName = RadioGroupPrimitive.Item.displayName
+RadioGroupLocationCategoryItem.displayName =
+  RadioGroupPrimitive.Item.displayName
 
-export { RadioGroup, RadioGroupLocationCategoryItem, RadioGroupItem }
+export { RadioGroup, RadioGroupItem, RadioGroupLocationCategoryItem }

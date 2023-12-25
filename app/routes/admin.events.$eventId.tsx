@@ -26,6 +26,10 @@ import { Timestamp } from "~/components/shared/timestamp"
 import { Button } from "~/components/ui/button"
 import { Card } from "~/components/ui/card"
 import { Iconify } from "~/components/ui/iconify"
+import {
+  RadioGroup,
+  RadioGroupLocationCategoryItem,
+} from "~/components/ui/radio-group"
 import { Separator } from "~/components/ui/separator"
 import { TextareaAutosize } from "~/components/ui/textarea-autosize"
 import { requireUser } from "~/helpers/auth"
@@ -38,7 +42,6 @@ import { createMeta } from "~/utils/meta"
 import { createSitemap } from "~/utils/sitemap"
 import { createSlug, truncateText } from "~/utils/string"
 import { createTimer } from "~/utils/timer"
-import { RadioGroup, RadioGroupLocationCategoryItem } from "~/components/ui/radio-group"
 
 export const handle = createSitemap()
 
@@ -286,8 +289,12 @@ export default function UserEventsEventIdRoute() {
               <Card className="space-y-2 p-4">
                 <h2 className="mb-4">Event Location</h2>
                 <RadioGroup className="grid-cols-2">
-                  <RadioGroupLocationCategoryItem value="OFFLINE">In Person</RadioGroupLocationCategoryItem>
-                  <RadioGroupLocationCategoryItem value="ONLINE">Online</RadioGroupLocationCategoryItem>
+                  <RadioGroupLocationCategoryItem value="OFFLINE">
+                    In Person
+                  </RadioGroupLocationCategoryItem>
+                  <RadioGroupLocationCategoryItem value="ONLINE">
+                    Online
+                  </RadioGroupLocationCategoryItem>
                 </RadioGroup>
               </Card>
             </section>
