@@ -64,6 +64,7 @@ export const modelUser = {
           select: {
             headline: true,
             bio: true,
+            links: true,
           },
         },
       },
@@ -252,6 +253,25 @@ export const modelUser = {
         profile: {
           update: {
             bio,
+          },
+        },
+      },
+    })
+  },
+
+  updateLinks({
+    id,
+    links,
+  }: {
+    id: string
+    links?: Array<{ url: string; text?: string }>
+  }) {
+    return prisma.user.update({
+      where: { id },
+      data: {
+        profile: {
+          update: {
+            links: links ?? [],
           },
         },
       },

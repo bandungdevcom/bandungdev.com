@@ -5,6 +5,7 @@ import { cn } from "~/utils/cn"
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 
+// IDEA: Input with variant, especially on error
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...props }, ref) => {
     return (

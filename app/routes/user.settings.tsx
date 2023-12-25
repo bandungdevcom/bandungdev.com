@@ -8,6 +8,7 @@ import {
 import { useLoaderData } from "@remix-run/react"
 
 import { FormChangeField } from "~/components/shared/form-change-field"
+import { FormChangeLinks } from "~/components/shared/form-change-links"
 import { AvatarAuto } from "~/components/ui/avatar-auto"
 import { configSite } from "~/configs/site"
 import { configUnallowedKeywords } from "~/configs/unallowed-keywords"
@@ -20,6 +21,7 @@ import {
   schemaUserNickName,
   schemaUserProfileBio,
   schemaUserProfileHeadline,
+  schemaUserProfileLinks,
   schemaUserUsername,
 } from "~/schemas/user"
 import { createMeta } from "~/utils/meta"
@@ -59,7 +61,7 @@ export default function UserSettingsRoute() {
           intentValue="user-change-username"
           description={`Public @username within ${configSite.name} 
           like ${configSite.domain}/yourname. Use 20 characters at maximum. 
-          Only alphabet, number, dot, underscore allowed`}
+          Only alphabet, number, underscore allowed`}
           schema={schemaUserUsername}
           user={user}
         />
@@ -94,6 +96,10 @@ export default function UserSettingsRoute() {
           description="A short paragraph about yourself, your interests, and what you enjoy doing."
           schema={schemaUserProfileBio}
           user={user}
+        />
+
+        <FormChangeLinks
+          userProfile={{ id: user.id, links: user.profile?.links ?? [] }}
         />
       </section>
     </div>
@@ -152,6 +158,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const submission = parse(formData, { schema: schemaUserProfileBio })
     if (!submission.value) return json(submission, { status: 400 })
     await modelUser.updateBio(submission.value)
+    await timer.delay()
+    return json(submission)
+  }
+
+  if (intent === "update-user-profile-links") {
+    const submission = parse(formData, { schema: schemaUserProfileLinks })
+    if (!submission.value) return json(submission, { status: 400 })
+    await modelUser.updateLinks(submission.value)
     await timer.delay()
     return json(submission)
   }
