@@ -61,7 +61,7 @@ export default function UserSettingsRoute() {
           intentValue="user-change-username"
           description={`Public @username within ${configSite.name} 
           like ${configSite.domain}/yourname. Use 20 characters at maximum. 
-          Only alphabet, number, dot, underscore allowed`}
+          Only alphabet, number, underscore allowed`}
           schema={schemaUserUsername}
           user={user}
         />
