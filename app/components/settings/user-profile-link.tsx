@@ -168,7 +168,7 @@ function LinkItemFieldset({ ...config }: LinkItemFieldsetProps) {
           className={cn(url.error && "error")}
           {...conform.input(url)}
         />
-        {url.error && <Alert variant='destructive'>{url.error}</Alert>}
+        {url.error && <Alert variant="destructive">{url.error}</Alert>}
       </div>
       <div>
         <Input
@@ -176,7 +176,7 @@ function LinkItemFieldset({ ...config }: LinkItemFieldsetProps) {
           className={cn(text.error && "error")}
           {...conform.input(text)}
         />
-        {text.error && <Alert variant='destructive'>{text.error}</Alert>}
+        {text.error && <Alert variant="destructive">{text.error}</Alert>}
       </div>
     </fieldset>
   )
