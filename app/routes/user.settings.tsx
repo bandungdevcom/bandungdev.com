@@ -6,6 +6,7 @@ import {
   type MetaFunction,
 } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
+import { UserProfileLinksForm } from "~/components/settings/user-profile-link"
 
 import { FormChangeField } from "~/components/shared/form-change-field"
 import { AvatarAuto } from "~/components/ui/avatar-auto"
@@ -20,6 +21,7 @@ import {
   schemaUserNickName,
   schemaUserProfileBio,
   schemaUserProfileHeadline,
+  schemaUserProfileLinks,
   schemaUserUsername,
 } from "~/schemas/user"
 import { createMeta } from "~/utils/meta"
@@ -95,6 +97,10 @@ export default function UserSettingsRoute() {
           schema={schemaUserProfileBio}
           user={user}
         />
+
+        <UserProfileLinksForm
+          userProfile={{ id: user.id, links: user.profile?.links ?? [] }}
+        />
       </section>
     </div>
   )
@@ -152,6 +158,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const submission = parse(formData, { schema: schemaUserProfileBio })
     if (!submission.value) return json(submission, { status: 400 })
     await modelUser.updateBio(submission.value)
+    await timer.delay()
+    return json(submission)
+  }
+
+  if (intent === "update-user-profile-links") {
+    const submission = parse(formData, { schema: schemaUserProfileLinks })
+    if (!submission.value) return json(submission, { status: 400 })
+    await modelUser.updateLinks(submission.value)
     await timer.delay()
     return json(submission)
   }
