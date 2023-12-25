@@ -4,8 +4,8 @@
     "name": "Online"
   },
   {
-    "symbol": "OFFLINE",
-    "name": "Offline"
+    "symbol": "IN_PERSON",
+    "name": "In Person"
   },
   {
     "symbol": "HYBRID",
