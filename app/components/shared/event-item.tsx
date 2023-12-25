@@ -18,21 +18,20 @@ export function EventItem({ event }: { event: Event }) {
     event.image?.url || "/images/covers/bandungdev-cover-luma-sharing.png"
 
   return (
-    <div className="flex flex-col justify-between overflow-hidden shadow-xl md:flex-row md:gap-8">
-      <div className="basis-1/2">
+    <div className="flex flex-col justify-between overflow-hidden shadow-xl md:flex-row">
+      <div>
         <Link
           className="focus-ring block transition hover:opacity-75 "
           to={`/events/${event.slug}`}
         >
           <img
-            className="aspect-video w-full bg-cover object-cover md:max-w-xl"
+            className="aspect-video h-60 w-full bg-cover object-cover md:h-80 md:max-w-xl"
             alt={event.title}
             src={imageUrl}
           />
         </Link>
       </div>
-
-      <div className="flex-1 shrink-0 basis-1/2 space-y-2">
+      <div className="flex-1 shrink-0 space-y-2 p-6">
         <div>
           <h3>
             <Link
