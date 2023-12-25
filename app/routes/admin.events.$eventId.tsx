@@ -301,24 +301,18 @@ export default function UserEventsEventIdRoute() {
             <section className="site-container md:col-span-2">
               <Card className="space-y-2 p-4">
                 <h2 className="mb-4">Event Location</h2>
-                <RadioGroup className="grid-cols-3">
-                  {conform
-                    .collection(categoryId, {
-                      type: "radio",
-                      options: eventCategories.map(
-                        eventCategory => eventCategory.id,
-                      ),
-                    })
-                    .map((props, index) => (
-                      <RadioGroupLocationCategoryItem
-                        {...props}
-                        key={eventCategories[index]?.id || index}
-                        value={props.value}
-                        type="submit"
-                      >
-                        {eventCategories[index]?.name}
-                      </RadioGroupLocationCategoryItem>
-                    ))}
+                <RadioGroup
+                  className="grid-cols-3"
+                  {...conform.input(categoryId)}
+                >
+                  {eventCategories.map(eventCategory => (
+                    <RadioGroupLocationCategoryItem
+                      key={eventCategory.id}
+                      value={eventCategory.id}
+                    >
+                      {eventCategory.name}
+                    </RadioGroupLocationCategoryItem>
+                  ))}
                 </RadioGroup>
               </Card>
             </section>
