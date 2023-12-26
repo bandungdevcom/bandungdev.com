@@ -86,7 +86,7 @@ export default function UserEventsEventIdRoute() {
 
   const [
     form,
-    { organizerId, id, slug, title, description, content, categoryId },
+    { organizerId, id, slug, title, description, content, categoryId, location, url },
   ] = useForm<z.infer<typeof schemaEvent>>({
     id: "update-event",
     lastSubmission: actionData?.submission,
@@ -114,6 +114,7 @@ export default function UserEventsEventIdRoute() {
   const [contentValue, setContentValue] = useState(content.defaultValue ?? "")
   const contentRef = useRef<HTMLInputElement>(null)
   const contentControl = useInputEvent({ ref: contentRef })
+
 
   function handleReset() {
     form.ref.current?.reset()
@@ -160,9 +161,8 @@ export default function UserEventsEventIdRoute() {
                 <FormDelete
                   action="/admin/events/delete"
                   intentValue="user-delete-event-by-id"
-                  itemText={`a event: ${truncateText(event.title)} (${
-                    event.slug
-                  })`}
+                  itemText={`a event: ${truncateText(event.title)} (${event.slug
+                    })`}
                   defaultValue={event.id}
                   requireUser
                   userId={event.organizerId}
