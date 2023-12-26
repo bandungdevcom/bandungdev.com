@@ -60,3 +60,10 @@ export function getUsernameFromEmail(email: string) {
     return email
   }
 }
+
+export function trimUrl(url: string): string {
+  if (url.startsWith("mailto:")) {
+    return url
+  }
+  return url.replace(/^(https?:\/\/)?(www\d?\.)?/, "")
+}
