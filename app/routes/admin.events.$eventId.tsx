@@ -10,6 +10,7 @@ import {
 import {
   Form,
   useActionData,
+  useFetcher,
   useLoaderData,
   useNavigation,
 } from "@remix-run/react"
@@ -37,7 +38,8 @@ import { useAppAdminLoaderData } from "~/hooks/use-app-loader-data"
 import { prisma } from "~/libs/db.server"
 import { modelAdminEvent } from "~/models/admin-event.server"
 import { modelEventCategory } from "~/models/event-category.server"
-import { schemaEvent } from "~/schemas/event"
+import { modelEvent } from "~/models/event.server"
+import { schemaEvent, schemaEventCategory } from "~/schemas/event"
 import { invariant, invariantResponse } from "~/utils/invariant"
 import { createMeta } from "~/utils/meta"
 import { createSitemap } from "~/utils/sitemap"
@@ -82,6 +84,7 @@ export default function UserEventsEventIdRoute() {
   const { event, eventCategories } = useLoaderData<typeof loader>()
   const actionData = useActionData<typeof action>()
   const navigation = useNavigation()
+  const fetcher = useFetcher()
   const { eventStatuses } = useAppAdminLoaderData()
 
   const [
@@ -89,17 +92,13 @@ export default function UserEventsEventIdRoute() {
     { organizerId, id, slug, title, description, content, categoryId },
   ] = useForm<z.infer<typeof schemaEvent>>({
     id: "update-event",
-    lastSubmission: actionData?.submission,
+    lastSubmission: actionData,
     shouldRevalidate: "onInput",
     constraint: getFieldsetConstraint(schemaEvent),
     onValidate({ formData }) {
       return parse(formData, { schema: schemaEvent })
     },
-    defaultValue: {
-      ...event,
-      organizerId: event.organizerId,
-      categoryId: event.categoryId || eventCategories[0]?.id,
-    },
+    defaultValue: event,
   })
 
   const isSubmitting = navigation.state === "submitting"
@@ -114,6 +113,10 @@ export default function UserEventsEventIdRoute() {
   const [contentValue, setContentValue] = useState(content.defaultValue ?? "")
   const contentRef = useRef<HTMLInputElement>(null)
   const contentControl = useInputEvent({ ref: contentRef })
+
+  const eventCategorySymbol = eventCategories.find(
+    eventCategory => eventCategory.id === categoryId.defaultValue,
+  )?.symbol
 
   function handleReset() {
     form.ref.current?.reset()
@@ -301,19 +304,41 @@ export default function UserEventsEventIdRoute() {
             <section className="site-container md:col-span-2">
               <Card className="space-y-2 p-4">
                 <h2 className="mb-4">Event Location</h2>
-                <RadioGroup
-                  className="grid-cols-3"
-                  {...conform.input(categoryId)}
+                <input
+                  type="hidden"
+                  name="categoryId"
+                  defaultValue={event.categoryId || ""}
+                />
+                <fetcher.Form
+                  method="POST"
+                  onChange={event => {
+                    fetcher.submit(event.currentTarget, { method: "POST" })
+                  }}
                 >
-                  {eventCategories.map(eventCategory => (
-                    <RadioGroupLocationCategoryItem
-                      key={eventCategory.id}
-                      value={eventCategory.id}
-                    >
-                      {eventCategory.name}
-                    </RadioGroupLocationCategoryItem>
-                  ))}
-                </RadioGroup>
+                  <input
+                    type="hidden"
+                    name="intent"
+                    defaultValue="change-event-category"
+                  />
+                  <input type="hidden" name="id" defaultValue={event.id} />
+                  <RadioGroup
+                    className="grid-cols-3"
+                    {...conform.input(categoryId)}
+                  >
+                    {eventCategories.map(eventCategory => (
+                      <RadioGroupLocationCategoryItem
+                        key={eventCategory.id}
+                        value={eventCategory.id}
+                      >
+                        {eventCategory.name}
+                      </RadioGroupLocationCategoryItem>
+                    ))}
+                  </RadioGroup>
+                </fetcher.Form>
+
+                {/* use this variable for location condition */}
+                {eventCategorySymbol}
+                {JSON.stringify(categoryId.defaultValue)}
               </Card>
             </section>
           </div>
@@ -327,33 +352,45 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const timer = createTimer()
   const clonedRequest = request.clone()
   const formData = await clonedRequest.formData()
+  const intent = formData.get("intent")?.toString()
 
-  const submission = await parse(formData, {
-    async: true,
-    schema: schemaEvent.superRefine(async (data, ctx) => {
-      const { id, slug } = data
-      const existingSlug = await prisma.event.findUnique({
-        where: { slug, NOT: { id } },
-        select: { id: true },
-      })
-      if (existingSlug) {
-        ctx.addIssue({
-          path: ["slug"],
-          code: z.ZodIssueCode.custom,
-          message: "Slug cannot be used, please change",
-        })
-        return
-      }
-    }),
-  })
-
-  if (!submission.value || submission.intent !== "submit") {
+  if (intent === "change-event-category") {
+    const submission = parse(formData, {
+      schema: schemaEventCategory,
+    })
+    if (!submission.value) return json(submission, { status: 400 })
+    await modelEvent.updateCategory(submission.value)
     await timer.delay()
-    return json({ status: "error", submission }, { status: 400 })
+    return json(submission)
+  } else {
+    // Add intent
+    const submission = await parse(formData, {
+      async: true,
+      schema: schemaEvent.superRefine(async (data, ctx) => {
+        const { id, slug } = data
+        const existingSlug = await prisma.event.findUnique({
+          where: { slug, NOT: { id } },
+          select: { id: true },
+        })
+        if (existingSlug) {
+          ctx.addIssue({
+            path: ["slug"],
+            code: z.ZodIssueCode.custom,
+            message: "Slug cannot be used, please change",
+          })
+          return
+        }
+      }),
+    })
+
+    if (!submission.value || submission.intent !== "submit") {
+      await timer.delay()
+      return json(submission, { status: 400 })
+    }
+
+    const event = await modelAdminEvent.update(submission.value)
+
+    await timer.delay()
+    return redirect(`/admin/events/${event.id}`)
   }
-
-  const event = await modelAdminEvent.update(submission.value)
-
-  await timer.delay()
-  return redirect(`/admin/events/${event.id}`)
 }

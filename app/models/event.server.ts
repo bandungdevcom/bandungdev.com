@@ -82,4 +82,11 @@ export const modelEvent = {
       orderBy: [{ updatedAt: "asc" }],
     })
   },
+
+  updateCategory({ id, categoryId }: Pick<Event, "id" | "categoryId">) {
+    return prisma.event.update({
+      where: { id },
+      data: { categoryId },
+    })
+  },
 }

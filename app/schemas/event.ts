@@ -34,6 +34,8 @@ export const schemaEvent = z.object({
   categoryId,
 })
 
+export const schemaEventCategory = z.object({ id, categoryId })
+
 export const schemaEventDeleteAll = z.object({ organizerId })
 
 export const schemaEventDeleteById = z.object({ organizerId, id })

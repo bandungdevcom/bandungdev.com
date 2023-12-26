@@ -45,6 +45,12 @@ export const modelAdminEvent = {
     })
     if (!status) return null
 
+    const eventCategory = await prisma.eventCategory.findUnique({
+      where: {
+        symbol: "IN_PERSON",
+      },
+    })
+
     return prisma.event.create({
       data: {
         organizerId,
@@ -53,6 +59,7 @@ export const modelAdminEvent = {
         description,
         content,
         statusId: status.id,
+        categoryId: eventCategory?.id,
         // FIXME: Default dates
         date: new Date(),
         timeStart: new Date(),
