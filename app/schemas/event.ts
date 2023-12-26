@@ -23,6 +23,10 @@ const readingTime = zfd.numeric(z.number().min(0).max(1000)).optional()
 
 const categoryId = z.string({ required_error: "Category is required" })
 
+const location = z.string().optional()
+
+const url = z.string().trim().url().optional()
+
 export const schemaEvent = z.object({
   organizerId,
   id,
@@ -32,6 +36,8 @@ export const schemaEvent = z.object({
   content,
   readingTime,
   categoryId,
+  location,
+  url,
 })
 
 export const schemaEventCategory = z.object({ id, categoryId })
