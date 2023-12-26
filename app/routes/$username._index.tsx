@@ -6,14 +6,17 @@ import {
 import { useLoaderData } from "@remix-run/react"
 import { z } from "zod"
 import { zx } from "zodix"
+import { Anchor } from "~/components/ui/anchor"
 
 import { AvatarAuto } from "~/components/ui/avatar-auto"
 import { ButtonLink } from "~/components/ui/button-link"
+import { Card } from "~/components/ui/card"
 import { useRootLoaderData } from "~/hooks/use-root-loader-data"
 import { modelUser } from "~/models/user.server"
 import { invariant, invariantResponse } from "~/utils/invariant"
 import { createMeta } from "~/utils/meta"
 import { createSitemap } from "~/utils/sitemap"
+import { trimURL } from "~/utils/string"
 
 export const handle = createSitemap()
 
@@ -40,6 +43,12 @@ export const meta: MetaFunction<typeof loader> = ({ params, data }) => {
  * 2. Organization from database
  * 3. If nothing found, tell this user doesn’t exist
  */
+
+type ProfileLink = {
+  url: string
+  text: string
+}
+
 export async function loader({ params }: LoaderFunctionArgs) {
   const username = params.username
   invariant(username, "params.username unavailable")
@@ -47,12 +56,19 @@ export async function loader({ params }: LoaderFunctionArgs) {
   const user = await modelUser.getByUsername({ username })
   invariantResponse(user, "User not found", { status: 404 })
 
-  return json({ user })
+  const profileLinks =
+    user.profile?.links &&
+    typeof user?.profile.links === "object" &&
+    Array.isArray(user?.profile.links)
+      ? (user?.profile.links as ProfileLink[])
+      : ([] as ProfileLink[])
+
+  return json({ user, profileLinks })
 }
 
 export default function UsernameRoute() {
   const { userSession } = useRootLoaderData()
-  const { user } = useLoaderData<typeof loader>()
+  const { user, profileLinks } = useLoaderData<typeof loader>()
 
   const profile = user.profile
   const isOwner = user.id === userSession?.id
@@ -86,6 +102,33 @@ export default function UsernameRoute() {
           <p className="prose-config">{profile.bio}</p>
         </section>
       )}
+
+      <section className="site-section space-y-2">
+        <h4>Links</h4>
+
+        {profileLinks.length <= 0 && <p>No profile links.</p>}
+
+        {profileLinks.length > 0 && (
+          <ul className="space-y-2">
+            {profileLinks.map(profileLink => {
+              return (
+                <li key={profileLink.url}>
+                  <Anchor href={profileLink.url} className="block">
+                    <Card className="flex items-center gap-2 space-y-0 px-2 py-1 transition hover:opacity-70">
+                      {profileLink.text && (
+                        <span className="font-bold">{profileLink.text}</span>
+                      )}
+                      <span className="font-mono text-sm">
+                        {trimURL(profileLink.url)}
+                      </span>
+                    </Card>
+                  </Anchor>
+                </li>
+              )
+            })}
+          </ul>
+        )}
+      </section>
     </div>
   )
 }
