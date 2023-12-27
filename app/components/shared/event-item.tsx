@@ -25,7 +25,7 @@ export function EventItem({ event }: { event: Event }) {
           to={`/events/${event.slug}`}
         >
           <img
-            className="aspect-video h-60 w-full bg-cover object-cover md:h-80 md:max-w-xl"
+            className="aspect-video w-full bg-cover object-cover md:h-60 md:max-w-xl lg:h-80"
             alt={event.title}
             src={imageUrl}
           />
