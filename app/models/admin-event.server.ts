@@ -86,12 +86,8 @@ export const modelAdminEvent = {
     address?: Location["address"]
   }) {
     const event = await prisma.event.findUnique({
-      where: {
-        id,
-      },
-      include: {
-        location: true,
-      },
+      where: { id },
+      include: { location: true },
     })
 
     let locationId
@@ -99,19 +95,12 @@ export const modelAdminEvent = {
     if (event?.location) {
       locationId = event.location.id
       await prisma.location.update({
-        where: {
-          id: event.location.id,
-        },
-        data: {
-          address,
-        },
+        where: { id: event.location.id },
+        data: { address },
       })
     } else {
       const location = await prisma.location.create({
-        data: {
-          label: "",
-          address,
-        },
+        data: { address },
       })
       locationId = location.id
     }
