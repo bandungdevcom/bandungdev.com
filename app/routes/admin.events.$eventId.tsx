@@ -27,6 +27,7 @@ import { Timestamp } from "~/components/shared/timestamp"
 import { Button } from "~/components/ui/button"
 import { Card } from "~/components/ui/card"
 import { Iconify } from "~/components/ui/iconify"
+import { Input } from "~/components/ui/input"
 import {
   RadioGroup,
   RadioGroupLocationCategoryItem,
@@ -45,7 +46,6 @@ import { createMeta } from "~/utils/meta"
 import { createSitemap } from "~/utils/sitemap"
 import { createSlug, truncateText } from "~/utils/string"
 import { createTimer } from "~/utils/timer"
-import { Input } from "~/components/ui/input"
 
 export const handle = createSitemap()
 
@@ -90,7 +90,18 @@ export default function UserEventsEventIdRoute() {
 
   const [
     form,
-    { organizerId, id, slug, title, description, content, categoryId, address, url, mapUrl },
+    {
+      organizerId,
+      id,
+      slug,
+      title,
+      description,
+      content,
+      categoryId,
+      address,
+      url,
+      mapUrl,
+    },
   ] = useForm<z.infer<typeof schemaEvent>>({
     id: "update-event",
     lastSubmission: actionData,
@@ -164,8 +175,9 @@ export default function UserEventsEventIdRoute() {
                 <FormDelete
                   action="/admin/events/delete"
                   intentValue="user-delete-event-by-id"
-                  itemText={`a event: ${truncateText(event.title)} (${event.slug
-                    })`}
+                  itemText={`a event: ${truncateText(event.title)} (${
+                    event.slug
+                  })`}
                   defaultValue={event.id}
                   requireUser
                   userId={event.organizerId}
@@ -337,8 +349,9 @@ export default function UserEventsEventIdRoute() {
                 </fetcher.Form>
 
                 {/* Field for IN_PERSON Event */}
-                {(eventCategorySymbol === "IN_PERSON" || eventCategorySymbol === "HYBRID") && (
-                  <div className="space-y-2 flex flex-col">
+                {(eventCategorySymbol === "IN_PERSON" ||
+                  eventCategorySymbol === "HYBRID") && (
+                  <div className="flex flex-col space-y-2">
                     <label htmlFor="address">Address</label>
                     <Input className="w-full" {...conform.input(address)} />
                     <FormErrors>{address}</FormErrors>
@@ -350,8 +363,9 @@ export default function UserEventsEventIdRoute() {
                 )}
 
                 {/* Field for ONLINE Event */}
-                {(eventCategorySymbol === "ONLINE" || eventCategorySymbol === "HYBRID") && (
-                  <div className="space-y-2 flex flex-col">
+                {(eventCategorySymbol === "ONLINE" ||
+                  eventCategorySymbol === "HYBRID") && (
+                  <div className="flex flex-col space-y-2">
                     <label htmlFor="Event Media">Media</label>
                     <Input className="w-full" {...conform.input(url)} />
                     <FormErrors>{url}</FormErrors>
