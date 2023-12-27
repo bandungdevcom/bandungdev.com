@@ -1,5 +1,4 @@
-import { type Event } from "@prisma/client"
-
+import { Location, type Event } from "@prisma/client"
 import { createEventSlug } from "~/helpers/event"
 import { prisma } from "~/libs/db.server"
 import { type EventStatusSymbol } from "~/types/event-status"
@@ -26,6 +25,7 @@ export const modelAdminEvent = {
       include: {
         status: { select: { symbol: true, name: true } },
         image: { select: { url: true } },
+        location: { select: { label: true, address: true } }
       },
     })
   },
@@ -71,16 +71,51 @@ export const modelAdminEvent = {
     })
   },
 
-  update({
+  async update({
     organizerId,
     id,
     slug,
     title,
     description,
     content,
+    url,
+    address
   }: Pick<Event, "organizerId" | "id" | "slug" | "title" | "description"> & {
     content?: Event["content"]
+    url?: Event["url"]
+    address?: Location["address"]
   }) {
+    const event = await prisma.event.findUnique({
+      where: {
+        id
+      },
+      include: {
+        location: true
+      }
+    })
+
+    let locationId;
+
+    if (event?.location) {
+      locationId = event.location.id
+      await prisma.location.update({
+        where: {
+          id: event.location.id
+        },
+        data: {
+          address
+        }
+      })
+    } else {
+      const location = await prisma.location.create({
+        data: {
+          label: "",
+          address
+        }
+      })
+      locationId = location.id
+    }
+
     return prisma.event.update({
       where: { id },
       data: {
@@ -89,6 +124,8 @@ export const modelAdminEvent = {
         title,
         description,
         content,
+        url,
+        locationId
       },
     })
   },

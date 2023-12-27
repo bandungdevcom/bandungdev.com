@@ -45,6 +45,7 @@ import { createMeta } from "~/utils/meta"
 import { createSitemap } from "~/utils/sitemap"
 import { createSlug, truncateText } from "~/utils/string"
 import { createTimer } from "~/utils/timer"
+import { Input } from "~/components/ui/input"
 
 export const handle = createSitemap()
 
@@ -89,7 +90,7 @@ export default function UserEventsEventIdRoute() {
 
   const [
     form,
-    { organizerId, id, slug, title, description, content, categoryId },
+    { organizerId, id, slug, title, description, content, categoryId, address, url, mapUrl },
   ] = useForm<z.infer<typeof schemaEvent>>({
     id: "update-event",
     lastSubmission: actionData,
@@ -163,9 +164,8 @@ export default function UserEventsEventIdRoute() {
                 <FormDelete
                   action="/admin/events/delete"
                   intentValue="user-delete-event-by-id"
-                  itemText={`a event: ${truncateText(event.title)} (${
-                    event.slug
-                  })`}
+                  itemText={`a event: ${truncateText(event.title)} (${event.slug
+                    })`}
                   defaultValue={event.id}
                   requireUser
                   userId={event.organizerId}
@@ -303,7 +303,7 @@ export default function UserEventsEventIdRoute() {
             </section>
             <section className="site-container md:col-span-2">
               <Card className="space-y-2 p-4">
-                <h2 className="mb-4">Event Location</h2>
+                <h2 className="mb-4">Event Detail</h2>
                 <input
                   type="hidden"
                   name="categoryId"
@@ -336,9 +336,31 @@ export default function UserEventsEventIdRoute() {
                   </RadioGroup>
                 </fetcher.Form>
 
-                {/* use this variable for location condition */}
-                {eventCategorySymbol}
-                {JSON.stringify(categoryId.defaultValue)}
+                {/* Field for IN_PERSON Event */}
+                {(eventCategorySymbol === "IN_PERSON" || eventCategorySymbol === "HYBRID") && (
+                  <div className="space-y-2 flex flex-col">
+                    <label htmlFor="address">Address</label>
+                    <Input className="w-full" {...conform.input(address)} />
+                    <FormErrors>{address}</FormErrors>
+
+                    <label htmlFor="mapUrl">Map URL</label>
+                    <Input className="w-full" {...conform.input(mapUrl)} />
+                    <FormErrors>{mapUrl}</FormErrors>
+                  </div>
+                )}
+
+                {/* Field for ONLINE Event */}
+                {(eventCategorySymbol === "ONLINE" || eventCategorySymbol === "HYBRID") && (
+                  <div className="space-y-2 flex flex-col">
+                    <label htmlFor="Event Media">Media</label>
+                    <Input className="w-full" {...conform.input(url)} />
+                    <FormErrors>{url}</FormErrors>
+
+                    <label htmlFor="url">URL</label>
+                    <Input className="w-full" {...conform.input(url)} />
+                    <FormErrors>{url}</FormErrors>
+                  </div>
+                )}
               </Card>
             </section>
           </div>

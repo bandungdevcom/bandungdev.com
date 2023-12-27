@@ -341,7 +341,7 @@ model EventMedia {
 model Location {
   id String @id @default(cuid())
 
-  label String @db.Text
+  label String? @db.Text
 
   // OFFLINE / HYBRID
   address String? @db.Text // Complete combined address
