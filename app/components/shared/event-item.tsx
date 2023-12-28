@@ -1,28 +1,38 @@
-import { type Prisma } from "@prisma/client"
 import { Link } from "@remix-run/react"
 
-import { ImageCover } from "~/components/shared/image-cover"
 import { ButtonLink } from "~/components/ui/button-link"
-import { type modelEvent } from "~/models/event.server"
 import { formatPublished } from "~/utils/datetime"
 
-export function EventItem({
-  event,
-}: {
-  event: Prisma.PromiseReturnType<typeof modelEvent.getBySlug>
-}) {
-  if (!event) return null
+export interface Event {
+  slug: string
+  title: string
+  description: string
+  date: string
+  image: {
+    url: string
+  }
+}
+
+export function EventItem({ event }: { event: Event }) {
+  const imageUrl =
+    event.image?.url || "/images/covers/bandungdev-cover-luma-sharing.png"
 
   return (
-    <div className="flex justify-between gap-4">
-      <Link
-        className="focus-ring block basis-8/12 transition hover:opacity-75"
-        to={`/events/${event.slug}`}
-      >
-        <ImageCover src={event.image?.url} />
-      </Link>
+    <div className="flex flex-col justify-between gap-4 overflow-hidden md:flex-row md:gap-8">
+      <div>
+        <Link
+          className="focus-ring block transition hover:opacity-75 "
+          to={`/events/${event.slug}`}
+        >
+          <img
+            className="aspect-video w-full bg-cover object-cover md:h-60 md:max-w-xl lg:h-80"
+            alt={event.title}
+            src={imageUrl}
+          />
+        </Link>
+      </div>
 
-      <div className="basis-4/12 space-y-2">
+      <div className="flex-1 shrink-0 space-y-2">
         <div>
           <h3>
             <Link
@@ -33,11 +43,11 @@ export function EventItem({
             </Link>
           </h3>
 
-          <p className="hidden sm:block">{event.description}</p>
+          <p>{event.description}</p>
         </div>
 
         <p className="text-sm text-muted-foreground">
-          <time>{formatPublished(event.updatedAt)}</time>
+          <time>{formatPublished(event.date)}</time>
         </p>
 
         <ButtonLink variant="secondary" size="sm" to={`/events/${event.slug}`}>

@@ -1,16 +1,15 @@
-import { type Prisma } from "@prisma/client"
 import { Link } from "@remix-run/react"
 
 import { AvatarAuto } from "~/components/ui/avatar-auto"
-import { type modelUser } from "~/models/user.server"
 
-export function UserItem({
-  user,
-}: {
-  user: Prisma.PromiseReturnType<typeof modelUser.getWithImages>
-}) {
-  if (!user) return null
+export type User = {
+  id: string
+  username: string
+  fullname: string
+  images: { url: string }[]
+}
 
+export function UserItem({ user }: { user: User }) {
   return (
     <Link
       to={`/${user.username}`}
