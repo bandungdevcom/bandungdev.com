@@ -27,6 +27,7 @@ import { Timestamp } from "~/components/shared/timestamp"
 import { Button } from "~/components/ui/button"
 import { Card } from "~/components/ui/card"
 import { Iconify } from "~/components/ui/iconify"
+import { Input } from "~/components/ui/input"
 import {
   RadioGroup,
   RadioGroupLocationCategoryItem,
@@ -45,7 +46,6 @@ import { createMeta } from "~/utils/meta"
 import { createSitemap } from "~/utils/sitemap"
 import { createSlug, truncateText } from "~/utils/string"
 import { createTimer } from "~/utils/timer"
-import { Input } from "~/components/ui/input"
 import { modelEventMedia } from "~/models/event-media.server"
 
 export const handle = createSitemap()
@@ -346,30 +346,32 @@ export default function UserEventsEventIdRoute() {
                 </fetcher.Form>
 
                 {/* Field for IN_PERSON Event */}
-                {(eventCategorySymbol === "IN_PERSON" || eventCategorySymbol === "HYBRID") && (
-                  <div className="space-y-2 flex flex-col">
-                    <label htmlFor="address">Address</label>
-                    <Input className="w-full" {...conform.input(address)} />
-                    <FormErrors>{address}</FormErrors>
+                {(eventCategorySymbol === "IN_PERSON" ||
+                  eventCategorySymbol === "HYBRID") && (
+                    <div className="flex flex-col space-y-2">
+                      <label htmlFor="address">Address</label>
+                      <Input className="w-full" {...conform.input(address)} />
+                      <FormErrors>{address}</FormErrors>
 
-                    <label htmlFor="mapUrl">Map URL</label>
-                    <Input className="w-full" {...conform.input(mapsUrl)} />
-                    <FormErrors>{mapsUrl}</FormErrors>
-                  </div>
-                )}
+                      <label htmlFor="mapUrl">Map URL</label>
+                      <Input className="w-full" {...conform.input(mapsUrl)} />
+                      <FormErrors>{mapsUrl}</FormErrors>
+                    </div>
+                  )}
 
                 {/* Field for ONLINE Event */}
-                {(eventCategorySymbol === "ONLINE" || eventCategorySymbol === "HYBRID") && (
-                  <div className="space-y-2 flex flex-col">
-                    <label htmlFor="Event Media">Media</label>
-                    <Input className="w-full" {...conform.input(url)} />
-                    <FormErrors>{url}</FormErrors>
+                {(eventCategorySymbol === "ONLINE" ||
+                  eventCategorySymbol === "HYBRID") && (
+                    <div className="flex flex-col space-y-2">
+                      <label htmlFor="Event Media">Media</label>
+                      <Input className="w-full" {...conform.input(url)} />
+                      <FormErrors>{url}</FormErrors>
 
-                    <label htmlFor="url">URL</label>
-                    <Input className="w-full" {...conform.input(url)} />
-                    <FormErrors>{url}</FormErrors>
-                  </div>
-                )}
+                      <label htmlFor="url">URL</label>
+                      <Input className="w-full" {...conform.input(url)} />
+                      <FormErrors>{url}</FormErrors>
+                    </div>
+                  )}
               </Card>
             </section>
           </div>
