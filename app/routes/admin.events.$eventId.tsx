@@ -47,6 +47,7 @@ import { createSitemap } from "~/utils/sitemap"
 import { createSlug, truncateText } from "~/utils/string"
 import { createTimer } from "~/utils/timer"
 import { modelEventMedia } from "~/models/event-media.server"
+import { SelectTrigger, Select, SelectContent, SelectItem, SelectValue, SelectGroup } from "~/components/ui/select"
 
 export const handle = createSitemap()
 
@@ -93,7 +94,7 @@ export default function UserEventsEventIdRoute() {
 
   const [
     form,
-    { organizerId, id, slug, title, description, content, categoryId, address, url, mapsUrl },
+    { organizerId, id, slug, title, description, content, categoryId, address, url, mapsUrl, mediaId },
   ] = useForm<z.infer<typeof schemaEvent>>({
     id: "update-event",
     lastSubmission: actionData,
@@ -105,7 +106,7 @@ export default function UserEventsEventIdRoute() {
     defaultValue: {
       ...event,
       address: event.location?.address,
-      mapsUrl: event.location?.mapsUrl
+      mapsUrl: event.location?.mapsUrl,
     },
   })
 
@@ -364,8 +365,19 @@ export default function UserEventsEventIdRoute() {
                   eventCategorySymbol === "HYBRID") && (
                     <div className="flex flex-col space-y-2">
                       <label htmlFor="Event Media">Media</label>
-                      <Input className="w-full" {...conform.input(url)} />
-                      <FormErrors>{url}</FormErrors>
+                      <Select {...conform.input(mediaId)}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select media" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            {eventMedias.map(eventMedia => (
+                              <SelectItem key={eventMedia.id} value={eventMedia.id}>{eventMedia.name}</SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                      <FormErrors>{mediaId}</FormErrors>
 
                       <label htmlFor="url">URL</label>
                       <Input className="w-full" {...conform.input(url)} />

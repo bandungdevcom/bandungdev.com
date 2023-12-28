@@ -81,8 +81,10 @@ export const modelAdminEvent = {
     url,
     address,
     mapsUrl,
+    mediaId,
   }: Pick<Event, "organizerId" | "id" | "slug" | "title" | "description"> & {
     content?: Event["content"]
+    mediaId?: Event["mediaId"]
     url?: Event["url"]
     address?: Location["address"]
     mapsUrl?: Location["mapsUrl"]
@@ -125,6 +127,7 @@ export const modelAdminEvent = {
         content,
         url,
         locationId,
+        mediaId
       },
     })
   },
