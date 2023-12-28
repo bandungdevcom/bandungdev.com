@@ -140,7 +140,8 @@
  */
 @layer utilities {
   .text-gradient {
-    @apply bg-gradient-to-r bg-clip-text text-primary-foreground text-transparent;
+    @apply text-primary-foreground;
+    @apply bg-gradient-to-r bg-clip-text text-transparent;
     @apply from-slate-800 to-slate-500 dark:from-white dark:to-slate-500;
   }
   .focus-ring {
@@ -180,8 +181,8 @@
 
 /* Uploadcare */
 .uploadcare-config {
-  --h-accent: 244;
-  --s-accent: 55%;
+  --h-accent: 216;
+  --s-accent: 17%;
   --l-accent: calc(50% - 5% * var(--darkmode));
   --border-radius-element: calc(var(--radius) - 2px);
   --border-radius-frame: calc(var(--radius) - 2px);
