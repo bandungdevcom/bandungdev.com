@@ -2,32 +2,52 @@ export const dataEvents = [
   {
     slug: "launch",
     title: "Official Setup/Launch",
-    description: "The description of the event.",
+    description: "BandungDev is being launched to the public.",
     date: new Date("2023-10-22"),
     timeStart: new Date("2023-10-22 13:00"),
     timeEnd: new Date("2023-10-22 18:00"),
     statusSymbol: "PUBLISHED",
     // categorySymbol: "MEETING",
+    content: "BandungDev is being launched to the public.",
   },
   {
-    slug: "2023-11-11",
+    slug: "2023-11-26",
     title: "Casual Meetup on November 2023",
-    description: "The description of the event.",
+    description:
+      "One of the first meetup for casual introduction, coffee and tea, dicuss various things.",
     date: new Date("2023-11-11"),
     timeStart: new Date("2023-11-11 13:00"),
     timeEnd: new Date("2023-11-11 16:00"),
     statusSymbol: "PUBLISHED",
     // categorySymbol: "MEETUP",
+    content:
+      "Casual community meetup for small group of around 10+ people. Having some brief introduction and talk about anything related to BandungDev itself, community management, software engineering, web development, and many more",
   },
   {
-    slug: "2023-12-30",
-    title: "Casual Meetup on December 2023",
-    description: "The description of the event.",
+    slug: "2023-12-30-south",
+    title: "Casual Meetup: South on December 2023",
+    description:
+      "In the south area, casual for introduction, coffee and tea, dicuss various things.",
     date: new Date("2023-12-30"),
-    timeStart: new Date("2023-12-30 14:00"),
-    timeEnd: new Date("2023-12-30 17:00"),
-    statusSymbol: "UNLISTED",
+    timeStart: new Date("2023-12-30 13:00"),
+    timeEnd: new Date("2023-12-30 16:00"),
+    statusSymbol: "PUBLISHED",
     // categorySymbol: "MEETUP",
+    content:
+      "Casual community meetup for small group of around ~10 people. We'll have some brief introduction and talk about anything related to community, software engineering, web development, and many more",
+  },
+  {
+    slug: "2023-12-30-north",
+    title: "Casual Meetup: North on December 2023",
+    description:
+      "In the north area, casual for introduction, coffee and tea, dicuss various things.",
+    date: new Date("2023-12-30"),
+    timeStart: new Date("2023-12-30 10:00"),
+    timeEnd: new Date("2023-12-30 13:00"),
+    statusSymbol: "PUBLISHED",
+    // categorySymbol: "MEETUP",
+    content:
+      "Casual community meetup for small group of around ~8 people. We'll have some brief introduction and talk about anything related to community, software engineering, mobile development with Flutter, and many more",
   },
   {
     slug: "2024-02-18",
@@ -38,5 +58,7 @@ export const dataEvents = [
     timeEnd: new Date("2024-02-18 16:00"),
     statusSymbol: "DRAFT",
     // categorySymbol: "SEMINAR",
+    content:
+      "Casual community meetup for small group of around ~8 people. We'll have some brief introduction and talk about anything related to community management, software engineering, and web development",
   },
 ]
