@@ -46,6 +46,7 @@ import { createSitemap } from "~/utils/sitemap"
 import { createSlug, truncateText } from "~/utils/string"
 import { createTimer } from "~/utils/timer"
 import { Input } from "~/components/ui/input"
+import { modelEventMedia } from "~/models/event-media.server"
 
 export const handle = createSitemap()
 
@@ -67,22 +68,24 @@ export const meta: MetaFunction<typeof loader> = ({ params, data }) => {
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   invariant(params.eventId, "params.eventId unavailable")
   const { userId: organizerId } = await requireUser(request)
-  const [event, eventCategories] = await prisma.$transaction([
+  const [event, eventCategories, eventMedias] = await prisma.$transaction([
     modelAdminEvent.getById({
       organizerId,
       id: params.eventId,
     }),
     modelEventCategory.getAll(),
+    modelEventMedia.getAll(),
   ])
   invariantResponse(event, "Event not found", { status: 404 })
   invariantResponse(eventCategories, "Event categories not found", {
     status: 404,
   })
-  return json({ event, eventCategories })
+  invariantResponse(eventMedias, "Event Medias not found", { status: 404 })
+  return json({ event, eventCategories, eventMedias })
 }
 
 export default function UserEventsEventIdRoute() {
-  const { event, eventCategories } = useLoaderData<typeof loader>()
+  const { event, eventCategories, eventMedias } = useLoaderData<typeof loader>()
   const actionData = useActionData<typeof action>()
   const navigation = useNavigation()
   const fetcher = useFetcher()
@@ -90,7 +93,7 @@ export default function UserEventsEventIdRoute() {
 
   const [
     form,
-    { organizerId, id, slug, title, description, content, categoryId, address, url, mapUrl },
+    { organizerId, id, slug, title, description, content, categoryId, address, url, mapsUrl },
   ] = useForm<z.infer<typeof schemaEvent>>({
     id: "update-event",
     lastSubmission: actionData,
@@ -99,7 +102,11 @@ export default function UserEventsEventIdRoute() {
     onValidate({ formData }) {
       return parse(formData, { schema: schemaEvent })
     },
-    defaultValue: event,
+    defaultValue: {
+      ...event,
+      address: event.location?.address,
+      mapsUrl: event.location?.mapsUrl
+    },
   })
 
   const isSubmitting = navigation.state === "submitting"
@@ -314,6 +321,7 @@ export default function UserEventsEventIdRoute() {
                   onChange={event => {
                     fetcher.submit(event.currentTarget, { method: "POST" })
                   }}
+                  className="space-y-2"
                 >
                   <input
                     type="hidden"
@@ -321,6 +329,7 @@ export default function UserEventsEventIdRoute() {
                     defaultValue="change-event-category"
                   />
                   <input type="hidden" name="id" defaultValue={event.id} />
+                  <label htmlFor="categoryId">Category</label>
                   <RadioGroup
                     className="grid-cols-3"
                     {...conform.input(categoryId)}
@@ -344,8 +353,8 @@ export default function UserEventsEventIdRoute() {
                     <FormErrors>{address}</FormErrors>
 
                     <label htmlFor="mapUrl">Map URL</label>
-                    <Input className="w-full" {...conform.input(mapUrl)} />
-                    <FormErrors>{mapUrl}</FormErrors>
+                    <Input className="w-full" {...conform.input(mapsUrl)} />
+                    <FormErrors>{mapsUrl}</FormErrors>
                   </div>
                 )}
 

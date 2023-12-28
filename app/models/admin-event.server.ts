@@ -25,7 +25,7 @@ export const modelAdminEvent = {
       include: {
         status: { select: { symbol: true, name: true } },
         image: { select: { url: true } },
-        location: { select: { label: true, address: true } }
+        location: { select: { address: true, mapsUrl: true } }
       },
     })
   },
@@ -79,11 +79,13 @@ export const modelAdminEvent = {
     description,
     content,
     url,
-    address
+    address,
+    mapsUrl,
   }: Pick<Event, "organizerId" | "id" | "slug" | "title" | "description"> & {
     content?: Event["content"]
     url?: Event["url"]
     address?: Location["address"]
+    mapsUrl?: Location["mapsUrl"]
   }) {
     const event = await prisma.event.findUnique({
       where: {
@@ -103,14 +105,15 @@ export const modelAdminEvent = {
           id: event.location.id
         },
         data: {
-          address
+          address,
+          mapsUrl
         }
       })
     } else {
       const location = await prisma.location.create({
         data: {
-          label: "",
-          address
+          address,
+          mapsUrl
         }
       })
       locationId = location.id

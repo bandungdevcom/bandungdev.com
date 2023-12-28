@@ -27,7 +27,9 @@ const address = z.string().optional()
 
 const url = z.string().optional()
 
-const mapUrl = z.string().optional()
+const mapsUrl = z.string().optional()
+
+const media = z.string().optional()
 
 export const schemaEvent = z.object({
   organizerId,
@@ -40,7 +42,8 @@ export const schemaEvent = z.object({
   categoryId,
   address,
   url,
-  mapUrl,
+  mapsUrl,
+  media,
 })
 
 export const schemaEventCategory = z.object({ id, categoryId })
