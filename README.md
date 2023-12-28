@@ -223,6 +223,17 @@ Open <http://localhost:3000> and it's ready!
 
 Develop the app as usual, the Remix way.
 
+### Setup some services
+
+- Image upload with [Uploadcare](https://uploadcare.com)
+  - `UPLOADCARE_PUBLIC_KEY`, `UPLOADCARE_SECRET_KEY`
+
+### Subscribe for the status of the services
+
+- [Vercel Status](https://vercel-status.com)
+- [PlanetScale Status](https://planetscalestatus.com)
+- [Uploadcare Status](https://status.uploadcare.com)
+
 ## References
 
 ### Inspirations

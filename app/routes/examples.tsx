@@ -7,7 +7,7 @@ import { configExamples } from "~/configs/examples"
 
 export default function ExamplesRoute() {
   return (
-    <div className="site-container space-y-12 pt-4">
+    <div className="site-container space-y-12">
       <header>
         <h1 className="inline-flex items-center gap-2">
           <Iconify icon="ph:bounding-box-duotone" />
