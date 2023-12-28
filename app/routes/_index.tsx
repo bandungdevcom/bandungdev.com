@@ -62,7 +62,7 @@ export default function IndexRoute() {
         />
       </section>
 
-      <section>
+      <section className="site-section max-w-4xl">
         <ContentEvents
           events={upcomingEvents as any}
           title="Upcoming Events"
@@ -71,7 +71,7 @@ export default function IndexRoute() {
         />
       </section>
 
-      <section>
+      <section className="site-section max-w-4xl">
         <ContentEvents
           events={pastEvents as any}
           title="Past Events"
@@ -81,7 +81,7 @@ export default function IndexRoute() {
         />
       </section>
 
-      <section>
+      <section className="site-section max-w-4xl">
         <ContentMembers
           title="Newly Joined Community Members"
           subtitle="Join our community and meet other developers in Bandung"
