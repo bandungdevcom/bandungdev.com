@@ -140,7 +140,8 @@
  */
 @layer utilities {
   .text-gradient {
-    @apply bg-gradient-to-r bg-clip-text text-primary-foreground text-transparent;
+    @apply text-primary-foreground;
+    @apply bg-gradient-to-r bg-clip-text text-transparent;
     @apply from-slate-800 to-slate-500 dark:from-white dark:to-slate-500;
   }
   .focus-ring {
@@ -171,8 +172,27 @@
   }
 }
 
+/* Tiptap */
 .tiptap p.is-empty::before {
   @apply pointer-events-none float-left h-0 text-muted-foreground/30;
 
   content: attr(data-placeholder);
+}
+
+/* Uploadcare */
+.uploadcare-config {
+  --h-accent: 216;
+  --s-accent: 17%;
+  --l-accent: calc(50% - 5% * var(--darkmode));
+  --border-radius-element: calc(var(--radius) - 2px);
+  --border-radius-frame: calc(var(--radius) - 2px);
+  --border-radius-thumb: calc(var(--radius) - 2px);
+}
+
+.uploadcare-config.light {
+  --darkmode: 0;
+}
+
+.uploadcare-config.dark {
+  --darkmode: 1;
 }
