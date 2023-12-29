@@ -32,6 +32,14 @@ import {
   RadioGroup,
   RadioGroupLocationCategoryItem,
 } from "~/components/ui/radio-group"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select"
 import { Separator } from "~/components/ui/separator"
 import { TextareaAutosize } from "~/components/ui/textarea-autosize"
 import { requireUser } from "~/helpers/auth"
@@ -39,6 +47,7 @@ import { useAppAdminLoaderData } from "~/hooks/use-app-loader-data"
 import { prisma } from "~/libs/db.server"
 import { modelAdminEvent } from "~/models/admin-event.server"
 import { modelEventCategory } from "~/models/event-category.server"
+import { modelEventMedia } from "~/models/event-media.server"
 import { modelEvent } from "~/models/event.server"
 import { schemaEvent, schemaEventCategory } from "~/schemas/event"
 import { invariant, invariantResponse } from "~/utils/invariant"
@@ -46,8 +55,6 @@ import { createMeta } from "~/utils/meta"
 import { createSitemap } from "~/utils/sitemap"
 import { createSlug, truncateText } from "~/utils/string"
 import { createTimer } from "~/utils/timer"
-import { modelEventMedia } from "~/models/event-media.server"
-import { SelectTrigger, Select, SelectContent, SelectItem, SelectValue, SelectGroup } from "~/components/ui/select"
 
 export const handle = createSitemap()
 
@@ -94,7 +101,19 @@ export default function UserEventsEventIdRoute() {
 
   const [
     form,
-    { organizerId, id, slug, title, description, content, categoryId, address, url, mapsUrl, mediaId },
+    {
+      organizerId,
+      id,
+      slug,
+      title,
+      description,
+      content,
+      categoryId,
+      address,
+      url,
+      mapsUrl,
+      mediaId,
+    },
   ] = useForm<z.infer<typeof schemaEvent>>({
     id: "update-event",
     lastSubmission: actionData,
@@ -172,8 +191,9 @@ export default function UserEventsEventIdRoute() {
                 <FormDelete
                   action="/admin/events/delete"
                   intentValue="user-delete-event-by-id"
-                  itemText={`a event: ${truncateText(event.title)} (${event.slug
-                    })`}
+                  itemText={`a event: ${truncateText(event.title)} (${
+                    event.slug
+                  })`}
                   defaultValue={event.id}
                   requireUser
                   userId={event.organizerId}
@@ -237,6 +257,11 @@ export default function UserEventsEventIdRoute() {
 
               <div>
                 <div className="flex justify-between gap-2">
+                  <input
+                    type="hidden"
+                    name="intent"
+                    defaultValue="save-event"
+                  />
                   <input
                     {...conform.input(slug)}
                     ref={slugRef}
@@ -349,41 +374,46 @@ export default function UserEventsEventIdRoute() {
                 {/* Field for IN_PERSON Event */}
                 {(eventCategorySymbol === "IN_PERSON" ||
                   eventCategorySymbol === "HYBRID") && (
-                    <div className="flex flex-col space-y-2">
-                      <label htmlFor="address">Address</label>
-                      <Input className="w-full" {...conform.input(address)} />
-                      <FormErrors>{address}</FormErrors>
+                  <div className="flex flex-col space-y-2">
+                    <label htmlFor="address">Address</label>
+                    <Input className="w-full" {...conform.input(address)} />
+                    <FormErrors>{address}</FormErrors>
 
-                      <label htmlFor="mapUrl">Map URL</label>
-                      <Input className="w-full" {...conform.input(mapsUrl)} />
-                      <FormErrors>{mapsUrl}</FormErrors>
-                    </div>
-                  )}
+                    <label htmlFor="mapUrl">Map URL</label>
+                    <Input className="w-full" {...conform.input(mapsUrl)} />
+                    <FormErrors>{mapsUrl}</FormErrors>
+                  </div>
+                )}
 
                 {/* Field for ONLINE Event */}
                 {(eventCategorySymbol === "ONLINE" ||
                   eventCategorySymbol === "HYBRID") && (
-                    <div className="flex flex-col space-y-2">
-                      <label htmlFor="Event Media">Media</label>
-                      <Select {...conform.input(mediaId)}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select media" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            {eventMedias.map(eventMedia => (
-                              <SelectItem key={eventMedia.id} value={eventMedia.id}>{eventMedia.name}</SelectItem>
-                            ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                      <FormErrors>{mediaId}</FormErrors>
+                  <div className="flex flex-col space-y-2">
+                    <label htmlFor="Event Media">Media</label>
+                    <Select {...conform.input(mediaId)}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select media" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          {eventMedias.map(eventMedia => (
+                            <SelectItem
+                              key={eventMedia.id}
+                              value={eventMedia.id}
+                            >
+                              {eventMedia.name}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    <FormErrors>{mediaId}</FormErrors>
 
-                      <label htmlFor="url">URL</label>
-                      <Input className="w-full" {...conform.input(url)} />
-                      <FormErrors>{url}</FormErrors>
-                    </div>
-                  )}
+                    <label htmlFor="url">URL</label>
+                    <Input className="w-full" {...conform.input(url)} />
+                    <FormErrors>{url}</FormErrors>
+                  </div>
+                )}
               </Card>
             </section>
           </div>
@@ -407,8 +437,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     await modelEvent.updateCategory(submission.value)
     await timer.delay()
     return json(submission)
-  } else {
-    // Add intent
+  } else if (intent === "save-event") {
     const submission = await parse(formData, {
       async: true,
       schema: schemaEvent.superRefine(async (data, ctx) => {
