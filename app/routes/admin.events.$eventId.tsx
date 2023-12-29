@@ -15,6 +15,7 @@ import {
   useNavigation,
 } from "@remix-run/react"
 import { useRef, useState } from "react"
+import { ClientOnly } from "remix-utils/client-only"
 import { z } from "zod"
 import { EditorTiptapHook } from "~/components/libs/editor-tiptap"
 import { FormChangeStatus } from "~/components/shared/form-change-status"
@@ -352,23 +353,27 @@ export default function UserEventsEventIdRoute() {
                 />
                 <div className="space-y-2">
                   <FormLabel htmlFor="formatId">Format</FormLabel>
-                  <Select {...conform.input(formatId)}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select media" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        {eventFormats.map(eventFormat => (
-                          <SelectItem
-                            key={eventFormat.id}
-                            value={eventFormat.id}
-                          >
-                            {eventFormat.name}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
+                  <ClientOnly>
+                    {() => (
+                      <Select {...conform.input(formatId)}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select media" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            {eventFormats.map(eventFormat => (
+                              <SelectItem
+                                key={eventFormat.id}
+                                value={eventFormat.id}
+                              >
+                                {eventFormat.name}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    )}
+                  </ClientOnly>
                   <FormErrors>{formatId}</FormErrors>
                 </div>
                 <fetcher.Form
@@ -442,23 +447,27 @@ export default function UserEventsEventIdRoute() {
                   <>
                     <div className="space-y-2">
                       <FormLabel htmlFor="Event Media">Media</FormLabel>
-                      <Select {...conform.input(mediaId)}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select media" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            {eventMedias.map(eventMedia => (
-                              <SelectItem
-                                key={eventMedia.id}
-                                value={eventMedia.id}
-                              >
-                                {eventMedia.name}
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
+                      <ClientOnly>
+                        {() => (
+                          <Select {...conform.input(mediaId)}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select media" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                {eventMedias.map(eventMedia => (
+                                  <SelectItem
+                                    key={eventMedia.id}
+                                    value={eventMedia.id}
+                                  >
+                                    {eventMedia.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                        )}
+                      </ClientOnly>
                       <FormErrors>{mediaId}</FormErrors>
                     </div>
 
