@@ -41,6 +41,7 @@ import {
   SelectValue,
 } from "~/components/ui/select"
 import { Separator } from "~/components/ui/separator"
+import { Textarea } from "~/components/ui/textarea"
 import { TextareaAutosize } from "~/components/ui/textarea-autosize"
 import { requireUser } from "~/helpers/auth"
 import { useAppAdminLoaderData } from "~/hooks/use-app-loader-data"
@@ -403,7 +404,10 @@ export default function UserEventsEventIdRoute() {
                   <>
                     <div className="space-y-2">
                       <FormLabel htmlFor="address">Address</FormLabel>
-                      <Input className="w-full" {...conform.input(address)} />
+                      <Textarea
+                        className="w-full"
+                        {...conform.input(address)}
+                      />
                       <FormErrors>{address}</FormErrors>
                     </div>
 
