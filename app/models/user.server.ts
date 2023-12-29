@@ -1,4 +1,4 @@
-import { type Connection, type User } from "@prisma/client"
+import { type Connection, type User, type UserProfile } from "@prisma/client"
 
 import { prisma } from "~/libs/db.server"
 import { hashPassword } from "~/utils/encryption.server"
@@ -60,6 +60,13 @@ export const modelUser = {
         email: true,
         roles: { select: { symbol: true, name: true } },
         images: { select: { url: true }, orderBy: { updatedAt: "desc" } },
+        profile: {
+          select: {
+            headline: true,
+            bio: true,
+            links: true,
+          },
+        },
       },
     })
   },
@@ -223,6 +230,51 @@ export const modelUser = {
     return prisma.user.update({
       where: { id },
       data: { email },
+    })
+  },
+
+  updateHeadline({ id, headline }: Pick<UserProfile, "id" | "headline">) {
+    return prisma.user.update({
+      where: { id },
+      data: {
+        profile: {
+          update: {
+            headline,
+          },
+        },
+      },
+    })
+  },
+
+  updateBio({ id, bio }: { id: string; bio?: string }) {
+    return prisma.user.update({
+      where: { id },
+      data: {
+        profile: {
+          update: {
+            bio,
+          },
+        },
+      },
+    })
+  },
+
+  updateLinks({
+    id,
+    links,
+  }: {
+    id: string
+    links?: Array<{ url: string; text?: string }>
+  }) {
+    return prisma.user.update({
+      where: { id },
+      data: {
+        profile: {
+          update: {
+            links: links ?? [],
+          },
+        },
+      },
     })
   },
 }

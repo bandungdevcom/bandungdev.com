@@ -1,20 +1,28 @@
-import { json, type LoaderFunctionArgs } from "@remix-run/node"
-import { isRouteErrorResponse, Outlet, useRouteError } from "@remix-run/react"
+import {
+  json,
+  redirect,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+} from "@remix-run/node"
+import { Outlet, isRouteErrorResponse, useRouteError } from "@remix-run/react"
+
 import { SidebarNavItems } from "~/components/shared/sidebar-nav-items"
 import { Separator } from "~/components/ui/separator"
 import { configNavigationItems } from "~/configs/navigation"
-import { useAppMode } from "~/hooks/use-app-mode"
+import { requireUser } from "~/helpers/auth"
 import { modelEventStatus } from "~/models/event-status.server"
-
-import { authenticator } from "~/services/auth.server"
 import { invariantResponse } from "~/utils/invariant"
 import { createSitemap } from "~/utils/sitemap"
 
 export const handle = createSitemap()
 
+/**
+ * RBAC for certain roles in the layout route
+ */
+
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  // TODO: Check for role of admin, not only a user
-  await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
+  const { userIsAllowed } = await requireUser(request, ["ADMIN", "MANAGER"])
+  if (!userIsAllowed) return redirect("/")
 
   const eventStatuses = await modelEventStatus.getAll()
   invariantResponse(eventStatuses, "Event statuses are unavailable", {
@@ -24,9 +32,13 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return json({ eventStatuses })
 }
 
-export default function AdminLayoutRoute() {
-  const { isModeDevelopment } = useAppMode()
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const { userIsAllowed } = await requireUser(request, ["ADMIN", "MANAGER"])
+  if (!userIsAllowed) return redirect("/")
+  return null
+}
 
+export default function AdminLayoutRoute() {
   // Configure in app/configs/navigation.ts
   const navItems = [
     "/admin/dashboard",
@@ -34,9 +46,7 @@ export default function AdminLayoutRoute() {
     "/admin/events",
     "/admin/posts",
     "/admin/settings",
-    "/logout",
   ]
-  const extraNavItems = ["/user"]
 
   return (
     <div className="flex pb-20">
@@ -47,14 +57,12 @@ export default function AdminLayoutRoute() {
           )}
         />
 
-        {isModeDevelopment && <Separator className="my-2" />}
-        {isModeDevelopment && (
-          <SidebarNavItems
-            items={configNavigationItems.filter(item =>
-              extraNavItems.includes(item.path),
-            )}
-          />
-        )}
+        <Separator className="my-2" />
+        <SidebarNavItems
+          items={configNavigationItems.filter(item =>
+            ["/user"].includes(item.path),
+          )}
+        />
       </nav>
 
       <Outlet />

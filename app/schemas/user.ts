@@ -42,14 +42,14 @@ const tag = z.object({ id, symbol: z.string().optional() })
 
 const tags = z.array(tag).optional()
 
-const modeName = z.string().min(1, "Profile mode name is required")
-
 const headline = z.string().max(50, "Headline limited to 50 characters")
 
 const bio = z.string().max(1000, "Bio limited to 1000 characters").optional()
 
 const link = z.object({
-  url: z.string().url({ message: "Please enter a valid URL." }),
+  url: z
+    .string({ required_error: "URL is required" })
+    .url({ message: "Enter a valid URL" }),
   text: z.string().optional(),
 })
 const links = z.array(link).optional()
@@ -77,7 +77,6 @@ export const schemaUserFullName = z.object({ id, fullname })
 export const schemaUserNickName = z.object({ id, nickname })
 export const schemaUserEmail = z.object({ id, email })
 
-export const schemaUserProfileModeName = z.object({ id, modeName })
 export const schemaUserProfileHeadline = z.object({ id, headline })
 export const schemaUserProfileBio = z.object({ id, bio })
 export const schemaUserProfileLinks = z.object({ id, links })

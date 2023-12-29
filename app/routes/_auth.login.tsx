@@ -30,6 +30,7 @@ import { useAppMode } from "~/hooks/use-app-mode"
 import { prisma } from "~/libs/db.server"
 import { schemaUserLogIn } from "~/schemas/user"
 import { authenticator } from "~/services/auth.server"
+import { cn } from "~/utils/cn"
 import { checkPassword } from "~/utils/encryption.server"
 import { createMeta } from "~/utils/meta"
 import { createTimer } from "~/utils/timer"
@@ -91,7 +92,7 @@ export default function SignUpRoute() {
 
         <SectionOr className="hidden" />
 
-        <section className="hidden">
+        <section className={cn(isModeDevelopment ? "block" : "hidden")}>
           <Form
             replace
             action="/login"

@@ -16,8 +16,9 @@ Check out:
 - Web: <https://bandungdev.com>
 - Repo: <https://github.com/bandungdevcom/bandungdev.com>
 
-Project structure based on [Dogokit](https://dogokit.allnimal.com) using Remix,
-React, Tailwind CSS, Radix UI, Prisma ORM, and more.
+The repo is based on [Dogokit](https://dogokit.allnimal.com) using Remix, React,
+Tailwind CSS, Radix UI, Prisma ORM, and more. For more details and
+documentation, [check its repo](https://github.com/dogokit/dogokit-remix).
 
 ## Setup
 
@@ -221,6 +222,17 @@ Open <http://localhost:3000> and it's ready!
 ## What's Next?
 
 Develop the app as usual, the Remix way.
+
+### Setup some services
+
+- Image upload with [Uploadcare](https://uploadcare.com)
+  - `UPLOADCARE_PUBLIC_KEY`, `UPLOADCARE_SECRET_KEY`
+
+### Subscribe for the status of the services
+
+- [Vercel Status](https://vercel-status.com)
+- [PlanetScale Status](https://planetscalestatus.com)
+- [Uploadcare Status](https://status.uploadcare.com)
 
 ## References
 
