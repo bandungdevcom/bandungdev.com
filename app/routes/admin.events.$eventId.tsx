@@ -21,7 +21,7 @@ import { FormChangeStatus } from "~/components/shared/form-change-status"
 import { FormDelete } from "~/components/shared/form-delete"
 import { ButtonLink } from "~/components/ui/button-link"
 import { ButtonLoading } from "~/components/ui/button-loading"
-import { FormErrors } from "~/components/ui/form"
+import { FormErrors, FormLabel } from "~/components/ui/form"
 
 import { Timestamp } from "~/components/shared/timestamp"
 import { Button } from "~/components/ui/button"
@@ -47,6 +47,7 @@ import { useAppAdminLoaderData } from "~/hooks/use-app-loader-data"
 import { prisma } from "~/libs/db.server"
 import { modelAdminEvent } from "~/models/admin-event.server"
 import { modelEventCategory } from "~/models/event-category.server"
+import { modelEventFormat } from "~/models/event-format.server"
 import { modelEventMedia } from "~/models/event-media.server"
 import { modelEvent } from "~/models/event.server"
 import { schemaEvent, schemaEventCategory } from "~/schemas/event"
@@ -76,24 +77,27 @@ export const meta: MetaFunction<typeof loader> = ({ params, data }) => {
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   invariant(params.eventId, "params.eventId unavailable")
   const { userId: organizerId } = await requireUser(request)
-  const [event, eventCategories, eventMedias] = await prisma.$transaction([
-    modelAdminEvent.getById({
-      organizerId,
-      id: params.eventId,
-    }),
-    modelEventCategory.getAll(),
-    modelEventMedia.getAll(),
-  ])
+  const [event, eventCategories, eventMedias, eventFormats] =
+    await prisma.$transaction([
+      modelAdminEvent.getById({
+        organizerId,
+        id: params.eventId,
+      }),
+      modelEventCategory.getAll(),
+      modelEventMedia.getAll(),
+      modelEventFormat.getAll(),
+    ])
   invariantResponse(event, "Event not found", { status: 404 })
   invariantResponse(eventCategories, "Event categories not found", {
     status: 404,
   })
   invariantResponse(eventMedias, "Event Medias not found", { status: 404 })
-  return json({ event, eventCategories, eventMedias })
+  return json({ event, eventCategories, eventMedias, eventFormats })
 }
 
 export default function UserEventsEventIdRoute() {
-  const { event, eventCategories, eventMedias } = useLoaderData<typeof loader>()
+  const { event, eventCategories, eventMedias, eventFormats } =
+    useLoaderData<typeof loader>()
   const actionData = useActionData<typeof action>()
   const navigation = useNavigation()
   const fetcher = useFetcher()
@@ -113,6 +117,7 @@ export default function UserEventsEventIdRoute() {
       url,
       mapsUrl,
       mediaId,
+      formatId,
     },
   ] = useForm<z.infer<typeof schemaEvent>>({
     id: "update-event",
@@ -342,6 +347,27 @@ export default function UserEventsEventIdRoute() {
                   name="categoryId"
                   defaultValue={event.categoryId || ""}
                 />
+                <div className="space-y-2">
+                  <FormLabel htmlFor="formatId">Format</FormLabel>
+                  <Select {...conform.input(formatId)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select media" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {eventFormats.map(eventFormat => (
+                          <SelectItem
+                            key={eventFormat.id}
+                            value={eventFormat.id}
+                          >
+                            {eventFormat.name}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                  <FormErrors>{formatId}</FormErrors>
+                </div>
                 <fetcher.Form
                   method="POST"
                   onChange={event => {
@@ -355,7 +381,7 @@ export default function UserEventsEventIdRoute() {
                     defaultValue="change-event-category"
                   />
                   <input type="hidden" name="id" defaultValue={event.id} />
-                  <label htmlFor="categoryId">Category</label>
+                  <FormLabel htmlFor="categoryId">Category</FormLabel>
                   <RadioGroup
                     className="grid-cols-3"
                     {...conform.input(categoryId)}
@@ -374,45 +400,53 @@ export default function UserEventsEventIdRoute() {
                 {/* Field for IN_PERSON Event */}
                 {(eventCategorySymbol === "IN_PERSON" ||
                   eventCategorySymbol === "HYBRID") && (
-                  <div className="flex flex-col space-y-2">
-                    <label htmlFor="address">Address</label>
-                    <Input className="w-full" {...conform.input(address)} />
-                    <FormErrors>{address}</FormErrors>
+                  <>
+                    <div className="space-y-2">
+                      <FormLabel htmlFor="address">Address</FormLabel>
+                      <Input className="w-full" {...conform.input(address)} />
+                      <FormErrors>{address}</FormErrors>
+                    </div>
 
-                    <label htmlFor="mapUrl">Map URL</label>
-                    <Input className="w-full" {...conform.input(mapsUrl)} />
-                    <FormErrors>{mapsUrl}</FormErrors>
-                  </div>
+                    <div className="space-y-2">
+                      <FormLabel htmlFor="mapUrl">Map URL</FormLabel>
+                      <Input className="w-full" {...conform.input(mapsUrl)} />
+                      <FormErrors>{mapsUrl}</FormErrors>
+                    </div>
+                  </>
                 )}
 
                 {/* Field for ONLINE Event */}
                 {(eventCategorySymbol === "ONLINE" ||
                   eventCategorySymbol === "HYBRID") && (
-                  <div className="flex flex-col space-y-2">
-                    <label htmlFor="Event Media">Media</label>
-                    <Select {...conform.input(mediaId)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select media" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          {eventMedias.map(eventMedia => (
-                            <SelectItem
-                              key={eventMedia.id}
-                              value={eventMedia.id}
-                            >
-                              {eventMedia.name}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                    <FormErrors>{mediaId}</FormErrors>
+                  <>
+                    <div className="space-y-2">
+                      <FormLabel htmlFor="Event Media">Media</FormLabel>
+                      <Select {...conform.input(mediaId)}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select media" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            {eventMedias.map(eventMedia => (
+                              <SelectItem
+                                key={eventMedia.id}
+                                value={eventMedia.id}
+                              >
+                                {eventMedia.name}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                      <FormErrors>{mediaId}</FormErrors>
+                    </div>
 
-                    <label htmlFor="url">URL</label>
-                    <Input className="w-full" {...conform.input(url)} />
-                    <FormErrors>{url}</FormErrors>
-                  </div>
+                    <div className="space-y-2">
+                      <FormLabel htmlFor="url">URL</FormLabel>
+                      <Input className="w-full" {...conform.input(url)} />
+                      <FormErrors>{url}</FormErrors>
+                    </div>
+                  </>
                 )}
               </Card>
             </section>

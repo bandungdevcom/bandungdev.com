@@ -31,6 +31,8 @@ const mapsUrl = z.string().optional()
 
 const mediaId = z.string().optional()
 
+const formatId = z.string({ required_error: "Format is required" })
+
 export const schemaEvent = z.object({
   organizerId,
   id,
@@ -44,6 +46,7 @@ export const schemaEvent = z.object({
   url,
   mapsUrl,
   mediaId,
+  formatId,
 })
 
 export const schemaEventCategory = z.object({ id, categoryId })
