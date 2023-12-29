@@ -82,7 +82,11 @@ export const modelAdminEvent = {
     address,
     mapsUrl,
     mediaId,
-  }: Pick<Event, "organizerId" | "id" | "slug" | "title" | "description"> & {
+    formatId,
+  }: Pick<
+    Event,
+    "organizerId" | "id" | "slug" | "title" | "description" | "formatId"
+  > & {
     content?: Event["content"]
     mediaId?: Event["mediaId"]
     url?: Event["url"]
@@ -100,19 +104,19 @@ export const modelAdminEvent = {
       locationId = event.location.id
       await prisma.location.update({
         where: {
-          id: event.location.id
+          id: event.location.id,
         },
         data: {
           address,
-          mapsUrl
-        }
+          mapsUrl,
+        },
       })
     } else {
       const location = await prisma.location.create({
         data: {
           address,
-          mapsUrl
-        }
+          mapsUrl,
+        },
       })
       locationId = location.id
     }
@@ -127,7 +131,8 @@ export const modelAdminEvent = {
         content,
         url,
         locationId,
-        mediaId
+        mediaId,
+        formatId,
       },
     })
   },
