@@ -104,17 +104,17 @@ export const configNavigationItems: NavItem[] = [
   {
     path: "/admin/dashboard",
     icon: "ph:crown-simple-duotone",
-    text: "Dashboard",
-  },
-  {
-    path: "/admin/users",
-    icon: "ph:users-four-duotone",
-    text: "Users",
+    text: "Admin Dashboard",
   },
   {
     path: "/admin/events",
     icon: "ph:calendar-blank-duotone",
     text: "Events",
+  },
+  {
+    path: "/admin/users",
+    icon: "ph:users-four-duotone",
+    text: "Users",
   },
   {
     path: "/admin/posts",
