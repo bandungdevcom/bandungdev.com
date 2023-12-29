@@ -64,6 +64,10 @@ export const modelEvent = {
       include: {
         status: { select: { symbol: true, name: true } },
         image: { select: { url: true } },
+        format: { select: { symbol: true, name: true } },
+        location: { select: { label: true, address: true, mapsUrl: true } },
+        category: { select: { symbol: true, name: true } },
+        media: { select: { symbol: true, name: true } },
       },
     })
   },
