@@ -79,6 +79,7 @@ export const modelAdminEvent = {
     description,
     content,
     url,
+    label,
     address,
     mapsUrl,
     mediaId,
@@ -90,6 +91,7 @@ export const modelAdminEvent = {
     content?: Event["content"]
     mediaId?: Event["mediaId"]
     url?: Event["url"]
+    label?: Location["label"]
     address?: Location["address"]
     mapsUrl?: Location["mapsUrl"]
   }) {
@@ -107,6 +109,7 @@ export const modelAdminEvent = {
           id: event.location.id,
         },
         data: {
+          label,
           address,
           mapsUrl,
         },
@@ -114,6 +117,7 @@ export const modelAdminEvent = {
     } else {
       const location = await prisma.location.create({
         data: {
+          label: label ?? "",
           address,
           mapsUrl,
         },

@@ -23,6 +23,8 @@ const readingTime = zfd.numeric(z.number().min(0).max(1000)).optional()
 
 const categoryId = z.string({ required_error: "Category is required" })
 
+const label = z.string().optional()
+
 const address = z.string().optional()
 
 const url = z.string().optional()
@@ -42,6 +44,7 @@ export const schemaEvent = z.object({
   content,
   readingTime,
   categoryId,
+  label,
   address,
   url,
   mapsUrl,

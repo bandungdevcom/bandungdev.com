@@ -114,6 +114,7 @@ export default function UserEventsEventIdRoute() {
       description,
       content,
       categoryId,
+      label,
       address,
       url,
       mapsUrl,
@@ -130,6 +131,7 @@ export default function UserEventsEventIdRoute() {
     },
     defaultValue: {
       ...event,
+      label: event.location?.label,
       address: event.location?.address,
       mapsUrl: event.location?.mapsUrl,
     },
@@ -403,17 +405,32 @@ export default function UserEventsEventIdRoute() {
                   eventCategorySymbol === "HYBRID") && (
                   <>
                     <div className="space-y-2">
+                      <FormLabel htmlFor="mapUrl">Location</FormLabel>
+                      <Input
+                        className="w-full"
+                        {...conform.input(label)}
+                        placeholder="Example: Nakama Coffee"
+                      />
+                      <FormErrors>{label}</FormErrors>
+                    </div>
+
+                    <div className="space-y-2">
                       <FormLabel htmlFor="address">Address</FormLabel>
                       <Textarea
                         className="w-full"
                         {...conform.input(address)}
+                        placeholder="Address of the location"
                       />
                       <FormErrors>{address}</FormErrors>
                     </div>
 
                     <div className="space-y-2">
                       <FormLabel htmlFor="mapUrl">Map URL</FormLabel>
-                      <Input className="w-full" {...conform.input(mapsUrl)} />
+                      <Input
+                        className="w-full"
+                        {...conform.input(mapsUrl)}
+                        placeholder="Google maps url"
+                      />
                       <FormErrors>{mapsUrl}</FormErrors>
                     </div>
                   </>
@@ -447,7 +464,11 @@ export default function UserEventsEventIdRoute() {
 
                     <div className="space-y-2">
                       <FormLabel htmlFor="url">URL</FormLabel>
-                      <Input className="w-full" {...conform.input(url)} />
+                      <Input
+                        className="w-full"
+                        {...conform.input(url)}
+                        placeholder="Example: around.co/bandungdev"
+                      />
                       <FormErrors>{url}</FormErrors>
                     </div>
                   </>

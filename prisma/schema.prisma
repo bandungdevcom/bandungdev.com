@@ -338,12 +338,12 @@ model EventMedia {
 // Location
 // -----------------------------------------------------------------------------
 
+// OFFLINE / HYBRID
 model Location {
   id String @id @default(cuid())
 
-  label String? @db.Text
+  label String @db.Text
 
-  // OFFLINE / HYBRID
   address String? @db.Text // Complete combined address
   mapsUrl String? @db.Text // https://goo.gl/maps/1xABCDEF123456
 
