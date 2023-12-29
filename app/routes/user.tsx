@@ -3,7 +3,8 @@ import { Outlet } from "@remix-run/react"
 import { SidebarNavItems } from "~/components/shared/sidebar-nav-items"
 import { Separator } from "~/components/ui/separator"
 import { configNavigationItems } from "~/configs/navigation"
-import { useAppMode } from "~/hooks/use-app-mode"
+import { checkAllowance } from "~/helpers/auth"
+import { useRootLoaderData } from "~/hooks/use-root-loader-data"
 import { modelPostStatus } from "~/models/post-status.server"
 
 import { authenticator } from "~/services/auth.server"
@@ -25,7 +26,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 }
 
 export default function UserLayoutRoute() {
-  const { isModeDevelopment } = useAppMode()
+  const { userData } = useRootLoaderData()
 
   // Configure in app/configs/navigation.ts
   const navItems = [
@@ -33,37 +34,31 @@ export default function UserLayoutRoute() {
     "/user/posts",
     "/user/settings",
     "/user/account",
-    // "/user/billing",
-    // "/user/notifications",
-    "/logout",
   ]
-  const extraNavItems = ["/admin"]
 
   return (
-    <div className="mx-auto w-full">
-      {/* IDEA: Become a collapsible component: shared/sidebar + sidebar-nav-items */}
-      <div className="mx-auto flex max-w-6xl">
-        <nav className={cn("select-none border-r border-r-border p-2 lg:p-4")}>
-          <SidebarNavItems
-            items={configNavigationItems.filter(item =>
-              navItems.includes(item.path),
-            )}
-          />
+    <div className="flex">
+      <nav className={cn("select-none border-r border-r-border p-2 lg:p-4")}>
+        <SidebarNavItems
+          items={configNavigationItems.filter(item =>
+            navItems.includes(item.path),
+          )}
+        />
 
-          <Separator className="my-2" />
-
-          {isModeDevelopment && (
+        {checkAllowance(["ADMIN", "MANAGER"], userData) && (
+          <>
+            <Separator className="my-2" />
             <SidebarNavItems
               items={configNavigationItems.filter(item =>
-                extraNavItems.includes(item.path),
+                ["/admin"].includes(item.path),
               )}
             />
-          )}
-        </nav>
+          </>
+        )}
+      </nav>
 
-        <div className="w-full pb-20">
-          <Outlet />
-        </div>
+      <div className="w-full pb-20">
+        <Outlet />
       </div>
     </div>
   )

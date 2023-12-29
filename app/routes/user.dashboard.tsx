@@ -73,7 +73,9 @@ export default function UserDashboardRoute() {
         </ul>
       </section>
 
-      <Debug name="user">{user}</Debug>
+      <section>
+        <Debug name="user">{user}</Debug>
+      </section>
     </div>
   )
 }
