@@ -98,12 +98,12 @@ export const configNavigationItems: NavItem[] = [
   },
   {
     path: "/admin",
-    icon: "ph:crown-duotone",
+    icon: "ph:crown-simple-duotone",
     text: "Admin",
   },
   {
     path: "/admin/dashboard",
-    icon: "ph:crown-duotone",
+    icon: "ph:crown-simple-duotone",
     text: "Dashboard",
   },
   {
