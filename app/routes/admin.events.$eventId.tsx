@@ -10,39 +10,23 @@ import {
 import {
   Form,
   useActionData,
-  useFetcher,
   useLoaderData,
   useNavigation,
 } from "@remix-run/react"
 import { useRef, useState } from "react"
-import { ClientOnly } from "remix-utils/client-only"
 import { z } from "zod"
 import { EditorTiptapHook } from "~/components/libs/editor-tiptap"
 import { FormChangeStatus } from "~/components/shared/form-change-status"
 import { FormDelete } from "~/components/shared/form-delete"
 import { ButtonLink } from "~/components/ui/button-link"
 import { ButtonLoading } from "~/components/ui/button-loading"
-import { FormErrors, FormLabel } from "~/components/ui/form"
+import { FormErrors } from "~/components/ui/form"
 
+import ContentEventDetailForm from "~/components/contents/event-detail-form"
 import { Timestamp } from "~/components/shared/timestamp"
 import { Button } from "~/components/ui/button"
-import { Card } from "~/components/ui/card"
 import { Iconify } from "~/components/ui/iconify"
-import { Input } from "~/components/ui/input"
-import {
-  RadioGroup,
-  RadioGroupLocationCategoryItem,
-} from "~/components/ui/radio-group"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select"
 import { Separator } from "~/components/ui/separator"
-import { Textarea } from "~/components/ui/textarea"
 import { TextareaAutosize } from "~/components/ui/textarea-autosize"
 import { requireUser } from "~/helpers/auth"
 import { useAppAdminLoaderData } from "~/hooks/use-app-loader-data"
@@ -102,7 +86,6 @@ export default function UserEventsEventIdRoute() {
     useLoaderData<typeof loader>()
   const actionData = useActionData<typeof action>()
   const navigation = useNavigation()
-  const fetcher = useFetcher()
   const { eventStatuses } = useAppAdminLoaderData()
 
   const [
@@ -251,7 +234,7 @@ export default function UserEventsEventIdRoute() {
             </div>
           </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-6">
+          <div className="grid grid-cols-1 lg:grid-cols-6">
             <section className="mx-auto w-full max-w-prose space-y-4 md:col-span-4">
               <input type="hidden" {...conform.input(organizerId)} />
               <input type="hidden" {...conform.input(id)} />
@@ -343,146 +326,21 @@ export default function UserEventsEventIdRoute() {
                 />
               </div>
             </section>
-            <section className="site-container md:col-span-2">
-              <Card className="space-y-2 p-4">
-                <h2 className="mb-4">Event Detail</h2>
-                <input
-                  type="hidden"
-                  name="categoryId"
-                  defaultValue={event.categoryId || ""}
-                />
-                <div className="space-y-2">
-                  <FormLabel htmlFor="formatId">Format</FormLabel>
-                  <ClientOnly>
-                    {() => (
-                      <Select {...conform.input(formatId)}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select media" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            {eventFormats.map(eventFormat => (
-                              <SelectItem
-                                key={eventFormat.id}
-                                value={eventFormat.id}
-                              >
-                                {eventFormat.name}
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    )}
-                  </ClientOnly>
-                  <FormErrors>{formatId}</FormErrors>
-                </div>
-                <fetcher.Form
-                  method="POST"
-                  onChange={event => {
-                    fetcher.submit(event.currentTarget, { method: "POST" })
-                  }}
-                  className="space-y-2"
-                >
-                  <input
-                    type="hidden"
-                    name="intent"
-                    defaultValue="change-event-category"
-                  />
-                  <input type="hidden" name="id" defaultValue={event.id} />
-                  <FormLabel htmlFor="categoryId">Category</FormLabel>
-                  <RadioGroup
-                    className="grid-cols-3"
-                    {...conform.input(categoryId)}
-                  >
-                    {eventCategories.map(eventCategory => (
-                      <RadioGroupLocationCategoryItem
-                        key={eventCategory.id}
-                        value={eventCategory.id}
-                      >
-                        {eventCategory.name}
-                      </RadioGroupLocationCategoryItem>
-                    ))}
-                  </RadioGroup>
-                </fetcher.Form>
-
-                {/* Field for IN_PERSON Event */}
-                {(eventCategorySymbol === "IN_PERSON" ||
-                  eventCategorySymbol === "HYBRID") && (
-                  <>
-                    <div className="space-y-2">
-                      <FormLabel htmlFor="mapUrl">Location</FormLabel>
-                      <Input
-                        className="w-full"
-                        {...conform.input(label)}
-                        placeholder="Example: Nakama Coffee"
-                      />
-                      <FormErrors>{label}</FormErrors>
-                    </div>
-
-                    <div className="space-y-2">
-                      <FormLabel htmlFor="address">Address</FormLabel>
-                      <Textarea
-                        className="w-full"
-                        {...conform.input(address)}
-                        placeholder="Address of the location"
-                      />
-                      <FormErrors>{address}</FormErrors>
-                    </div>
-
-                    <div className="space-y-2">
-                      <FormLabel htmlFor="mapUrl">Map URL</FormLabel>
-                      <Input
-                        className="w-full"
-                        {...conform.input(mapsUrl)}
-                        placeholder="Google maps url"
-                      />
-                      <FormErrors>{mapsUrl}</FormErrors>
-                    </div>
-                  </>
-                )}
-
-                {/* Field for ONLINE Event */}
-                {(eventCategorySymbol === "ONLINE" ||
-                  eventCategorySymbol === "HYBRID") && (
-                  <>
-                    <div className="space-y-2">
-                      <FormLabel htmlFor="Event Media">Media</FormLabel>
-                      <ClientOnly>
-                        {() => (
-                          <Select {...conform.input(mediaId)}>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select media" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectGroup>
-                                {eventMedias.map(eventMedia => (
-                                  <SelectItem
-                                    key={eventMedia.id}
-                                    value={eventMedia.id}
-                                  >
-                                    {eventMedia.name}
-                                  </SelectItem>
-                                ))}
-                              </SelectGroup>
-                            </SelectContent>
-                          </Select>
-                        )}
-                      </ClientOnly>
-                      <FormErrors>{mediaId}</FormErrors>
-                    </div>
-
-                    <div className="space-y-2">
-                      <FormLabel htmlFor="url">URL</FormLabel>
-                      <Input
-                        className="w-full"
-                        {...conform.input(url)}
-                        placeholder="Example: around.co/bandungdev"
-                      />
-                      <FormErrors>{url}</FormErrors>
-                    </div>
-                  </>
-                )}
-              </Card>
+            <section className="site-container lg:col-span-2">
+              <ContentEventDetailForm
+                eventId={event.id}
+                categoryId={categoryId}
+                address={address}
+                eventCategories={eventCategories}
+                eventCategorySymbol={eventCategorySymbol || ""}
+                eventFormats={eventFormats}
+                eventMedias={eventMedias}
+                formatId={formatId}
+                label={label}
+                mapsUrl={mapsUrl}
+                mediaId={mediaId}
+                url={url}
+              />
             </section>
           </div>
         </fieldset>
