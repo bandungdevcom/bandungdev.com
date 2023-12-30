@@ -4,15 +4,12 @@ import { prisma } from "~/libs/db.server"
 import { type EventStatusSymbol } from "~/types/event-status"
 
 export const modelAdminEvent = {
-  count({ organizerId }: Pick<Event, "organizerId">) {
-    return prisma.event.count({
-      where: { organizerId },
-    })
+  count() {
+    return prisma.event.count()
   },
 
-  getAll({ organizerId }: Pick<Event, "organizerId">) {
+  getAll() {
     return prisma.event.findMany({
-      where: { organizerId },
       include: {
         image: { select: { url: true } },
       },
