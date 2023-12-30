@@ -3,13 +3,16 @@ import { type Prisma } from "@prisma/client"
 import { useFetcher } from "@remix-run/react"
 import { ClientOnly } from "remix-utils/client-only"
 
+import { Card } from "~/components/ui/card"
+import { FormErrors, FormLabel } from "~/components/ui/form"
+import { Input } from "~/components/ui/input"
+import {
+  RadioGroup,
+  RadioGroupLocationCategoryItem,
+} from "~/components/ui/radio-group"
 import { type modelEventCategory } from "~/models/event-category.server"
 import { type modelEventFormat } from "~/models/event-format.server"
 import { type modelEventMedia } from "~/models/event-media.server"
-import { Card } from "../ui/card"
-import { FormErrors, FormLabel } from "../ui/form"
-import { Input } from "../ui/input"
-import { RadioGroup, RadioGroupLocationCategoryItem } from "../ui/radio-group"
 import {
   Select,
   SelectContent,
