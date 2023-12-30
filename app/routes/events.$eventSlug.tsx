@@ -129,35 +129,109 @@ export default function EventSlugRoute() {
 
         <div className="space-y-2">
           <p className="flex justify-between gap-4">
-            <b className="basis-3/12">Date:</b>
-            <span className="basis-9/12">{formatDateDMY(event.date)}</span>
+            <b
+              className={
+                event.category?.symbol === "HYBRID"
+                  ? "basis-4/12"
+                  : "basis-3/12"
+              }
+            >
+              Date:
+            </b>
+            <span
+              className={
+                event.category?.symbol === "HYBRID"
+                  ? "basis-8/12"
+                  : "basis-9/12"
+              }
+            >
+              {formatDateDMY(event.date)}
+            </span>
           </p>
           <p className="flex justify-between gap-4">
-            <b className="basis-3/12">Time:</b>
-            <span className="basis-9/12">
+            <b
+              className={
+                event.category?.symbol === "HYBRID"
+                  ? "basis-4/12"
+                  : "basis-3/12"
+              }
+            >
+              Time:
+            </b>
+            <span
+              className={
+                event.category?.symbol === "HYBRID"
+                  ? "basis-8/12"
+                  : "basis-9/12"
+              }
+            >
               {formatTime(event.timeStart)} – {formatTime(event.timeEnd)}
             </span>
           </p>
           {event.format?.name && (
             <p className="flex justify-between gap-4">
-              <b className="basis-3/12">Format:</b>
-              <span className="basis-9/12">{event.format?.name} </span>
+              <b
+                className={
+                  event.category?.symbol === "HYBRID"
+                    ? "basis-4/12"
+                    : "basis-3/12"
+                }
+              >
+                Format:
+              </b>
+              <span
+                className={
+                  event.category?.symbol === "HYBRID"
+                    ? "basis-8/12"
+                    : "basis-9/12"
+                }
+              >
+                {event.format?.name}{" "}
+              </span>
             </p>
           )}
           {event.category?.name && (
             <p className="flex justify-between gap-4">
-              <b className="basis-3/12">Category:</b>
-              <span className="basis-9/12">{event.category?.name} </span>
+              <b
+                className={
+                  event.category?.symbol === "HYBRID"
+                    ? "basis-4/12"
+                    : "basis-3/12"
+                }
+              >
+                Category:
+              </b>
+              <span
+                className={
+                  event.category?.symbol === "HYBRID"
+                    ? "basis-8/12"
+                    : "basis-9/12"
+                }
+              >
+                {event.category?.name}{" "}
+              </span>
             </p>
           )}
           {(event.category?.symbol === "IN_PERSON" ||
             event.category?.symbol === "HYBRID") && (
             <p className="flex justify-between gap-4">
-              <b className="basis-3/12">
+              <b
+                className={
+                  event.category?.symbol === "HYBRID"
+                    ? "basis-4/12"
+                    : "basis-3/12"
+                }
+              >
                 Location{event.category?.symbol === "HYBRID" && " (In Person) "}
                 :
               </b>
-              <span className="basis-9/12">
+              <span
+                className={
+                  event.category?.symbol === "HYBRID"
+                    ? "basis-8/12"
+                    : "basis-9/12"
+                }
+              >
                 <Link
                   to={event.location?.mapsUrl || ""}
                   target="_blank"
@@ -173,16 +247,40 @@ export default function EventSlugRoute() {
                 <span className="text-muted-foreground">
                   {event.location?.address}
                 </span>
+                <Link
+                  to={event.location?.mapsUrl || ""}
+                  target="_blank"
+                  className="flex flex-row text-accent"
+                >
+                  {event.location?.mapsUrl}
+                  <Icon
+                    icon="material-symbols:arrow-insert"
+                    rotate={1}
+                    className="text-muted-foreground"
+                  />
+                </Link>
               </span>
             </p>
           )}
           {(event.category?.symbol === "ONLINE" ||
             event.category?.symbol === "HYBRID") && (
             <p className="flex justify-between gap-4">
-              <b className="basis-3/12">
+              <b
+                className={
+                  event.category?.symbol === "HYBRID"
+                    ? "basis-4/12"
+                    : "basis-3/12"
+                }
+              >
                 Location{event.category?.symbol === "HYBRID" && " (Online) "}:
               </b>
-              <span className="basis-9/12">
+              <span
+                className={
+                  event.category?.symbol === "HYBRID"
+                    ? "basis-8/12"
+                    : "basis-9/12"
+                }
+              >
                 {event.media?.name}
                 <Link
                   to={event.url || ""}
