@@ -154,7 +154,8 @@ export default function EventSlugRoute() {
             event.category?.symbol === "HYBRID") && (
             <p className="flex justify-between gap-4">
               <b className="basis-3/12">
-                Location{event.category?.symbol === "HYBRID" && " (Offline) "}:
+                Location{event.category?.symbol === "HYBRID" && " (In Person) "}
+                :
               </b>
               <span className="basis-9/12">
                 <Link
