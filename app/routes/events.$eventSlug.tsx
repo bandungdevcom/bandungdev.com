@@ -7,7 +7,6 @@ import { Link, useLoaderData, type Params } from "@remix-run/react"
 import { BadgeEventStatus } from "~/components/shared/badge-event-status"
 import { ViewHTML } from "~/components/shared/view-html"
 
-import { Icon } from "@iconify/react/dist/iconify.js"
 import {
   ErrorHelpInformation,
   GeneralErrorBoundary,
@@ -134,24 +133,28 @@ export default function EventSlugRoute() {
             <b className="basis-4/12">Date:</b>
             <span className="basis-8/12">{formatDateDMY(event.date)}</span>
           </p>
+
           <p className="flex justify-between gap-4">
             <b className="basis-4/12">Time:</b>
             <span className="basis-8/12">
               {formatTime(event.timeStart)} – {formatTime(event.timeEnd)}
             </span>
           </p>
+
           {event.format?.name && (
             <p className="flex justify-between gap-4">
               <b className="basis-4/12">Format:</b>
               <span className="basis-8/12">{event.format?.name} </span>
             </p>
           )}
+
           {event.category?.name && (
             <p className="flex justify-between gap-4">
               <b className="basis-4/12">Category:</b>
               <span className="basis-8/12">{event.category?.name} </span>
             </p>
           )}
+
           {(event.category?.symbol === "IN_PERSON" || isHybrid) &&
             (event.location?.address ||
               event.location?.label ||
@@ -162,43 +165,42 @@ export default function EventSlugRoute() {
                   {isHybrid && <span> (In Person)</span>}
                   <span>:</span>
                 </b>
-                <span className="basis-8/12">
+                <div className="basis-8/12">
                   {event.location.label && (
                     <Link
                       to={event.location?.mapsUrl || ""}
                       target="_blank"
-                      className="flex flex-row"
+                      className="inline-flex gap-1"
                     >
-                      {event.location?.label}{" "}
-                      <Icon
-                        icon="material-symbols:arrow-insert"
-                        rotate={1}
+                      <span>{event.location?.label} </span>
+                      <Iconify
+                        icon="ph:arrow-up-right"
                         className="text-muted-foreground"
                       />
                     </Link>
                   )}
                   {event.location.address && (
-                    <span className="text-muted-foreground">
+                    <p className="text-muted-foreground">
                       {event.location?.address}
-                    </span>
+                    </p>
                   )}
                   {event.location.mapsUrl && (
                     <Link
                       to={event.location?.mapsUrl || ""}
                       target="_blank"
-                      className="flex flex-row text-accent"
+                      className="inline-flex gap-1 text-accent"
                     >
                       {event.location?.mapsUrl}
-                      <Icon
-                        icon="material-symbols:arrow-insert"
-                        rotate={1}
+                      <Iconify
+                        icon="ph:arrow-up-right"
                         className="text-muted-foreground"
                       />
                     </Link>
                   )}
-                </span>
+                </div>
               </p>
             )}
+
           {(isOnline || isHybrid) && event.url && event.media && (
             <p className="flex justify-between gap-4">
               <b className="basis-4/12">
@@ -206,21 +208,20 @@ export default function EventSlugRoute() {
                 {isHybrid && <span> (Online)</span>}
                 <span>:</span>
               </b>
-              <span className="basis-8/12">
-                {event.media?.name}
+              <div className="basis-8/12">
+                <p>{event.media?.name}</p>
                 <Link
                   to={event.url || ""}
                   target="_blank"
-                  className="flex flex-row text-accent"
+                  className="inline-flex gap-1 text-accent"
                 >
                   {event.url}
-                  <Icon
-                    icon="material-symbols:arrow-insert"
-                    rotate={1}
+                  <Iconify
+                    icon="ph:arrow-up-right"
                     className="text-muted-foreground"
                   />
                 </Link>
-              </span>
+              </div>
             </p>
           )}
         </div>
