@@ -124,9 +124,6 @@ export default function EventSlugRoute() {
           </Alert>
         )}
 
-        <strong className="rounded bg-accent px-4 py-2 text-accent-foreground">
-          {event.category?.name}
-        </strong>
         <h1>{event.title}</h1>
         <h2 className="text-xl">{event.description}</h2>
 
@@ -145,6 +142,12 @@ export default function EventSlugRoute() {
             <p className="flex justify-between gap-4">
               <b className="basis-3/12">Format:</b>
               <span className="basis-9/12">{event.format?.name} </span>
+            </p>
+          )}
+          {event.category?.name && (
+            <p className="flex justify-between gap-4">
+              <b className="basis-3/12">Category:</b>
+              <span className="basis-9/12">{event.category?.name} </span>
             </p>
           )}
           {(event.category?.symbol === "IN_PERSON" ||
