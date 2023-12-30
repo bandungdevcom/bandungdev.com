@@ -53,7 +53,6 @@ export default function ContentEventDetailForm({
 
   return (
     <Card className="space-y-2 p-4">
-      <h2 className="mb-4">Event Detail</h2>
       <input
         type="hidden"
         name="categoryId"

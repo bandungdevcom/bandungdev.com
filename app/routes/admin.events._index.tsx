@@ -81,7 +81,7 @@ export default function UserEventsRoute() {
           </ButtonLink>
           <FormDelete
             action="/admin/events/delete"
-            intentValue="user-delete-all-events"
+            intentValue="admin-delete-all-events"
             itemText="all events"
             buttonText="Delete Events"
             requireUser

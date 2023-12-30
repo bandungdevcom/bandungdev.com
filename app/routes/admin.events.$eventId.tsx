@@ -182,7 +182,7 @@ export default function UserEventsEventIdRoute() {
                 </Button>
                 <FormDelete
                   action="/admin/events/delete"
-                  intentValue="user-delete-event-by-id"
+                  intentValue="admin-delete-event-by-id"
                   itemText={`a event: ${truncateText(event.title)} (${
                     event.slug
                   })`}

@@ -49,7 +49,7 @@ export function EventItemAction({
             </ButtonLink>
             <FormDelete
               action="/admin/events/delete"
-              intentValue="delete-event-by-id"
+              intentValue="admin-delete-event-by-id"
               itemText={`a event: ${event.title} (${event.slug})`}
               defaultValue={event.id}
               requireUser

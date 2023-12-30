@@ -72,7 +72,6 @@ export const modelAdminEvent = {
   },
 
   async update({
-    organizerId,
     id,
     slug,
     title,
@@ -84,10 +83,7 @@ export const modelAdminEvent = {
     mapsUrl,
     mediaId,
     formatId,
-  }: Pick<
-    Event,
-    "organizerId" | "id" | "slug" | "title" | "description" | "formatId"
-  > & {
+  }: Pick<Event, "id" | "slug" | "title" | "description" | "formatId"> & {
     content?: Event["content"]
     mediaId?: Event["mediaId"]
     url?: Event["url"]
@@ -128,7 +124,6 @@ export const modelAdminEvent = {
     return prisma.event.update({
       where: { id },
       data: {
-        organizerId,
         slug,
         title,
         description,
@@ -141,11 +136,11 @@ export const modelAdminEvent = {
     })
   },
 
-  deleteAll({ organizerId }: Pick<Event, "organizerId">) {
-    return prisma.event.deleteMany({ where: { organizerId } })
+  deleteAll() {
+    return prisma.event.deleteMany()
   },
 
-  deleteById({ organizerId, id }: Pick<Event, "organizerId" | "id">) {
-    return prisma.event.delete({ where: { id, organizerId } })
+  deleteById({ id }: Pick<Event, "id">) {
+    return prisma.event.delete({ where: { id } })
   },
 }

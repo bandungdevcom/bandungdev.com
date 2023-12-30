@@ -356,7 +356,7 @@ async function seedEventMedia() {
 async function seedEvents() {
   console.info("\n📜 Seed events")
   console.info("📜 Count events", await prisma.event.count())
-  console.info("📜 Deleted events", await prisma.event.deleteMany())
+  // console.info("📜 Deleted events", await prisma.event.deleteMany())
 
   const organizer = await prisma.user.findUnique({
     where: { username: "bandungdev" },
