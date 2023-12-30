@@ -61,53 +61,63 @@ export default function EventDetailForm({
         defaultValue={categoryId.defaultValue}
       />
       <div className="grid grid-cols-1 gap-2 md:grid-cols-5">
-        <div className="space-y-2 md:col-span-2">
-          <FormLabel htmlFor="formatId">Format</FormLabel>
-          <ClientOnly>
-            {() => (
-              <Select {...conform.input(formatId)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select media" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    {eventFormats.map(eventFormat => (
-                      <SelectItem key={eventFormat.id} value={eventFormat.id}>
-                        {eventFormat.name}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            )}
-          </ClientOnly>
-          <FormErrors>{formatId}</FormErrors>
-        </div>
-        <fetcher.Form
-          method="POST"
-          onChange={event => {
-            fetcher.submit(event.currentTarget, { method: "POST" })
-          }}
-          className="space-y-2 md:col-span-3"
-        >
-          <input
-            type="hidden"
-            name="intent"
-            defaultValue="change-event-category"
-          />
-          <input type="hidden" name="id" defaultValue={eventId} />
-          <FormLabel htmlFor="categoryId">Category</FormLabel>
-          <RadioGroup className="grid-cols-3" {...conform.input(categoryId)}>
-            {eventCategories.map(eventCategory => (
-              <RadioGroupLocationCategoryItem
-                key={eventCategory.id}
-                value={eventCategory.id}
-              >
-                {eventCategory.name}
-              </RadioGroupLocationCategoryItem>
-            ))}
-          </RadioGroup>
-        </fetcher.Form>
+        {eventFormats.length > 0 && (
+          <div
+            className={`space-y-2 ${
+              eventCategories.length > 0 ? "md:col-span-2" : "md:col-span-5"
+            }`}
+          >
+            <FormLabel htmlFor="formatId">Format</FormLabel>
+            <ClientOnly>
+              {() => (
+                <Select {...conform.input(formatId)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select media" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {eventFormats.map(eventFormat => (
+                        <SelectItem key={eventFormat.id} value={eventFormat.id}>
+                          {eventFormat.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              )}
+            </ClientOnly>
+            <FormErrors>{formatId}</FormErrors>
+          </div>
+        )}
+        {eventCategories.length > 0 && (
+          <fetcher.Form
+            method="POST"
+            onChange={event => {
+              fetcher.submit(event.currentTarget, { method: "POST" })
+            }}
+            className={`space-y-2 ${
+              eventFormats.length > 0 ? "md:col-span-3" : "md:col-span-5"
+            }`}
+          >
+            <input
+              type="hidden"
+              name="intent"
+              defaultValue="change-event-category"
+            />
+            <input type="hidden" name="id" defaultValue={eventId} />
+            <FormLabel htmlFor="categoryId">Category</FormLabel>
+            <RadioGroup className="grid-cols-3" {...conform.input(categoryId)}>
+              {eventCategories.map(eventCategory => (
+                <RadioGroupLocationCategoryItem
+                  key={eventCategory.id}
+                  value={eventCategory.id}
+                >
+                  {eventCategory.name}
+                </RadioGroupLocationCategoryItem>
+              ))}
+            </RadioGroup>
+          </fetcher.Form>
+        )}
       </div>
 
       {/* Field for IN_PERSON Event */}
