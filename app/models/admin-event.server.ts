@@ -19,9 +19,9 @@ export const modelAdminEvent = {
     })
   },
 
-  getById({ id, organizerId }: Pick<Event, "id" | "organizerId">) {
+  getById({ id }: Pick<Event, "id">) {
     return prisma.event.findUnique({
-      where: { id, organizerId },
+      where: { id },
       include: {
         status: { select: { symbol: true, name: true } },
         image: { select: { url: true } },

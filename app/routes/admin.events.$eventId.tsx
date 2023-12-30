@@ -28,7 +28,6 @@ import { Button } from "~/components/ui/button"
 import { Iconify } from "~/components/ui/iconify"
 import { Separator } from "~/components/ui/separator"
 import { TextareaAutosize } from "~/components/ui/textarea-autosize"
-import { requireUser } from "~/helpers/auth"
 import { useAppAdminLoaderData } from "~/hooks/use-app-loader-data"
 import { prisma } from "~/libs/db.server"
 import { modelAdminEvent } from "~/models/admin-event.server"
@@ -60,13 +59,11 @@ export const meta: MetaFunction<typeof loader> = ({ params, data }) => {
   })
 }
 
-export const loader = async ({ request, params }: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariant(params.eventId, "params.eventId unavailable")
-  const { userId: organizerId } = await requireUser(request)
   const [event, eventCategories, eventMedias, eventFormats] =
     await prisma.$transaction([
       modelAdminEvent.getById({
-        organizerId,
         id: params.eventId,
       }),
       modelEventCategory.getAll(),
