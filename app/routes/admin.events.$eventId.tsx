@@ -22,16 +22,20 @@ import { ButtonLink } from "~/components/ui/button-link"
 import { ButtonLoading } from "~/components/ui/button-loading"
 import { FormErrors } from "~/components/ui/form"
 
+import EventDetailForm from "~/components/shared/event-detail-form"
 import { Timestamp } from "~/components/shared/timestamp"
 import { Button } from "~/components/ui/button"
 import { Iconify } from "~/components/ui/iconify"
 import { Separator } from "~/components/ui/separator"
 import { TextareaAutosize } from "~/components/ui/textarea-autosize"
-import { requireUser } from "~/helpers/auth"
 import { useAppAdminLoaderData } from "~/hooks/use-app-loader-data"
 import { prisma } from "~/libs/db.server"
 import { modelAdminEvent } from "~/models/admin-event.server"
-import { schemaEvent } from "~/schemas/event"
+import { modelEventCategory } from "~/models/event-category.server"
+import { modelEventFormat } from "~/models/event-format.server"
+import { modelEventMedia } from "~/models/event-media.server"
+import { modelEvent } from "~/models/event.server"
+import { schemaEvent, schemaEventCategory } from "~/schemas/event"
 import { invariant, invariantResponse } from "~/utils/invariant"
 import { createMeta } from "~/utils/meta"
 import { createSitemap } from "~/utils/sitemap"
@@ -55,34 +59,64 @@ export const meta: MetaFunction<typeof loader> = ({ params, data }) => {
   })
 }
 
-export const loader = async ({ request, params }: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariant(params.eventId, "params.eventId unavailable")
-  const { userId: organizerId } = await requireUser(request)
-  const event = await modelAdminEvent.getById({
-    organizerId,
-    id: params.eventId,
-  })
+  const [event, eventCategories, eventMedias, eventFormats] =
+    await prisma.$transaction([
+      modelAdminEvent.getById({
+        id: params.eventId,
+      }),
+      modelEventCategory.getAll(),
+      modelEventMedia.getAll(),
+      modelEventFormat.getAll(),
+    ])
   invariantResponse(event, "Event not found", { status: 404 })
-  return json({ event })
+  invariantResponse(eventCategories, "Event categories not found", {
+    status: 404,
+  })
+  invariantResponse(eventMedias, "Event Medias not found", { status: 404 })
+  return json({ event, eventCategories, eventMedias, eventFormats })
 }
 
 export default function UserEventsEventIdRoute() {
-  const { event } = useLoaderData<typeof loader>()
+  const { event, eventCategories, eventMedias, eventFormats } =
+    useLoaderData<typeof loader>()
   const actionData = useActionData<typeof action>()
   const navigation = useNavigation()
   const { eventStatuses } = useAppAdminLoaderData()
 
-  const [form, { organizerId, id, slug, title, description, content }] =
-    useForm<z.infer<typeof schemaEvent>>({
-      id: "update-event",
-      lastSubmission: actionData?.submission,
-      shouldRevalidate: "onInput",
-      constraint: getFieldsetConstraint(schemaEvent),
-      onValidate({ formData }) {
-        return parse(formData, { schema: schemaEvent })
-      },
-      defaultValue: { ...event, organizerId: event.organizerId },
-    })
+  const [
+    form,
+    {
+      organizerId,
+      id,
+      slug,
+      title,
+      description,
+      content,
+      categoryId,
+      label,
+      address,
+      url,
+      mapsUrl,
+      mediaId,
+      formatId,
+    },
+  ] = useForm<z.infer<typeof schemaEvent>>({
+    id: "update-event",
+    lastSubmission: actionData,
+    shouldRevalidate: "onInput",
+    constraint: getFieldsetConstraint(schemaEvent),
+    onValidate({ formData }) {
+      return parse(formData, { schema: schemaEvent })
+    },
+    defaultValue: {
+      ...event,
+      label: event.location?.label,
+      address: event.location?.address,
+      mapsUrl: event.location?.mapsUrl,
+    },
+  })
 
   const isSubmitting = navigation.state === "submitting"
   const isEventUpdated = event.createdAt !== event.updatedAt
@@ -96,6 +130,10 @@ export default function UserEventsEventIdRoute() {
   const [contentValue, setContentValue] = useState(content.defaultValue ?? "")
   const contentRef = useRef<HTMLInputElement>(null)
   const contentControl = useInputEvent({ ref: contentRef })
+
+  const eventCategorySymbol = eventCategories.find(
+    eventCategory => eventCategory.id === categoryId.defaultValue,
+  )?.symbol
 
   function handleReset() {
     form.ref.current?.reset()
@@ -141,7 +179,7 @@ export default function UserEventsEventIdRoute() {
                 </Button>
                 <FormDelete
                   action="/admin/events/delete"
-                  intentValue="user-delete-event-by-id"
+                  intentValue="admin-delete-event-by-id"
                   itemText={`a event: ${truncateText(event.title)} (${
                     event.slug
                   })`}
@@ -193,7 +231,7 @@ export default function UserEventsEventIdRoute() {
             </div>
           </section>
 
-          <section className="mx-auto w-full max-w-prose space-y-4">
+          <section className="mx-auto w-full max-w-prose space-y-4 ">
             <input type="hidden" {...conform.input(organizerId)} />
             <input type="hidden" {...conform.input(id)} />
 
@@ -207,6 +245,7 @@ export default function UserEventsEventIdRoute() {
 
             <div>
               <div className="flex justify-between gap-2">
+                <input type="hidden" name="intent" defaultValue="save-event" />
                 <input
                   {...conform.input(slug)}
                   ref={slugRef}
@@ -252,6 +291,21 @@ export default function UserEventsEventIdRoute() {
               <FormErrors>{description}</FormErrors>
             </div>
 
+            <EventDetailForm
+              eventId={event.id}
+              categoryId={categoryId}
+              address={address}
+              eventCategories={eventCategories}
+              eventCategorySymbol={eventCategorySymbol || ""}
+              eventFormats={eventFormats}
+              eventMedias={eventMedias}
+              formatId={formatId}
+              label={label}
+              mapsUrl={mapsUrl}
+              mediaId={mediaId}
+              url={url}
+            />
+
             <Separator className="my-4" />
 
             <div>
@@ -289,33 +343,44 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const timer = createTimer()
   const clonedRequest = request.clone()
   const formData = await clonedRequest.formData()
+  const intent = formData.get("intent")?.toString()
 
-  const submission = await parse(formData, {
-    async: true,
-    schema: schemaEvent.superRefine(async (data, ctx) => {
-      const { id, slug } = data
-      const existingSlug = await prisma.event.findUnique({
-        where: { slug, NOT: { id } },
-        select: { id: true },
-      })
-      if (existingSlug) {
-        ctx.addIssue({
-          path: ["slug"],
-          code: z.ZodIssueCode.custom,
-          message: "Slug cannot be used, please change",
-        })
-        return
-      }
-    }),
-  })
-
-  if (!submission.value || submission.intent !== "submit") {
+  if (intent === "change-event-category") {
+    const submission = parse(formData, {
+      schema: schemaEventCategory,
+    })
+    if (!submission.value) return json(submission, { status: 400 })
+    await modelEvent.updateCategory(submission.value)
     await timer.delay()
-    return json({ status: "error", submission }, { status: 400 })
+    return json(submission)
+  } else if (intent === "save-event") {
+    const submission = await parse(formData, {
+      async: true,
+      schema: schemaEvent.superRefine(async (data, ctx) => {
+        const { id, slug } = data
+        const existingSlug = await prisma.event.findUnique({
+          where: { slug, NOT: { id } },
+          select: { id: true },
+        })
+        if (existingSlug) {
+          ctx.addIssue({
+            path: ["slug"],
+            code: z.ZodIssueCode.custom,
+            message: "Slug cannot be used, please change",
+          })
+          return
+        }
+      }),
+    })
+
+    if (!submission.value || submission.intent !== "submit") {
+      await timer.delay()
+      return json(submission, { status: 400 })
+    }
+
+    const event = await modelAdminEvent.update(submission.value)
+
+    await timer.delay()
+    return redirect(`/admin/events/${event.id}`)
   }
-
-  const event = await modelAdminEvent.update(submission.value)
-
-  await timer.delay()
-  return redirect(`/admin/events/${event.id}`)
 }

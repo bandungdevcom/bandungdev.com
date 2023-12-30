@@ -3,7 +3,7 @@ import {
   type LoaderFunctionArgs,
   type MetaFunction,
 } from "@remix-run/node"
-import { useLoaderData, type Params } from "@remix-run/react"
+import { Link, useLoaderData, type Params } from "@remix-run/react"
 import { BadgeEventStatus } from "~/components/shared/badge-event-status"
 import { ViewHTML } from "~/components/shared/view-html"
 
@@ -67,6 +67,8 @@ export default function EventSlugRoute() {
   const isOwner = event.organizerId === userSession?.id
   const isUpdated = event.createdAt !== event.updatedAt
   const isArchived = event.status.symbol === "ARCHIVED"
+  const isOnline = event.category?.symbol === "ONLINE"
+  const isHybrid = event.category?.symbol === "HYBRID"
 
   return (
     <div className="site-container space-y-8 pt-20 sm:pt-20">
@@ -128,19 +130,100 @@ export default function EventSlugRoute() {
 
         <div className="space-y-2">
           <p className="flex justify-between gap-4">
-            <b className="basis-3/12">Date:</b>
-            <span className="basis-9/12">{formatDateDMY(event.date)}</span>
+            <b className="basis-4/12">Date:</b>
+            <span className="basis-8/12">{formatDateDMY(event.date)}</span>
           </p>
+
           <p className="flex justify-between gap-4">
-            <b className="basis-3/12">Time:</b>
-            <span className="basis-9/12">
+            <b className="basis-4/12">Time:</b>
+            <span className="basis-8/12">
               {formatTime(event.timeStart)} – {formatTime(event.timeEnd)}
             </span>
           </p>
-          <p className="flex justify-between gap-4">
-            <b className="basis-3/12">Location:</b>
-            <span className="basis-9/12">{event.locationId} (FIXME)</span>
-          </p>
+
+          {event.format?.name && (
+            <p className="flex justify-between gap-4">
+              <b className="basis-4/12">Format:</b>
+              <span className="basis-8/12">{event.format?.name} </span>
+            </p>
+          )}
+
+          {event.category?.name && (
+            <p className="flex justify-between gap-4">
+              <b className="basis-4/12">Category:</b>
+              <span className="basis-8/12">{event.category?.name} </span>
+            </p>
+          )}
+
+          {(event.category?.symbol === "IN_PERSON" || isHybrid) &&
+            (event.location?.address ||
+              event.location?.label ||
+              event.location?.mapsUrl) && (
+              <p className="flex justify-between gap-4">
+                <b className="basis-4/12">
+                  <span>Location</span>
+                  {isHybrid && <span> (In Person)</span>}
+                  <span>:</span>
+                </b>
+                <div className="basis-8/12">
+                  {event.location.label && (
+                    <Link
+                      to={event.location?.mapsUrl || ""}
+                      target="_blank"
+                      className="inline-flex gap-1"
+                    >
+                      <span>{event.location?.label} </span>
+                      <Iconify
+                        icon="ph:arrow-up-right"
+                        className="text-muted-foreground"
+                      />
+                    </Link>
+                  )}
+                  {event.location.address && (
+                    <p className="text-muted-foreground">
+                      {event.location?.address}
+                    </p>
+                  )}
+                  {event.location.mapsUrl && (
+                    <Link
+                      to={event.location?.mapsUrl || ""}
+                      target="_blank"
+                      className="inline-flex gap-1 text-accent"
+                    >
+                      {event.location?.mapsUrl}
+                      <Iconify
+                        icon="ph:arrow-up-right"
+                        className="text-muted-foreground"
+                      />
+                    </Link>
+                  )}
+                </div>
+              </p>
+            )}
+
+          {(isOnline || isHybrid) && event.url && event.media && (
+            <p className="flex justify-between gap-4">
+              <b className="basis-4/12">
+                <span>Location</span>
+                {isHybrid && <span> (Online)</span>}
+                <span>:</span>
+              </b>
+              <div className="basis-8/12">
+                <p>{event.media?.name}</p>
+                <Link
+                  to={event.url || ""}
+                  target="_blank"
+                  className="inline-flex gap-1 text-accent"
+                >
+                  {event.url}
+                  <Iconify
+                    icon="ph:arrow-up-right"
+                    className="text-muted-foreground"
+                  />
+                </Link>
+              </div>
+            </p>
+          )}
         </div>
       </header>
 

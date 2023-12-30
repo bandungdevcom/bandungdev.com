@@ -1,0 +1,14 @@
+[
+  {
+    "symbol": "ONLINE",
+    "name": "Online"
+  },
+  {
+    "symbol": "IN_PERSON",
+    "name": "In Person"
+  },
+  {
+    "symbol": "HYBRID",
+    "name": "Hybrid"
+  }
+]
