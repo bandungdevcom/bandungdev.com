@@ -213,90 +213,101 @@ export default function EventSlugRoute() {
             </p>
           )}
           {(event.category?.symbol === "IN_PERSON" ||
-            event.category?.symbol === "HYBRID") && (
-            <p className="flex justify-between gap-4">
-              <b
-                className={
-                  event.category?.symbol === "HYBRID"
-                    ? "basis-4/12"
-                    : "basis-3/12"
-                }
-              >
-                Location{event.category?.symbol === "HYBRID" && " (In Person) "}
-                :
-              </b>
-              <span
-                className={
-                  event.category?.symbol === "HYBRID"
-                    ? "basis-8/12"
-                    : "basis-9/12"
-                }
-              >
-                <Link
-                  to={event.location?.mapsUrl || ""}
-                  target="_blank"
-                  className="flex flex-row"
+            event.category?.symbol === "HYBRID") &&
+            (event.location?.address ||
+              event.location?.label ||
+              event.location?.mapsUrl) && (
+              <p className="flex justify-between gap-4">
+                <b
+                  className={
+                    event.category?.symbol === "HYBRID"
+                      ? "basis-4/12"
+                      : "basis-3/12"
+                  }
                 >
-                  {event.location?.label}{" "}
-                  <Icon
-                    icon="material-symbols:arrow-insert"
-                    rotate={1}
-                    className="text-muted-foreground"
-                  />
-                </Link>
-                <span className="text-muted-foreground">
-                  {event.location?.address}
+                  Location
+                  {event.category?.symbol === "HYBRID" && " (In Person) "}:
+                </b>
+                <span
+                  className={
+                    event.category?.symbol === "HYBRID"
+                      ? "basis-8/12"
+                      : "basis-9/12"
+                  }
+                >
+                  {event.location.label && (
+                    <Link
+                      to={event.location?.mapsUrl || ""}
+                      target="_blank"
+                      className="flex flex-row"
+                    >
+                      {event.location?.label}{" "}
+                      <Icon
+                        icon="material-symbols:arrow-insert"
+                        rotate={1}
+                        className="text-muted-foreground"
+                      />
+                    </Link>
+                  )}
+                  {event.location.address && (
+                    <span className="text-muted-foreground">
+                      {event.location?.address}
+                    </span>
+                  )}
+                  {event.location.mapsUrl && (
+                    <Link
+                      to={event.location?.mapsUrl || ""}
+                      target="_blank"
+                      className="flex flex-row text-accent"
+                    >
+                      {event.location?.mapsUrl}
+                      <Icon
+                        icon="material-symbols:arrow-insert"
+                        rotate={1}
+                        className="text-muted-foreground"
+                      />
+                    </Link>
+                  )}
                 </span>
-                <Link
-                  to={event.location?.mapsUrl || ""}
-                  target="_blank"
-                  className="flex flex-row text-accent"
-                >
-                  {event.location?.mapsUrl}
-                  <Icon
-                    icon="material-symbols:arrow-insert"
-                    rotate={1}
-                    className="text-muted-foreground"
-                  />
-                </Link>
-              </span>
-            </p>
-          )}
+              </p>
+            )}
           {(event.category?.symbol === "ONLINE" ||
-            event.category?.symbol === "HYBRID") && (
-            <p className="flex justify-between gap-4">
-              <b
-                className={
-                  event.category?.symbol === "HYBRID"
-                    ? "basis-4/12"
-                    : "basis-3/12"
-                }
-              >
-                Location{event.category?.symbol === "HYBRID" && " (Online) "}:
-              </b>
-              <span
-                className={
-                  event.category?.symbol === "HYBRID"
-                    ? "basis-8/12"
-                    : "basis-9/12"
-                }
-              >
-                {event.media?.name}
-                <Link
-                  to={event.url || ""}
-                  target="_blank"
-                  className="flex flex-row text-accent"
+            event.category?.symbol === "HYBRID") &&
+            event.url &&
+            event.media && (
+              <p className="flex justify-between gap-4">
+                <b
+                  className={
+                    event.category?.symbol === "HYBRID"
+                      ? "basis-4/12"
+                      : "basis-3/12"
+                  }
                 >
-                  {event.url}
-                  <Icon
-                    icon="material-symbols:arrow-insert"
-                    rotate={1}
-                    className="text-muted-foreground"
-                  />
-                </Link>
-              </span>
-            </p>
-          )}
+                  Location{event.category?.symbol === "HYBRID" && " (Online) "}:
+                </b>
+                <span
+                  className={
+                    event.category?.symbol === "HYBRID"
+                      ? "basis-8/12"
+                      : "basis-9/12"
+                  }
+                >
+                  {event.media?.name}
+                  <Link
+                    to={event.url || ""}
+                    target="_blank"
+                    className="flex flex-row text-accent"
+                  >
+                    {event.url}
+                    <Icon
+                      icon="material-symbols:arrow-insert"
+                      rotate={1}
+                      className="text-muted-foreground"
+                    />
+                  </Link>
+                </span>
+              </p>
+            )}
         </div>
       </header>
 
