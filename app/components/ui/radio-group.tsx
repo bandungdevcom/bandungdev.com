@@ -55,7 +55,9 @@ const RadioGroupLocationCategoryItem = React.forwardRef<
       )}
       {...props}
     >
-      <RadioGroupPrimitive.Indicator className="absolute left-0 top-0 z-10 h-full w-full rounded-md bg-transparent outline outline-accent" />
+      <RadioGroupPrimitive.Indicator className="absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center rounded-md bg-accent text-accent-foreground outline outline-accent">
+        {children}
+      </RadioGroupPrimitive.Indicator>
       {children}
     </RadioGroupPrimitive.Item>
   )
