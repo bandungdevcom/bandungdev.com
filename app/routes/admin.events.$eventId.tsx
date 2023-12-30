@@ -22,7 +22,7 @@ import { ButtonLink } from "~/components/ui/button-link"
 import { ButtonLoading } from "~/components/ui/button-loading"
 import { FormErrors } from "~/components/ui/form"
 
-import ContentEventDetailForm from "~/components/contents/event-detail-form"
+import EventDetailForm from "~/components/shared/event-detail-form"
 import { Timestamp } from "~/components/shared/timestamp"
 import { Button } from "~/components/ui/button"
 import { Iconify } from "~/components/ui/iconify"
@@ -324,7 +324,7 @@ export default function UserEventsEventIdRoute() {
               </div>
             </section>
             <section className="site-container lg:col-span-2">
-              <ContentEventDetailForm
+              <EventDetailForm
                 eventId={event.id}
                 categoryId={categoryId}
                 address={address}

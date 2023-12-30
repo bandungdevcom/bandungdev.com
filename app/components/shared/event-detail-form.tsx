@@ -38,7 +38,7 @@ interface EventDetailFormProps {
   eventCategories: Prisma.PromiseReturnType<typeof modelEventCategory.getAll>
 }
 
-export default function ContentEventDetailForm({
+export default function EventDetailForm({
   categoryId,
   eventId,
   eventCategorySymbol,
