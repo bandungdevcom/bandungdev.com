@@ -231,115 +231,108 @@ export default function UserEventsEventIdRoute() {
             </div>
           </section>
 
-          <div className="grid grid-cols-1 lg:grid-cols-6">
-            <section className="mx-auto w-full max-w-prose space-y-4 md:col-span-4">
-              <input type="hidden" {...conform.input(organizerId)} />
-              <input type="hidden" {...conform.input(id)} />
+          <section className="mx-auto w-full max-w-prose space-y-4 ">
+            <input type="hidden" {...conform.input(organizerId)} />
+            <input type="hidden" {...conform.input(id)} />
 
-              <div className="text-xs text-muted-foreground">
-                <Timestamp
-                  isUpdated={isEventUpdated}
-                  createdAt={event.createdAt}
-                  updatedAt={event.updatedAt}
-                />
-              </div>
-
-              <div>
-                <div className="flex justify-between gap-2">
-                  <input
-                    type="hidden"
-                    name="intent"
-                    defaultValue="save-event"
-                  />
-                  <input
-                    {...conform.input(slug)}
-                    ref={slugRef}
-                    placeholder="untitled"
-                    spellCheck="false"
-                    className="input-natural flex-1 font-mono text-sm"
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="xs"
-                    onClick={handleUpdateSlug}
-                  >
-                    <Iconify icon="ph:lightbulb-duotone" />
-                    <span>Generate Slug</span>
-                  </Button>
-                </div>
-                <FormErrors>{slug}</FormErrors>
-              </div>
-
-              <div>
-                <TextareaAutosize
-                  name={title.name}
-                  minRows={1}
-                  defaultValue={titleValue}
-                  onChange={e => setTitleValue(e.target.value)}
-                  placeholder="Untitled"
-                  spellCheck="false"
-                  className="input-natural w-full resize-none text-4xl font-semibold"
-                />
-                <FormErrors>{title}</FormErrors>
-              </div>
-
-              <div>
-                <TextareaAutosize
-                  name={description.name}
-                  defaultValue={description.defaultValue}
-                  minRows={1}
-                  placeholder="Untitled"
-                  spellCheck="false"
-                  className="input-natural w-full resize-none text-xl"
-                />
-                <FormErrors>{description}</FormErrors>
-              </div>
-
-              <Separator className="my-4" />
-
-              <div>
-                <FormErrors>{content}</FormErrors>
-                <input
-                  {...conform.input(content, { hidden: true })}
-                  ref={contentRef}
-                  onChange={e => setContentValue(e.target.value)}
-                />
-                <EditorTiptapHook
-                  content={contentValue}
-                  handleUpdate={handleUpdateContent}
-                  placeholderText="Write the content detail about the event..."
-                />
-              </div>
-
-              {/* Manual textarea editor */}
-              <div className="hidden">
-                <textarea
-                  placeholder="Add some content..."
-                  spellCheck="false"
-                  cols={30}
-                  rows={20}
-                  className="input-natural resize-none"
-                />
-              </div>
-            </section>
-            <section className="site-container lg:col-span-2">
-              <EventDetailForm
-                eventId={event.id}
-                categoryId={categoryId}
-                address={address}
-                eventCategories={eventCategories}
-                eventCategorySymbol={eventCategorySymbol || ""}
-                eventFormats={eventFormats}
-                eventMedias={eventMedias}
-                formatId={formatId}
-                label={label}
-                mapsUrl={mapsUrl}
-                mediaId={mediaId}
-                url={url}
+            <div className="text-xs text-muted-foreground">
+              <Timestamp
+                isUpdated={isEventUpdated}
+                createdAt={event.createdAt}
+                updatedAt={event.updatedAt}
               />
-            </section>
-          </div>
+            </div>
+
+            <div>
+              <div className="flex justify-between gap-2">
+                <input type="hidden" name="intent" defaultValue="save-event" />
+                <input
+                  {...conform.input(slug)}
+                  ref={slugRef}
+                  placeholder="untitled"
+                  spellCheck="false"
+                  className="input-natural flex-1 font-mono text-sm"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="xs"
+                  onClick={handleUpdateSlug}
+                >
+                  <Iconify icon="ph:lightbulb-duotone" />
+                  <span>Generate Slug</span>
+                </Button>
+              </div>
+              <FormErrors>{slug}</FormErrors>
+            </div>
+
+            <div>
+              <TextareaAutosize
+                name={title.name}
+                minRows={1}
+                defaultValue={titleValue}
+                onChange={e => setTitleValue(e.target.value)}
+                placeholder="Untitled"
+                spellCheck="false"
+                className="input-natural w-full resize-none text-4xl font-semibold"
+              />
+              <FormErrors>{title}</FormErrors>
+            </div>
+
+            <div>
+              <TextareaAutosize
+                name={description.name}
+                defaultValue={description.defaultValue}
+                minRows={1}
+                placeholder="Untitled"
+                spellCheck="false"
+                className="input-natural w-full resize-none text-xl"
+              />
+              <FormErrors>{description}</FormErrors>
+            </div>
+
+            <EventDetailForm
+              eventId={event.id}
+              categoryId={categoryId}
+              address={address}
+              eventCategories={eventCategories}
+              eventCategorySymbol={eventCategorySymbol || ""}
+              eventFormats={eventFormats}
+              eventMedias={eventMedias}
+              formatId={formatId}
+              label={label}
+              mapsUrl={mapsUrl}
+              mediaId={mediaId}
+              url={url}
+            />
+
+            <Separator className="my-4" />
+
+            <div>
+              <FormErrors>{content}</FormErrors>
+              <input
+                {...conform.input(content, { hidden: true })}
+                ref={contentRef}
+                onChange={e => setContentValue(e.target.value)}
+              />
+              <EditorTiptapHook
+                content={contentValue}
+                handleUpdate={handleUpdateContent}
+                placeholderText="Write the content detail about the event..."
+              />
+            </div>
+
+            {/* Manual textarea editor */}
+            <div className="hidden">
+              <textarea
+                placeholder="Add some content..."
+                spellCheck="false"
+                cols={30}
+                rows={20}
+                className="input-natural resize-none"
+              />
+            </div>
+          </section>
         </fieldset>
       </Form>
     </div>

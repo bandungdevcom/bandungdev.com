@@ -3,7 +3,6 @@ import { type Prisma } from "@prisma/client"
 import { useFetcher } from "@remix-run/react"
 import { ClientOnly } from "remix-utils/client-only"
 
-import { Card } from "~/components/ui/card"
 import { FormErrors, FormLabel } from "~/components/ui/form"
 import { Input } from "~/components/ui/input"
 import {
@@ -55,70 +54,72 @@ export default function EventDetailForm({
   const fetcher = useFetcher()
 
   return (
-    <Card className="space-y-2 p-4">
+    <>
       <input
         type="hidden"
         name="categoryId"
         defaultValue={categoryId.defaultValue}
       />
-      <div className="space-y-2">
-        <FormLabel htmlFor="formatId">Format</FormLabel>
-        <ClientOnly>
-          {() => (
-            <Select {...conform.input(formatId)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select media" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  {eventFormats.map(eventFormat => (
-                    <SelectItem key={eventFormat.id} value={eventFormat.id}>
-                      {eventFormat.name}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          )}
-        </ClientOnly>
-        <FormErrors>{formatId}</FormErrors>
+      <div className="grid grid-cols-1 gap-2 md:grid-cols-5">
+        <div className="space-y-2 md:col-span-2">
+          <FormLabel htmlFor="formatId">Format</FormLabel>
+          <ClientOnly>
+            {() => (
+              <Select {...conform.input(formatId)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select media" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {eventFormats.map(eventFormat => (
+                      <SelectItem key={eventFormat.id} value={eventFormat.id}>
+                        {eventFormat.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
+          </ClientOnly>
+          <FormErrors>{formatId}</FormErrors>
+        </div>
+        <fetcher.Form
+          method="POST"
+          onChange={event => {
+            fetcher.submit(event.currentTarget, { method: "POST" })
+          }}
+          className="space-y-2 md:col-span-3"
+        >
+          <input
+            type="hidden"
+            name="intent"
+            defaultValue="change-event-category"
+          />
+          <input type="hidden" name="id" defaultValue={eventId} />
+          <FormLabel htmlFor="categoryId">Category</FormLabel>
+          <RadioGroup className="grid-cols-3" {...conform.input(categoryId)}>
+            {eventCategories.map(eventCategory => (
+              <RadioGroupLocationCategoryItem
+                key={eventCategory.id}
+                value={eventCategory.id}
+              >
+                {eventCategory.name}
+              </RadioGroupLocationCategoryItem>
+            ))}
+          </RadioGroup>
+        </fetcher.Form>
       </div>
-      <fetcher.Form
-        method="POST"
-        onChange={event => {
-          fetcher.submit(event.currentTarget, { method: "POST" })
-        }}
-        className="space-y-2"
-      >
-        <input
-          type="hidden"
-          name="intent"
-          defaultValue="change-event-category"
-        />
-        <input type="hidden" name="id" defaultValue={eventId} />
-        <FormLabel htmlFor="categoryId">Category</FormLabel>
-        <RadioGroup className="grid-cols-3" {...conform.input(categoryId)}>
-          {eventCategories.map(eventCategory => (
-            <RadioGroupLocationCategoryItem
-              key={eventCategory.id}
-              value={eventCategory.id}
-            >
-              {eventCategory.name}
-            </RadioGroupLocationCategoryItem>
-          ))}
-        </RadioGroup>
-      </fetcher.Form>
 
       {/* Field for IN_PERSON Event */}
       {(eventCategorySymbol === "IN_PERSON" ||
         eventCategorySymbol === "HYBRID") && (
         <>
           <div className="space-y-2">
-            <FormLabel htmlFor="mapUrl">Location</FormLabel>
+            <FormLabel htmlFor="mapUrl">Location Name</FormLabel>
             <Input
               className="w-full"
               {...conform.input(label)}
-              placeholder="Example: Nakama Coffee"
+              placeholder="Nakama Coffee"
             />
             <FormErrors>{label}</FormErrors>
           </div>
@@ -128,7 +129,7 @@ export default function EventDetailForm({
             <Textarea
               className="w-full"
               {...conform.input(address)}
-              placeholder="Address of the location"
+              placeholder="Singgasana Pradana, Jl. Indra Prahasta Tim. No.1A, Cibaduyut, Bojongloa Kidul, Bandung City, West Java 40238"
             />
             <FormErrors>{address}</FormErrors>
           </div>
@@ -138,7 +139,7 @@ export default function EventDetailForm({
             <Input
               className="w-full"
               {...conform.input(mapsUrl)}
-              placeholder="Google maps url"
+              placeholder="https://maps.app.goo.gl/9issyz4gsFUYHK5L9"
             />
             <FormErrors>{mapsUrl}</FormErrors>
           </div>
@@ -177,12 +178,12 @@ export default function EventDetailForm({
             <Input
               className="w-full"
               {...conform.input(url)}
-              placeholder="Example: around.co/bandungdev"
+              placeholder="https://around.co/bandungdev"
             />
             <FormErrors>{url}</FormErrors>
           </div>
         </>
       )}
-    </Card>
+    </>
   )
 }
