@@ -277,4 +277,26 @@ export const modelUser = {
       },
     })
   },
+
+  async updateAvatar({ id, avatarUrl }: { id: string; avatarUrl: string }) {
+    const prevUserImage = await prisma.userImage.findFirst({
+      where: {
+        userId: id,
+      },
+      select: {
+        id: true,
+      },
+    })
+
+    if (!prevUserImage) return null
+
+    return await prisma.userImage.updateMany({
+      where: {
+        id: prevUserImage.id,
+      },
+      data: {
+        url: avatarUrl,
+      },
+    })
+  },
 }
