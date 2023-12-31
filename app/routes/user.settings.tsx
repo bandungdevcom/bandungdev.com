@@ -104,7 +104,6 @@ export default function UserSettingsRoute() {
         <FormChangeLinks
           userProfile={{ id: user.id, links: user.profile?.links ?? [] }}
         />
-
       </section>
     </div>
   )
