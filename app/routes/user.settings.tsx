@@ -6,10 +6,10 @@ import {
   type MetaFunction,
 } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
+import { AvatarChangeField } from "~/components/shared/avatar-change-field"
 
 import { FormChangeField } from "~/components/shared/form-change-field"
 import { FormChangeLinks } from "~/components/shared/form-change-links"
-import { AvatarAuto } from "~/components/ui/avatar-auto"
 import { configSite } from "~/configs/site"
 import { configUnallowedKeywords } from "~/configs/unallowed-keywords"
 import { requireUser } from "~/helpers/auth"
@@ -17,6 +17,7 @@ import { modelUser } from "~/models/user.server"
 import { schemaGeneralId } from "~/schemas/general"
 import {
   issueUsernameUnallowed,
+  schemaUserAvatar,
   schemaUserFullName,
   schemaUserNickName,
   schemaUserProfileBio,
@@ -46,13 +47,15 @@ export default function UserSettingsRoute() {
   return (
     <div className="app-container">
       <header className="app-header items-center gap-4">
-        <AvatarAuto user={user} imageUrl={user.images[0]?.url} />
-
         <div>
           <h2>User Settings</h2>
           <p>Manage user settings and profile</p>
         </div>
       </header>
+
+      <section className="app-section max-w-md ">
+        <AvatarChangeField user={user} intentValue="user-change-avatar" />
+      </section>
 
       <section className="app-section max-w-md space-y-8">
         <FormChangeField
@@ -101,6 +104,7 @@ export default function UserSettingsRoute() {
         <FormChangeLinks
           userProfile={{ id: user.id, links: user.profile?.links ?? [] }}
         />
+
       </section>
     </div>
   )
@@ -166,6 +170,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const submission = parse(formData, { schema: schemaUserProfileLinks })
     if (!submission.value) return json(submission, { status: 400 })
     await modelUser.updateLinks(submission.value)
+    await timer.delay()
+    return json(submission)
+  }
+
+  if (intent === "user-change-avatar") {
+    const submission = parse(formData, { schema: schemaUserAvatar })
+    if (!submission.value) return json(submission, { status: 400 })
+    await modelUser.updateAvatar(submission.value)
     await timer.delay()
     return json(submission)
   }
