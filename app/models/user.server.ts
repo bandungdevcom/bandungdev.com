@@ -154,6 +154,7 @@ export const modelUser = {
     imageUrl,
   }: Pick<User, "email" | "fullname" | "username"> &
     Pick<Connection, "providerName" | "providerId"> & { imageUrl: string }) {
+    // FIXME: Use prisma transaction
     const existingUsername = await modelUser.getByUsername({ username })
     const existingUser = await modelUser.getByEmail({ email })
 
