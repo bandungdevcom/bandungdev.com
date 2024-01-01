@@ -101,6 +101,8 @@ export default function UserEventsEventIdRoute() {
       mapsUrl,
       mediaId,
       formatId,
+      dateTimeStart,
+      dateTimeEnd,
     },
   ] = useForm<z.infer<typeof schemaEvent>>({
     id: "update-event",
@@ -304,6 +306,8 @@ export default function UserEventsEventIdRoute() {
               mapsUrl={mapsUrl}
               mediaId={mediaId}
               url={url}
+              dateTimeStart={dateTimeStart}
+              dateTimeEnd={dateTimeEnd}
             />
 
             <Separator className="my-4" />

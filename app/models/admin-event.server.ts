@@ -78,7 +78,18 @@ export const modelAdminEvent = {
     mapsUrl,
     mediaId,
     formatId,
-  }: Pick<Event, "id" | "slug" | "title" | "description" | "formatId"> & {
+    dateTimeStart,
+    dateTimeEnd,
+  }: Pick<
+    Event,
+    | "id"
+    | "slug"
+    | "title"
+    | "description"
+    | "formatId"
+    | "dateTimeStart"
+    | "dateTimeEnd"
+  > & {
     content?: Event["content"]
     mediaId?: Event["mediaId"]
     url?: Event["url"]
@@ -127,6 +138,8 @@ export const modelAdminEvent = {
         locationId,
         mediaId,
         formatId,
+        dateTimeStart,
+        dateTimeEnd,
       },
     })
   },

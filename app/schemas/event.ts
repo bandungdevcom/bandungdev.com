@@ -35,6 +35,10 @@ const mediaId = z.string().optional()
 
 const formatId = z.string({ required_error: "Format is required" })
 
+const dateTimeStart = z.date({ required_error: "Date start is required" })
+
+const dateTimeEnd = z.date({ required_error: "Date end is required" })
+
 export const schemaEvent = z.object({
   organizerId,
   id,
@@ -50,6 +54,8 @@ export const schemaEvent = z.object({
   mapsUrl,
   mediaId,
   formatId,
+  dateTimeEnd,
+  dateTimeStart,
 })
 
 export const schemaEventCategory = z.object({ id, categoryId })
