@@ -24,6 +24,10 @@ export function formatDateYMD(date: string | Date | undefined) {
   return dayjs(date).locale("en").format("YYYY-MM-DD")
 }
 
+export function formatDateDMYHS(date: string | Date | undefined) {
+  return dayjs(date).locale("en").format("D MMMM YYYY HH:ss")
+}
+
 export function formatPublished(date: string | Date | undefined) {
   return dayjs(date).locale("en").format("MMMM D, YYYY")
 }
