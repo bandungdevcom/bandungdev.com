@@ -57,10 +57,8 @@ export const modelAdminEvent = {
         content,
         statusId: status.id,
         categoryId: eventCategory?.id,
-        // FIXME: Default dates
-        date: new Date(),
-        timeStart: new Date(),
-        timeEnd: new Date(),
+        dateTimeStart: new Date(),
+        dateTimeEnd: new Date(),
       },
       include: {
         status: true,

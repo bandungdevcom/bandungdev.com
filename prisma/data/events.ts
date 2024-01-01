@@ -3,9 +3,8 @@ export const dataEvents = [
     slug: "launch",
     title: "Official Setup/Launch",
     description: "BandungDev is being launched to the public.",
-    date: new Date("2023-10-22"),
-    timeStart: new Date("2023-10-22 13:00"),
-    timeEnd: new Date("2023-10-22 18:00"),
+    dateTimeStart: new Date("2023-10-22 13:00"),
+    dateTimeEnd: new Date("2023-10-22 18:00"),
     statusSymbol: "PUBLISHED",
     // categorySymbol: "MEETING",
     content: "BandungDev is being launched to the public.",
@@ -15,9 +14,8 @@ export const dataEvents = [
     title: "Casual Meetup on November 2023",
     description:
       "One of the first meetup for casual introduction, coffee and tea, dicuss various things.",
-    date: new Date("2023-11-11"),
-    timeStart: new Date("2023-11-11 13:00"),
-    timeEnd: new Date("2023-11-11 16:00"),
+    dateTimeStart: new Date("2023-11-11 13:00"),
+    dateTimeEnd: new Date("2023-11-11 16:00"),
     statusSymbol: "PUBLISHED",
     // categorySymbol: "MEETUP",
     content:
@@ -28,9 +26,8 @@ export const dataEvents = [
     title: "Casual Meetup: South on December 2023",
     description:
       "In the south area, casual for introduction, coffee and tea, dicuss various things.",
-    date: new Date("2023-12-30"),
-    timeStart: new Date("2023-12-30 13:00"),
-    timeEnd: new Date("2023-12-30 16:00"),
+    dateTimeStart: new Date("2023-12-30 13:00"),
+    dateTimeEnd: new Date("2023-12-30 16:00"),
     statusSymbol: "PUBLISHED",
     // categorySymbol: "MEETUP",
     content:
@@ -41,9 +38,8 @@ export const dataEvents = [
     title: "Casual Meetup: North on December 2023",
     description:
       "In the north area, casual for introduction, coffee and tea, dicuss various things.",
-    date: new Date("2023-12-30"),
-    timeStart: new Date("2023-12-30 10:00"),
-    timeEnd: new Date("2023-12-30 13:00"),
+    dateTimeStart: new Date("2023-12-30 10:00"),
+    dateTimeEnd: new Date("2023-12-30 13:00"),
     statusSymbol: "PUBLISHED",
     // categorySymbol: "MEETUP",
     content:
@@ -53,9 +49,8 @@ export const dataEvents = [
     slug: "2024-02-18",
     title: "Tech Community Meetup on February 2024",
     description: "The description of the event.",
-    date: new Date("2024-02-18"),
-    timeStart: new Date("2024-02-18 13:00"),
-    timeEnd: new Date("2024-02-18 16:00"),
+    dateTimeStart: new Date("2024-02-18 13:00"),
+    dateTimeEnd: new Date("2024-02-18 16:00"),
     statusSymbol: "DRAFT",
     // categorySymbol: "SEMINAR",
     content:
