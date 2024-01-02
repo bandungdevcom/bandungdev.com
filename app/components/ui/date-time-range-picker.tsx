@@ -1,5 +1,5 @@
 import { type FieldConfig } from "@conform-to/react"
-import addHours from "date-fns/addHours"
+import { addHours } from "date-fns"
 import React from "react"
 import { type DateRange } from "react-day-picker"
 import { cn } from "~/utils/cn"

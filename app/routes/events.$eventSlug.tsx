@@ -22,7 +22,12 @@ import { useRootLoaderData } from "~/hooks/use-root-loader-data"
 import { prisma } from "~/libs/db.server"
 import { modelEventStatus } from "~/models/event-status.server"
 import { modelEvent } from "~/models/event.server"
-import { formatDateDMY, formatTime } from "~/utils/datetime"
+import {
+  formatDateDMY,
+  formatPublished,
+  formatPublishedWithTime,
+  formatTime,
+} from "~/utils/datetime"
 import { invariant, invariantResponse } from "~/utils/invariant"
 import { createMeta } from "~/utils/meta"
 import { createSitemap } from "~/utils/sitemap"
@@ -132,14 +137,15 @@ export default function EventSlugRoute() {
           <p className="flex justify-between gap-4">
             <b className="basis-4/12">Date:</b>
             <span className="basis-8/12">
-              <span>{formatDateDMY(event.dateTimeStart)}</span>
+              <span>{formatPublished(event.dateTimeStart)}</span>
               <br />
               <span className="text-muted-foreground">
                 {formatTime(event.dateTimeStart)} –{" "}
-                {formatDateDMY(event.dateTimeStart) !==
-                  formatDateDMY(event.dateTimeEnd) &&
-                  formatDateDMY(event.dateTimeEnd)}{" "}
-                {formatTime(event.dateTimeEnd)} WIB
+                {formatPublished(event.dateTimeStart) !==
+                formatPublished(event.dateTimeEnd)
+                  ? formatPublishedWithTime(event.dateTimeEnd)
+                  : formatTime(event.dateTimeEnd)}{" "}
+                WIB
               </span>
             </span>
           </p>

@@ -32,6 +32,10 @@ export function formatPublished(date: string | Date | undefined) {
   return dayjs(date).locale("en").format("MMMM D, YYYY")
 }
 
+export function formatPublishedWithTime(date: string | Date | undefined) {
+  return dayjs(date).locale("en").format("MMMM D, YYYY, HH:ss ")
+}
+
 /**
  * Time
  */
