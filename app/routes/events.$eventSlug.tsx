@@ -131,13 +131,16 @@ export default function EventSlugRoute() {
         <div className="space-y-2">
           <p className="flex justify-between gap-4">
             <b className="basis-4/12">Date:</b>
-            <span className="basis-8/12">{formatDateDMY(event.date)}</span>
-          </p>
-
-          <p className="flex justify-between gap-4">
-            <b className="basis-4/12">Time:</b>
             <span className="basis-8/12">
-              {formatTime(event.timeStart)} – {formatTime(event.timeEnd)}
+              <span>{formatDateDMY(event.dateTimeStart)}</span>
+              <br />
+              <span className="text-muted-foreground">
+                {formatTime(event.dateTimeStart)} –{" "}
+                {formatDateDMY(event.dateTimeStart) !==
+                  formatDateDMY(event.dateTimeEnd) &&
+                  formatDateDMY(event.dateTimeEnd)}{" "}
+                {formatTime(event.dateTimeEnd)} WIB
+              </span>
             </span>
           </p>
 
