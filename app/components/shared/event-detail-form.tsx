@@ -67,15 +67,17 @@ export default function EventDetailForm({
       />
       <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
         <div className="space-y-2">
-          <FormLabel>Date start</FormLabel>
+          <FormLabel>Start date</FormLabel>
           <DateTimePicker
             className="w-full"
             {...conform.input(dateTimeStart)}
           />
+          <FormErrors>{dateTimeStart}</FormErrors>
         </div>
         <div className="space-y-2">
-          <FormLabel>Date End</FormLabel>
+          <FormLabel>End date</FormLabel>
           <DateTimePicker className="w-full" {...conform.input(dateTimeEnd)} />
+          <FormErrors>{dateTimeEnd}</FormErrors>
         </div>
       </div>
       <div className="grid grid-cols-1 gap-2 md:grid-cols-5">
