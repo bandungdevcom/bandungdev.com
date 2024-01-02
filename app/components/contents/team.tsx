@@ -3,15 +3,16 @@ import { Link } from "@remix-run/react"
 import { AvatarAuto } from "~/components/ui/avatar-auto"
 import { Card } from "~/components/ui/card"
 import { type modelUser } from "~/models/user.server"
+import { type JsonifyValues } from "~/types/jsonify"
 import { cn } from "~/utils/cn"
 
 interface ContentTeamProps {
   title: string
-  users: Prisma.PromiseReturnType<typeof modelUser.getAllByTag>
+  users: JsonifyValues<Prisma.PromiseReturnType<typeof modelUser.getAllByTag>>
 }
 
 interface UserCardProps {
-  user: Prisma.PromiseReturnType<typeof modelUser.getByUsername>
+  user: JsonifyValues<Prisma.PromiseReturnType<typeof modelUser.getByUsername>>
 }
 
 export function ContentTeam({ title, users }: ContentTeamProps) {

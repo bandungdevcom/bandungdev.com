@@ -5,12 +5,13 @@ import { ImageCover } from "~/components/shared/image-cover"
 import { AvatarAuto } from "~/components/ui/avatar-auto"
 import { ButtonLink } from "~/components/ui/button-link"
 import { type modelPost } from "~/models/post.server"
+import { type JsonifyValues } from "~/types/jsonify"
 import { formatPublished } from "~/utils/datetime"
 
 export function PostItem({
   post,
 }: {
-  post: Prisma.PromiseReturnType<typeof modelPost.getBySlug>
+  post: JsonifyValues<Prisma.PromiseReturnType<typeof modelPost.getBySlug>>
 }) {
   if (!post) return null
 
