@@ -34,9 +34,11 @@ export function UploaderWithProvider({
       }
     }
 
+    // @ts-ignore
     ctxProviderRef.current?.addEventListener("data-output", handleUploadEvent)
 
     return () => {
+      // @ts-ignore
       // eslint-disable-next-line react-hooks/exhaustive-deps
       ctxProviderRef.current?.removeEventListener(
         "data-output",
