@@ -12,7 +12,7 @@ import {
 import { type modelEventCategory } from "~/models/event-category.server"
 import { type modelEventFormat } from "~/models/event-format.server"
 import { type modelEventMedia } from "~/models/event-media.server"
-import { DateTimePicker } from "../ui/date-time-picker"
+import { DateTimePickerWithRange } from "../ui/date-time-range-picker"
 import {
   Select,
   SelectContent,
@@ -65,20 +65,11 @@ export default function EventDetailForm({
         name="categoryId"
         defaultValue={categoryId.defaultValue}
       />
-      <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-        <div className="space-y-2">
-          <FormLabel>Start date</FormLabel>
-          <DateTimePicker
-            className="w-full"
-            {...conform.input(dateTimeStart)}
-          />
-          <FormErrors>{dateTimeStart}</FormErrors>
-        </div>
-        <div className="space-y-2">
-          <FormLabel>End date</FormLabel>
-          <DateTimePicker className="w-full" {...conform.input(dateTimeEnd)} />
-          <FormErrors>{dateTimeEnd}</FormErrors>
-        </div>
+      <div className="space-y-2">
+        <FormLabel>Date</FormLabel>
+        <DateTimePickerWithRange from={dateTimeStart} to={dateTimeEnd} />
+        <FormErrors>{dateTimeStart}</FormErrors>
+        <FormErrors>{dateTimeEnd}</FormErrors>
       </div>
       <div className="grid grid-cols-1 gap-2 md:grid-cols-5">
         {eventFormats.length > 0 && (
