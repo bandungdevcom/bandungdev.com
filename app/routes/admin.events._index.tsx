@@ -53,7 +53,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       orderBy: { date: "desc" },
       include: {
         status: { select: { symbol: true, name: true } },
-        image: { select: { url: true } },
+        image: { select: { url: true, id: true } },
       },
     }),
   ])
@@ -104,7 +104,7 @@ export default function UserEventsRoute() {
         {events.length > 0 && (
           <ul className="divide-y">
             {events.map(event => (
-              <EventItemAction key={event.id} event={event as any} />
+              <EventItemAction key={event.id} event={event} />
             ))}
           </ul>
         )}
