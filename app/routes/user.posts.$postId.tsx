@@ -185,7 +185,7 @@ export default function UserPostsPostIdRoute() {
                   dialogTitle="Change post's status"
                   dialogDescription={`Change the status of post: ${post.title} (${post.slug})`}
                   itemStatuses={postStatuses}
-                  item={post as any}
+                  item={post}
                 />
               </div>
             </div>
