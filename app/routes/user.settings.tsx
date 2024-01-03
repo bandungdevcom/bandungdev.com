@@ -17,8 +17,8 @@ import { modelUser } from "~/models/user.server"
 import { schemaGeneralId } from "~/schemas/general"
 import {
   issueUsernameUnallowed,
-  schemaUserAvatar,
   schemaUserFullName,
+  schemaUserImage,
   schemaUserNickName,
   schemaUserProfileBio,
   schemaUserProfileHeadline,
@@ -165,7 +165,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json(submission)
   }
 
-  if (intent === "update-user-profile-links") {
+  if (intent === "user-change-links") {
     const submission = parse(formData, { schema: schemaUserProfileLinks })
     if (!submission.value) return json(submission, { status: 400 })
     await modelUser.updateLinks(submission.value)
@@ -174,7 +174,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   if (intent === "user-change-avatar") {
-    const submission = parse(formData, { schema: schemaUserAvatar })
+    const submission = parse(formData, { schema: schemaUserImage })
     if (!submission.value) return json(submission, { status: 400 })
     await modelUser.updateAvatar(submission.value)
     await timer.delay()

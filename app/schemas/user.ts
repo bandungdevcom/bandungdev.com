@@ -44,7 +44,7 @@ const tags = z.array(tag).optional()
 
 const headline = z.string().max(50, "Headline limited to 50 characters")
 
-const bio = z.string().max(1000, "Bio limited to 1000 characters").optional()
+const bio = z.string().max(1000, "Bio limited to 1000 characters")
 
 const link = z.object({
   url: z
@@ -54,7 +54,7 @@ const link = z.object({
 })
 const links = z.array(link).optional()
 
-const avatarUrl = z.string().url("URL must be valid")
+const url = z.string().url("URL must be valid")
 
 export const schemaLink = link
 export const schemaLinks = links
@@ -78,7 +78,7 @@ export const schemaUserUsername = z.object({ id, username })
 export const schemaUserFullName = z.object({ id, fullname })
 export const schemaUserNickName = z.object({ id, nickname })
 export const schemaUserEmail = z.object({ id, email })
-export const schemaUserAvatar = z.object({ id, avatarUrl })
+export const schemaUserImage = z.object({ id, url })
 
 export const schemaUserProfileHeadline = z.object({ id, headline })
 export const schemaUserProfileBio = z.object({ id, bio })

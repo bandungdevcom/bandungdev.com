@@ -6,6 +6,7 @@ import {
 } from "@prisma/client"
 
 import { prisma } from "~/libs/db.server"
+import { type JsonLinks } from "~/types/json"
 import { hashPassword } from "~/utils/encryption.server"
 import { getPlaceholderAvatarUrl } from "~/utils/placeholder"
 import { createNanoIdShort } from "~/utils/string"
@@ -241,45 +242,26 @@ export const modelUser = {
   updateHeadline({ id, headline }: Pick<UserProfile, "id" | "headline">) {
     return prisma.user.update({
       where: { id },
-      data: {
-        profile: {
-          update: {
-            headline,
-          },
-        },
-      },
+      data: { profile: { update: { headline } } },
     })
   },
 
-  updateBio({ id, bio }: { id: string; bio?: string }) {
+  updateBio({ id, bio }: Pick<UserProfile, "id" | "bio">) {
     return prisma.user.update({
       where: { id },
-      data: {
-        profile: {
-          update: {
-            bio,
-          },
-        },
-      },
+      data: { profile: { update: { bio } } },
     })
   },
 
   updateLinks({
     id,
     links,
-  }: {
-    id: string
-    links?: Array<{ url: string; text?: string }>
+  }: Pick<UserProfile, "id"> & {
+    links?: JsonLinks
   }) {
     return prisma.user.update({
       where: { id },
-      data: {
-        profile: {
-          update: {
-            links: links ?? [],
-          },
-        },
-      },
+      data: { profile: { update: { links: links ?? [] } } },
     })
   },
 

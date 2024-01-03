@@ -78,7 +78,7 @@ export function FormChangeLinks({
             <ButtonLoading
               type="submit"
               name="intent"
-              value="update-user-profile-links"
+              value="user-change-links"
               variant="outline"
               size="xs"
               isLoading={isSubmitting}
