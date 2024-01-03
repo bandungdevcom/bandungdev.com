@@ -1,35 +1,34 @@
+import { type Prisma } from "@prisma/client"
 import { useFetcher } from "@remix-run/react"
+import { type OutputFileEntry } from "@uploadcare/blocks"
 import { useState } from "react"
 import { Theme, useTheme } from "remix-themes"
+
+import { defaultLRConfig } from "~/components/libs/uploader-uploadcare"
+import { UploaderWithProvider } from "~/components/shared/avatar-uploader"
+import { AvatarAuto } from "~/components/ui/avatar-auto"
+import { ButtonLoading } from "~/components/ui/button-loading"
+import { Iconify } from "~/components/ui/iconify"
 import { useRootLoaderData } from "~/hooks/use-root-loader-data"
-
-import { defaultLRConfig } from "../libs/uploader-uploadcare"
-import { AvatarAuto } from "../ui/avatar-auto"
-import { ButtonLoading } from "../ui/button-loading"
-import { Iconify } from "../ui/iconify"
-import { UploaderWithProvider } from "./avatar-uploader"
-
-import { type OutputFileEntry } from "@uploadcare/blocks"
-import { type requireUser } from "~/helpers/auth"
+import { type modelUser } from "~/models/user.server"
 
 export function AvatarChangeField({
   user,
   intentValue,
 }: {
-  user: Awaited<ReturnType<typeof requireUser>>["user"]
+  user: Prisma.PromiseReturnType<typeof modelUser.getForSession>
   intentValue: string
 }) {
-  const fetcher = useFetcher()
   const { ENV } = useRootLoaderData()
-
   const [avatarFile, setAvatarFile] = useState<OutputFileEntry | null>(null)
+  const fetcher = useFetcher()
+  const isSubmitting = fetcher.state === "submitting"
 
   const [themeSymbol] = useTheme()
   const theme = themeSymbol === Theme.DARK ? "dark" : "light"
 
+  if (!user) return null
   if (!ENV.UPLOADCARE_PUBLIC_KEY) return null
-
-  const isSubmitting = fetcher.state === "submitting"
 
   let avatarUrl = user.images[0]?.url
   if (!!avatarFile && !!avatarFile.cdnUrl) {
