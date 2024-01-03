@@ -6,10 +6,10 @@ import {
   type MetaFunction,
 } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
+import { AvatarChangeField } from "~/components/shared/avatar-change-field"
 
 import { FormChangeField } from "~/components/shared/form-change-field"
 import { FormChangeLinks } from "~/components/shared/form-change-links"
-import { AvatarAuto } from "~/components/ui/avatar-auto"
 import { configSite } from "~/configs/site"
 import { configUnallowedKeywords } from "~/configs/unallowed-keywords"
 import { requireUser } from "~/helpers/auth"
@@ -18,6 +18,7 @@ import { schemaGeneralId } from "~/schemas/general"
 import {
   issueUsernameUnallowed,
   schemaUserFullName,
+  schemaUserImage,
   schemaUserNickName,
   schemaUserProfileBio,
   schemaUserProfileHeadline,
@@ -46,13 +47,15 @@ export default function UserSettingsRoute() {
   return (
     <div className="app-container">
       <header className="app-header items-center gap-4">
-        <AvatarAuto user={user} imageUrl={user.images[0]?.url} />
-
         <div>
           <h2>User Settings</h2>
           <p>Manage user settings and profile</p>
         </div>
       </header>
+
+      <section className="app-section max-w-md ">
+        <AvatarChangeField user={user} intentValue="user-change-avatar" />
+      </section>
 
       <section className="app-section max-w-md space-y-8">
         <FormChangeField
@@ -162,10 +165,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json(submission)
   }
 
-  if (intent === "update-user-profile-links") {
+  if (intent === "user-change-links") {
     const submission = parse(formData, { schema: schemaUserProfileLinks })
     if (!submission.value) return json(submission, { status: 400 })
     await modelUser.updateLinks(submission.value)
+    await timer.delay()
+    return json(submission)
+  }
+
+  if (intent === "user-change-avatar") {
+    const submission = parse(formData, { schema: schemaUserImage })
+    if (!submission.value) return json(submission, { status: 400 })
+    await modelUser.updateAvatar(submission.value)
     await timer.delay()
     return json(submission)
   }
