@@ -5,7 +5,7 @@ import { useState } from "react"
 import { Theme, useTheme } from "remix-themes"
 
 import { defaultLRConfig } from "~/components/libs/uploader-uploadcare"
-import { UploaderWithProvider } from "~/components/shared/avatar-uploader"
+import { AvatarUploader } from "~/components/shared/avatar-uploader"
 import { AvatarAuto } from "~/components/ui/avatar-auto"
 import { ButtonLoading } from "~/components/ui/button-loading"
 import { Iconify } from "~/components/ui/iconify"
@@ -45,7 +45,7 @@ export function AvatarChangeField({
 
       <AvatarAuto user={user} imageUrl={avatarUrl} size="xl" />
       <div className="flex flex-row items-center gap-4">
-        <UploaderWithProvider
+        <AvatarUploader
           pubkey={ENV.UPLOADCARE_PUBLIC_KEY}
           contextName="my-uploader-provider"
           theme={theme}

@@ -9,13 +9,13 @@ import {
   LRFileUploaderRegular,
   defaultLRConfig,
   type UploaderConfigProps,
-} from "../libs/uploader-uploadcare"
+} from "~/components/libs/uploader-uploadcare"
 
 export interface UploaderWithPreviewProps extends UploaderConfigProps {
-  setFile: (files: OutputFileEntry | null) => void
+  setFile: (file: OutputFileEntry | null) => void
 }
 
-export function UploaderWithProvider({
+export function AvatarUploader({
   pubkey = "demopublickey",
   contextName = "my-uploader",
   theme = "light",
@@ -34,11 +34,9 @@ export function UploaderWithProvider({
       }
     }
 
-    // @ts-ignore
     ctxProviderRef.current?.addEventListener("data-output", handleUploadEvent)
 
     return () => {
-      // @ts-ignore
       // eslint-disable-next-line react-hooks/exhaustive-deps
       ctxProviderRef.current?.removeEventListener(
         "data-output",
