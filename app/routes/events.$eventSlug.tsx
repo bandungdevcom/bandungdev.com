@@ -96,7 +96,7 @@ export default function EventSlugRoute() {
                 dialogTitle="Change event's status"
                 dialogDescription={`Change the status of event: ${event.title} (${event.slug})`}
                 itemStatuses={eventStatuses}
-                item={event as any}
+                item={event}
               />
               <ButtonLink
                 to={`/admin/events/${event.id}`}

@@ -10,7 +10,7 @@ export interface Event {
   date: string
   image: {
     url: string
-  }
+  } | null
 }
 
 export function EventItem({ event }: { event: Event }) {

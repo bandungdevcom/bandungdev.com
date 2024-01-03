@@ -25,7 +25,7 @@ export const modelUserPost = {
       where: { id, userId },
       include: {
         status: { select: { symbol: true, name: true } },
-        images: { select: { url: true } },
+        images: { select: { url: true, id: true } },
       },
     })
   },

@@ -25,6 +25,7 @@ import {
 } from "~/components/ui/select"
 import { type modelEvent } from "~/models/event.server"
 import { type modelPost } from "~/models/post.server"
+import { type JsonifyValues } from "~/types/jsonify"
 import { cn } from "~/utils/cn"
 
 export function FormChangeStatus({
@@ -45,8 +46,8 @@ export function FormChangeStatus({
   // IDEA: Make it more general with a model Item that has a Status
   itemStatuses: PostStatus[] | EventStatus[]
   item:
-    | Prisma.PromiseReturnType<typeof modelPost.getWithStatus>
-    | Prisma.PromiseReturnType<typeof modelEvent.getWithStatus>
+    | JsonifyValues<Prisma.PromiseReturnType<typeof modelPost.getWithStatus>>
+    | JsonifyValues<Prisma.PromiseReturnType<typeof modelEvent.getWithStatus>>
   className?: string
 }) {
   const [open, setOpen] = useState<boolean>()

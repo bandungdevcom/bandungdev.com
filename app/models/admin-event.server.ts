@@ -21,7 +21,7 @@ export const modelAdminEvent = {
       where: { id },
       include: {
         status: { select: { symbol: true, name: true } },
-        image: { select: { url: true } },
+        image: { select: { url: true, id: true } },
         location: { select: { label: true, address: true, mapsUrl: true } },
       },
     })

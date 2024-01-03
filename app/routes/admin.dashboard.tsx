@@ -23,18 +23,18 @@ export const meta: MetaFunction = () =>
     description: `Dashboard for administrator`,
   })
 
-  export const loader = async ({ request }: LoaderFunctionArgs) => {
-    const { user } = await requireUser(request)
-    const counts = await prisma.$transaction([modelEvent.count()])
-  
-    const metrics = configAdminDashboard.navItems
-      .filter(item => item.isMetric)
-      .map((item, index) => {
-        return { ...item, count: counts[index] }
-      })
-  
-    return json({ user, metrics })
-  }
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { user } = await requireUser(request)
+  const counts = await prisma.$transaction([modelEvent.count()])
+
+  const metrics = configAdminDashboard.navItems
+    .filter(item => item.isMetric)
+    .map((item, index) => {
+      return { ...item, count: counts[index] }
+    })
+
+  return json({ user, metrics })
+}
 
 export default function AdminDashboardRoute() {
   const { user, metrics } = useLoaderData<typeof loader>()
