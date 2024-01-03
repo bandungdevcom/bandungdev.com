@@ -30,9 +30,10 @@ export function AvatarChangeField({
   if (!user) return null
   if (!ENV.UPLOADCARE_PUBLIC_KEY) return null
 
-  let avatarUrl = user.images[0]?.url
+  // FIXME: Use Conform so we can have client side validation
+  let url = user.images[0]?.url
   if (!!avatarFile && !!avatarFile.cdnUrl) {
-    avatarUrl = avatarFile.cdnUrl
+    url = avatarFile.cdnUrl
   }
 
   return (
@@ -40,10 +41,10 @@ export function AvatarChangeField({
       method="POST"
       className="flex flex-col items-center justify-center gap-4"
     >
-      <input type="hidden" name="avatarUrl" value={avatarUrl} />
+      <input type="hidden" name="url" value={url} />
       <input type="hidden" name="id" value={user.id} />
 
-      <AvatarAuto user={user} imageUrl={avatarUrl} size="xl" />
+      <AvatarAuto user={user} imageUrl={url} size="xl" />
       <div className="flex flex-row items-center gap-4">
         <AvatarUploader
           pubkey={ENV.UPLOADCARE_PUBLIC_KEY}
