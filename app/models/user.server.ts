@@ -1,4 +1,9 @@
-import { type Connection, type User, type UserProfile } from "@prisma/client"
+import {
+  type Connection,
+  type User,
+  type UserImage,
+  type UserProfile,
+} from "@prisma/client"
 
 import { prisma } from "~/libs/db.server"
 import { hashPassword } from "~/utils/encryption.server"
@@ -278,25 +283,10 @@ export const modelUser = {
     })
   },
 
-  async updateAvatar({ id, avatarUrl }: { id: string; avatarUrl: string }) {
-    const prevUserImage = await prisma.userImage.findFirst({
-      where: {
-        userId: id,
-      },
-      select: {
-        id: true,
-      },
-    })
-
-    if (!prevUserImage) return null
-
-    return await prisma.userImage.updateMany({
-      where: {
-        id: prevUserImage.id,
-      },
-      data: {
-        url: avatarUrl,
-      },
+  async updateAvatar({ id, url }: Pick<User, "id"> & Pick<UserImage, "url">) {
+    return await prisma.user.update({
+      where: { id },
+      data: { images: { create: { url } } },
     })
   },
 }
