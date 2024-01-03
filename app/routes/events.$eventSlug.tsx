@@ -135,7 +135,7 @@ export default function EventSlugRoute() {
 
         <div className="space-y-2">
           <p className="flex justify-between gap-4">
-            <b className="basis-4/12">Date:</b>
+            <b className="basis-4/12">Date and Time:</b>
             <span className="basis-8/12">
               <span>{formatPublished(event.dateTimeStart)}</span>
               <br />
