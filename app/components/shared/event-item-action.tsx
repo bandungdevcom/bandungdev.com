@@ -5,14 +5,18 @@ import { FormDelete } from "~/components/shared/form-delete"
 import { ButtonLink } from "~/components/ui/button-link"
 import { Iconify } from "~/components/ui/iconify"
 import { useAppAdminLoaderData } from "~/hooks/use-app-loader-data"
-import { type modelEvent } from "~/models/event.server"
 import { cn } from "~/utils/cn"
 import { truncateText } from "~/utils/string"
+
+import { type modelEvent } from "~/models/event.server"
+import { type JsonifyValues } from "~/types/jsonify"
 
 export function EventItemAction({
   event,
 }: {
-  event: Prisma.PromiseReturnType<typeof modelEvent.getWithStatus>
+  event: JsonifyValues<
+    Prisma.PromiseReturnType<typeof modelEvent.getWithStatus>
+  >
 }) {
   const { eventStatuses } = useAppAdminLoaderData()
   if (!event) return null
@@ -49,7 +53,7 @@ export function EventItemAction({
             </ButtonLink>
             <FormDelete
               action="/admin/events/delete"
-              intentValue="delete-event-by-id"
+              intentValue="admin-delete-event-by-id"
               itemText={`a event: ${event.title} (${event.slug})`}
               defaultValue={event.id}
               requireUser

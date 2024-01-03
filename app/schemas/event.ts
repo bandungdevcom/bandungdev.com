@@ -21,16 +21,50 @@ const content = z.string().optional()
 
 const readingTime = zfd.numeric(z.number().min(0).max(1000)).optional()
 
-export const schemaEvent = z.object({
-  organizerId,
-  id,
-  slug,
-  title,
-  description,
-  content,
-  readingTime,
-})
+const categoryId = z.string({ required_error: "Category is required" })
 
-export const schemaEventDeleteAll = z.object({ organizerId })
+const label = z.string().optional()
 
-export const schemaEventDeleteById = z.object({ organizerId, id })
+const address = z.string().optional()
+
+const url = z.string().optional()
+
+const mapsUrl = z.string().optional()
+
+const mediaId = z.string().optional()
+
+const formatId = z.string({ required_error: "Format is required" })
+
+const dateTimeStart = z.date({ required_error: "Date start is required" })
+
+const dateTimeEnd = z.date({ required_error: "Date end is required" })
+
+export const schemaEvent = z
+  .object({
+    organizerId,
+    id,
+    slug,
+    title,
+    description,
+    content,
+    readingTime,
+    categoryId,
+    label,
+    address,
+    url,
+    mapsUrl,
+    mediaId,
+    formatId,
+    dateTimeEnd,
+    dateTimeStart,
+  })
+  .refine(data => data.dateTimeEnd >= data.dateTimeStart, {
+    message: "End date cannot be earlier than start date",
+    path: ["dateTimeEnd"],
+  })
+
+export const schemaEventCategory = z.object({ id, categoryId })
+
+export const schemaEventDeleteAll = z.object({})
+
+export const schemaEventDeleteById = z.object({ id })

@@ -5,6 +5,9 @@ import { logEnv } from "~/utils/log.server"
 import { createSlug } from "~/utils/string"
 
 import dataCredentialUsers from "./credentials/users.json"
+import dataEventCategories from "./data/event-categories.json"
+import dataEventFormats from "./data/event-formats.json"
+import dataEventMedia from "./data/event-media.json"
 import dataEventStatuses from "./data/event-statuses.json"
 import { dataEvents } from "./data/events"
 import dataPostStatuses from "./data/post-statuses.json"
@@ -24,6 +27,9 @@ const enabledSeedItems = [
   "posts",
   "eventStatuses",
   "events",
+  "eventCategories",
+  "eventFormats",
+  "eventMedia",
 ]
 
 async function main() {
@@ -37,6 +43,9 @@ async function main() {
     postStatuses: seedPostStatuses,
     posts: seedPosts,
     eventStatuses: seedEventStatuses,
+    eventCategories: seedEventCategories,
+    eventFormats: seedEventFormats,
+    eventMedia: seedEventMedia,
     events: seedEvents,
   }
 
@@ -287,10 +296,67 @@ async function seedEventStatuses() {
   console.timeEnd("🪧 Upserted event statuses")
 }
 
+async function seedEventCategories() {
+  console.info("\n🪧 Seed event categories")
+  console.info("🪧 Count event categories", await prisma.eventCategory.count())
+  // console.info("🪧 Deleted event categories", await prisma.eventCategory.deleteMany())
+  console.time("🪧 Upserted event categories")
+
+  for (const eventCategoryRaw of dataEventCategories) {
+    const eventCategory = await prisma.eventCategory.upsert({
+      where: { symbol: eventCategoryRaw.symbol },
+      create: eventCategoryRaw,
+      update: eventCategoryRaw,
+    })
+    console.info(
+      `🪧 Upserted event category ${eventCategory.symbol} / ${eventCategory.name}`,
+    )
+  }
+  console.timeEnd("🪧 Upserted event categories")
+}
+
+async function seedEventFormats() {
+  console.info("\n🪧 Seed event formats")
+  console.info("🪧 Count event formats", await prisma.eventFormat.count())
+  // console.info("🪧 Deleted event formats", await prisma.eventFormat.deleteMany())
+  console.time("🪧 Upserted event formats")
+
+  for (const eventFormatRaw of dataEventFormats) {
+    const eventFormat = await prisma.eventFormat.upsert({
+      where: { symbol: eventFormatRaw.symbol },
+      create: eventFormatRaw,
+      update: eventFormatRaw,
+    })
+    console.info(
+      `🪧 Upserted event format ${eventFormat.symbol} / ${eventFormat.name}`,
+    )
+  }
+  console.timeEnd("🪧 Upserted event formats")
+}
+
+async function seedEventMedia() {
+  console.info("\n🪧 Seed event media")
+  console.info("🪧 Count event media", await prisma.eventMedia.count())
+  // console.info("🪧 Deleted event media", await prisma.eventMedia.deleteMany())
+  console.time("🪧 Upserted event media")
+
+  for (const eventMediaRaw of dataEventMedia) {
+    const eventMedia = await prisma.eventMedia.upsert({
+      where: { symbol: eventMediaRaw.symbol },
+      create: eventMediaRaw,
+      update: eventMediaRaw,
+    })
+    console.info(
+      `🪧 Upserted event media ${eventMedia.symbol} / ${eventMedia.name}`,
+    )
+  }
+  console.timeEnd("🪧 Upserted event media")
+}
+
 async function seedEvents() {
   console.info("\n📜 Seed events")
   console.info("📜 Count events", await prisma.event.count())
-  console.info("📜 Deleted events", await prisma.event.deleteMany())
+  // console.info("📜 Deleted events", await prisma.event.deleteMany())
 
   const organizer = await prisma.user.findUnique({
     where: { username: "bandungdev" },

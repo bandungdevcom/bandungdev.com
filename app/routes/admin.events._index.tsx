@@ -50,10 +50,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       where,
       skip: config.skip,
       take: config.limitParam,
-      orderBy: { date: "desc" },
+      orderBy: { dateTimeStart: "desc" },
       include: {
         status: { select: { symbol: true, name: true } },
-        image: { select: { url: true } },
+        image: { select: { url: true, id: true } },
       },
     }),
   ])
@@ -81,7 +81,7 @@ export default function UserEventsRoute() {
           </ButtonLink>
           <FormDelete
             action="/admin/events/delete"
-            intentValue="user-delete-all-events"
+            intentValue="admin-delete-all-events"
             itemText="all events"
             buttonText="Delete Events"
             requireUser
@@ -104,7 +104,7 @@ export default function UserEventsRoute() {
         {events.length > 0 && (
           <ul className="divide-y">
             {events.map(event => (
-              <EventItemAction key={event.id} event={event as any} />
+              <EventItemAction key={event.id} event={event} />
             ))}
           </ul>
         )}

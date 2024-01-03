@@ -64,7 +64,7 @@ export const modelPost = {
       },
       include: {
         status: { select: { symbol: true, name: true } },
-        images: { select: { url: true } },
+        images: { select: { url: true, id: true } },
         user: {
           include: {
             images: { select: { url: true } },

@@ -92,7 +92,7 @@ export default function SearchRoute() {
         <ul className="space-y-12">
           {events.map(event => (
             <li key={event.id}>
-              <EventItem event={event as any} />
+              <EventItem event={event} />
             </li>
           ))}
         </ul>

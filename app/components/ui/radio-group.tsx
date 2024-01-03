@@ -42,4 +42,27 @@ const RadioGroupItem = React.forwardRef<
 })
 RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName
 
-export { RadioGroup, RadioGroupItem }
+const RadioGroupLocationCategoryItem = React.forwardRef<
+  React.ElementRef<typeof RadioGroupPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
+>(({ className, children, ...props }, ref) => {
+  return (
+    <RadioGroupPrimitive.Item
+      ref={ref}
+      className={cn(
+        "relative rounded-md border border-primary p-2 text-primary focus:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+        className,
+      )}
+      {...props}
+    >
+      <RadioGroupPrimitive.Indicator className="absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center rounded-md bg-accent text-accent-foreground outline outline-accent">
+        {children}
+      </RadioGroupPrimitive.Indicator>
+      {children}
+    </RadioGroupPrimitive.Item>
+  )
+})
+RadioGroupLocationCategoryItem.displayName =
+  RadioGroupPrimitive.Item.displayName
+
+export { RadioGroup, RadioGroupItem, RadioGroupLocationCategoryItem }

@@ -27,7 +27,7 @@ export default function AboutRoute() {
       </section>
 
       <section>
-        <ContentTeam title="Our Team" users={teamUsers as any} />
+        <ContentTeam title="Our Team" users={teamUsers} />
       </section>
     </div>
   )

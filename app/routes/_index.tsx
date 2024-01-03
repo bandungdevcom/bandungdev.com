@@ -15,7 +15,7 @@ export const loader = async () => {
     prisma.event.findMany({
       where: {
         status: { OR: [{ symbol: "PUBLISHED" }] },
-        date: { gte: new Date() },
+        dateTimeEnd: { gte: new Date() },
       },
       take: 5,
       orderBy: { updatedAt: "desc" },
@@ -24,7 +24,7 @@ export const loader = async () => {
     prisma.event.findMany({
       where: {
         status: { OR: [{ symbol: "PUBLISHED" }, { symbol: "ARCHIVED" }] },
-        date: { lte: new Date() },
+        dateTimeEnd: { lte: new Date() },
       },
       take: 5,
       orderBy: { updatedAt: "desc" },
@@ -64,7 +64,7 @@ export default function IndexRoute() {
 
       <section className="site-section max-w-4xl">
         <ContentEvents
-          events={upcomingEvents as any}
+          events={upcomingEvents}
           title="Upcoming Events"
           subtitle="See our upcoming events and join us!"
           emptyText="There are no upcoming events again yet"
@@ -73,7 +73,7 @@ export default function IndexRoute() {
 
       <section className="site-section max-w-4xl">
         <ContentEvents
-          events={pastEvents as any}
+          events={pastEvents}
           title="Past Events"
           subtitle="Some of the finished events"
           emptyText="There are no past events"
@@ -85,7 +85,7 @@ export default function IndexRoute() {
         <ContentMembers
           title="Newly Joined Community Members"
           subtitle="Join our community and meet other developers in Bandung"
-          users={users as any}
+          users={users}
           withSeeMore
         />
       </section>

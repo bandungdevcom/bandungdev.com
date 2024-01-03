@@ -82,7 +82,7 @@ export default function MembersRoute() {
         <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
           {users.map(user => (
             <li key={user.id}>
-              <UserItem user={user as any} />
+              <UserItem user={user} />
             </li>
           ))}
         </ul>

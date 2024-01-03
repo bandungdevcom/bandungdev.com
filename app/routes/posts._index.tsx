@@ -58,6 +58,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       include: {
         images: { select: { id: true, url: true } },
         user: { include: { images: { select: { id: true, url: true } } } },
+        status: { select: { symbol: true, name: true } },
       },
     }),
   ])
@@ -93,7 +94,7 @@ export default function SearchRoute() {
         <ul className="space-y-12">
           {posts.map(post => (
             <li key={post.id}>
-              <PostItem post={post as any} />
+              <PostItem post={post} />
             </li>
           ))}
         </ul>
