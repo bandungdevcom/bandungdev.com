@@ -50,7 +50,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       where,
       skip: config.skip,
       take: config.limitParam,
-      orderBy: { date: "desc" },
+      orderBy: { dateTimeStart: "desc" },
       include: {
         status: { select: { symbol: true, name: true } },
         image: { select: { url: true, id: true } },

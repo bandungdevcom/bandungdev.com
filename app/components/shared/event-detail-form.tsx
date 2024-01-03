@@ -12,6 +12,7 @@ import {
 import { type modelEventCategory } from "~/models/event-category.server"
 import { type modelEventFormat } from "~/models/event-format.server"
 import { type modelEventMedia } from "~/models/event-media.server"
+import { DateTimePickerWithRange } from "../ui/date-time-range-picker"
 import {
   Select,
   SelectContent,
@@ -32,6 +33,8 @@ interface EventDetailFormProps {
   mapsUrl: FieldConfig<string>
   mediaId: FieldConfig<string>
   url: FieldConfig<string>
+  dateTimeStart: FieldConfig<Date>
+  dateTimeEnd: FieldConfig<Date>
   eventFormats: Prisma.PromiseReturnType<typeof modelEventFormat.getAll>
   eventMedias: Prisma.PromiseReturnType<typeof modelEventMedia.getAll>
   eventCategories: Prisma.PromiseReturnType<typeof modelEventCategory.getAll>
@@ -47,6 +50,8 @@ export default function EventDetailForm({
   mapsUrl,
   mediaId,
   url,
+  dateTimeStart,
+  dateTimeEnd,
   eventFormats,
   eventMedias,
   eventCategories,
@@ -60,6 +65,12 @@ export default function EventDetailForm({
         name="categoryId"
         defaultValue={categoryId.defaultValue}
       />
+      <div className="space-y-2">
+        <FormLabel>Date</FormLabel>
+        <DateTimePickerWithRange from={dateTimeStart} to={dateTimeEnd} />
+        <FormErrors>{dateTimeStart}</FormErrors>
+        <FormErrors>{dateTimeEnd}</FormErrors>
+      </div>
       <div className="grid grid-cols-1 gap-2 md:grid-cols-5">
         {eventFormats.length > 0 && (
           <div

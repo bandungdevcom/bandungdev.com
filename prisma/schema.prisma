@@ -239,9 +239,8 @@ model Event {
   content     String? @db.Text // Rich HTML Text
   url         String? // Url for online or hybrid
 
-  date      DateTime @db.Date
-  timeStart DateTime @db.Time()
-  timeEnd   DateTime @db.Time()
+  dateTimeStart DateTime @default(now())
+  dateTimeEnd   DateTime @default(now())
 
   statusId String
   status   EventStatus @relation(fields: [statusId], references: [id])

@@ -15,7 +15,7 @@ export const loader = async () => {
     prisma.event.findMany({
       where: {
         status: { OR: [{ symbol: "PUBLISHED" }] },
-        date: { gte: new Date() },
+        dateTimeEnd: { gte: new Date() },
       },
       take: 5,
       orderBy: { updatedAt: "desc" },
@@ -24,7 +24,7 @@ export const loader = async () => {
     prisma.event.findMany({
       where: {
         status: { OR: [{ symbol: "PUBLISHED" }, { symbol: "ARCHIVED" }] },
-        date: { lte: new Date() },
+        dateTimeEnd: { lte: new Date() },
       },
       take: 5,
       orderBy: { updatedAt: "desc" },

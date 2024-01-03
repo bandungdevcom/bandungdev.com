@@ -57,10 +57,8 @@ export const modelAdminEvent = {
         content,
         statusId: status.id,
         categoryId: eventCategory?.id,
-        // FIXME: Default dates
-        date: new Date(),
-        timeStart: new Date(),
-        timeEnd: new Date(),
+        dateTimeStart: new Date(),
+        dateTimeEnd: new Date(),
       },
       include: {
         status: true,
@@ -80,7 +78,18 @@ export const modelAdminEvent = {
     mapsUrl,
     mediaId,
     formatId,
-  }: Pick<Event, "id" | "slug" | "title" | "description" | "formatId"> & {
+    dateTimeStart,
+    dateTimeEnd,
+  }: Pick<
+    Event,
+    | "id"
+    | "slug"
+    | "title"
+    | "description"
+    | "formatId"
+    | "dateTimeStart"
+    | "dateTimeEnd"
+  > & {
     content?: Event["content"]
     mediaId?: Event["mediaId"]
     url?: Event["url"]
@@ -129,6 +138,8 @@ export const modelAdminEvent = {
         locationId,
         mediaId,
         formatId,
+        dateTimeStart,
+        dateTimeEnd,
       },
     })
   },

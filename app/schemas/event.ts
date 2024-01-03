@@ -35,22 +35,33 @@ const mediaId = z.string().optional()
 
 const formatId = z.string({ required_error: "Format is required" })
 
-export const schemaEvent = z.object({
-  organizerId,
-  id,
-  slug,
-  title,
-  description,
-  content,
-  readingTime,
-  categoryId,
-  label,
-  address,
-  url,
-  mapsUrl,
-  mediaId,
-  formatId,
-})
+const dateTimeStart = z.date({ required_error: "Date start is required" })
+
+const dateTimeEnd = z.date({ required_error: "Date end is required" })
+
+export const schemaEvent = z
+  .object({
+    organizerId,
+    id,
+    slug,
+    title,
+    description,
+    content,
+    readingTime,
+    categoryId,
+    label,
+    address,
+    url,
+    mapsUrl,
+    mediaId,
+    formatId,
+    dateTimeEnd,
+    dateTimeStart,
+  })
+  .refine(data => data.dateTimeEnd >= data.dateTimeStart, {
+    message: "End date cannot be earlier than start date",
+    path: ["dateTimeEnd"],
+  })
 
 export const schemaEventCategory = z.object({ id, categoryId })
 
