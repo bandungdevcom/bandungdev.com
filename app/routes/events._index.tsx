@@ -56,7 +56,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       take: config.limitParam,
       orderBy: { updatedAt: "desc" },
       include: {
-        image: { select: { id: true, url: true } },
+        image: { select: { url: true } },
+        location: { select: { label: true } },
+        media: { select: { name: true } },
+        category: { select: { symbol: true } },
       },
     }),
   ])

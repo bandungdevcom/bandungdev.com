@@ -19,7 +19,12 @@ export const loader = async () => {
       },
       take: 5,
       orderBy: { updatedAt: "desc" },
-      include: { image: { select: { url: true } } },
+      include: {
+        image: { select: { url: true } },
+        location: { select: { label: true } },
+        media: { select: { name: true } },
+        category: { select: { symbol: true } },
+      },
     }),
     prisma.event.findMany({
       where: {
@@ -28,7 +33,12 @@ export const loader = async () => {
       },
       take: 5,
       orderBy: { updatedAt: "desc" },
-      include: { image: { select: { url: true } } },
+      include: {
+        image: { select: { url: true } },
+        location: { select: { label: true } },
+        media: { select: { name: true } },
+        category: { select: { symbol: true } },
+      },
     }),
     prisma.user.findMany({
       take: 10,

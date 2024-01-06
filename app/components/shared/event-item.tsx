@@ -1,15 +1,30 @@
 import { Link } from "@remix-run/react"
 
 import { ButtonLink } from "~/components/ui/button-link"
-import { formatPublished } from "~/utils/datetime"
+import {
+  formatPublished,
+  formatPublishedWithTime,
+  formatTime,
+} from "~/utils/datetime"
+import { Iconify } from "../ui/iconify"
 
 export interface Event {
   slug: string
   title: string
   description: string
   dateTimeStart: string
+  dateTimeEnd: string
   image: {
     url: string
+  } | null
+  location: {
+    label: string
+  } | null
+  media: {
+    name: string
+  } | null
+  category: {
+    symbol: string
   } | null
 }
 
@@ -47,8 +62,38 @@ export function EventItem({ event }: { event: Event }) {
         </div>
 
         <p className="text-sm text-muted-foreground">
-          <time>{formatPublished(event.dateTimeStart)}</time>
+          <time>
+            <span>{formatPublished(event.dateTimeStart)}</span>
+            <br />
+            <span className="text-muted-foreground">
+              {formatTime(event.dateTimeStart)} –{" "}
+              {formatPublished(event.dateTimeStart) !==
+              formatPublished(event.dateTimeEnd)
+                ? formatPublishedWithTime(event.dateTimeEnd)
+                : formatTime(event.dateTimeEnd)}{" "}
+              WIB
+            </span>
+          </time>
         </p>
+
+        {event.category?.symbol === "HYBRID" ? (
+          <p className="flex flex-row items-center gap-1">
+            <Iconify className="text-2xl" icon="ph:map-pin" />{" "}
+            {`${event.location?.label} / ${event.media?.name}`}
+          </p>
+        ) : event.category?.symbol === "IN_PERSON" ? (
+          <p className="flex flex-row items-center gap-1">
+            <Iconify className="text-2xl" icon="ph:map-pin" />{" "}
+            {event.location?.label}
+          </p>
+        ) : event.category?.symbol === "ONLINE" ? (
+          <p className="flex flex-row items-center gap-1">
+            <Iconify className="text-2xl" icon="ph:map-pin" />{" "}
+            {event.media?.name}{" "}
+          </p>
+        ) : (
+          <div />
+        )}
 
         <ButtonLink variant="secondary" size="sm" to={`/events/${event.slug}`}>
           View Event
