@@ -3,7 +3,7 @@ import { useState } from "react"
 import { Theme, useTheme } from "remix-themes"
 
 import { defaultLRConfig } from "~/components/libs/uploader-uploadcare"
-import { AvatarUploader } from "~/components/shared/avatar-uploader"
+import { Uploader } from "~/components/shared/uploader"
 import { useRootLoaderData } from "~/hooks/use-root-loader-data"
 
 const DEFAULT_IMAGE = "/images/covers/bandungdev-cover-luma-sharing.png"
@@ -45,7 +45,7 @@ export function EventCoverChangeField({
         }}
       />
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-        <AvatarUploader
+        <Uploader
           pubkey={ENV.UPLOADCARE_PUBLIC_KEY}
           contextName="my-uploader-provider"
           theme={theme}

@@ -15,7 +15,7 @@ export interface UploaderWithPreviewProps extends UploaderConfigProps {
   setFile: (file: OutputFileEntry | null) => void
 }
 
-export function AvatarUploader({
+export function Uploader({
   pubkey = "demopublickey",
   contextName = "my-uploader",
   theme = "light",
