@@ -19,6 +19,14 @@ export function EventItem({
   const imageUrl =
     event?.image?.url || "/images/covers/bandungdev-cover-luma-sharing.png"
 
+  const isHybrid = event?.category?.symbol === "HYBRID"
+  const isInPerson = event?.category?.symbol === "IN_PERSON"
+  const isOnline = event?.category?.symbol === "ONLINE"
+
+  const hybridLocationText = `${event?.location?.label} ${
+    Boolean(event?.location?.label) && Boolean(event?.media?.name) && "/"
+  } ${event?.media?.name}`
+
   return (
     <div className="flex flex-col justify-between gap-4 overflow-hidden md:flex-row md:gap-8">
       <div>
@@ -63,23 +71,25 @@ export function EventItem({
           </time>
         </p>
 
-        {event?.category?.symbol === "HYBRID" ? (
+        {isHybrid && (
           <p className="flex flex-row items-center gap-1">
             <Iconify className="text-2xl" icon="ph:map-pin" />{" "}
-            {`${event?.location?.label} / ${event?.media?.name}`}
+            {hybridLocationText}
           </p>
-        ) : event?.category?.symbol === "IN_PERSON" ? (
+        )}
+
+        {isInPerson && (
           <p className="flex flex-row items-center gap-1">
             <Iconify className="text-2xl" icon="ph:map-pin" />{" "}
             {event?.location?.label}
           </p>
-        ) : event?.category?.symbol === "ONLINE" ? (
+        )}
+
+        {isOnline && (
           <p className="flex flex-row items-center gap-1">
             <Iconify className="text-2xl" icon="ph:map-pin" />{" "}
             {event?.media?.name}{" "}
           </p>
-        ) : (
-          <div />
         )}
 
         <ButtonLink variant="secondary" size="sm" to={`/events/${event?.slug}`}>
