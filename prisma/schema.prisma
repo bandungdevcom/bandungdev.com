@@ -260,6 +260,8 @@ model Event {
   imageId String?
   image   EventImage? @relation(fields: [imageId], references: [id])
 
+  tickets Ticket[]
+
   organizerId String
   organizer   User   @relation("EventOrganizer", fields: [organizerId], references: [id])
   applicants  User[] @relation("EventApplicant")
@@ -362,6 +364,26 @@ model Location {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// -----------------------------------------------------------------------------
+// Ticket
+// -----------------------------------------------------------------------------
+
+model Ticket {
+  id String @id @default(cuid())
+
+  name        String // name of ticket like student ticket, general ticket, full ticket etc
+  price       Int
+  description String? @db.Text // the description about the ticket like this ticket include zoom record
+
+  eventId String?
+  event   Event?  @relation(fields: [eventId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([eventId])
 }
 
 // -----------------------------------------------------------------------------
