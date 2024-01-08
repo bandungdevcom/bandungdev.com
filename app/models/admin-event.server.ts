@@ -1,4 +1,4 @@
-import { type Event, type Location } from "@prisma/client"
+import { type Event, type EventImage, type Location } from "@prisma/client"
 import { createEventSlug } from "~/helpers/event"
 import { prisma } from "~/libs/db.server"
 import { type EventStatusSymbol } from "~/types/event-status"
@@ -80,6 +80,7 @@ export const modelAdminEvent = {
     formatId,
     dateTimeStart,
     dateTimeEnd,
+    imageUrl,
   }: Pick<
     Event,
     | "id"
@@ -96,13 +97,14 @@ export const modelAdminEvent = {
     label?: Location["label"]
     address?: Location["address"]
     mapsUrl?: Location["mapsUrl"]
+    imageUrl?: EventImage["url"]
   }) {
     const event = await prisma.event.findUnique({
       where: { id },
-      include: { location: true },
+      include: { location: true, image: true },
     })
 
-    let locationId
+    let locationId, imageId
 
     if (event?.location) {
       locationId = event.location.id
@@ -127,6 +129,27 @@ export const modelAdminEvent = {
       locationId = location.id
     }
 
+    if (event?.image && imageUrl) {
+      imageId = event.image.id
+      await prisma.eventImage.update({
+        where: {
+          id: event.image.id,
+        },
+        data: {
+          url: imageUrl,
+          altText: title,
+        },
+      })
+    } else if (imageUrl) {
+      const image = await prisma.eventImage.create({
+        data: {
+          url: imageUrl,
+          altText: title,
+        },
+      })
+      imageId = image.id
+    }
+
     return prisma.event.update({
       where: { id },
       data: {
@@ -140,6 +163,7 @@ export const modelAdminEvent = {
         formatId,
         dateTimeStart,
         dateTimeEnd,
+        imageId,
       },
     })
   },

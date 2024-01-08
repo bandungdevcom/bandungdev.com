@@ -1,6 +1,10 @@
-import { EventItem, type Event } from "~/components/shared/event-item"
+import { type Prisma } from "@prisma/client"
+
+import { EventItem } from "~/components/shared/event-item"
 import { ButtonLink } from "~/components/ui/button-link"
 import { Iconify } from "~/components/ui/iconify"
+import { type modelEvent } from "~/models/event.server"
+import { type JsonifyValues } from "~/types/jsonify"
 import { cn } from "~/utils/cn"
 
 export function ContentEvents({
@@ -10,7 +14,7 @@ export function ContentEvents({
   emptyText = "No events",
   withSeeMore,
 }: {
-  events: Event[]
+  events: JsonifyValues<Prisma.PromiseReturnType<typeof modelEvent.getAll>>
   title: string
   subtitle?: string
   emptyText?: string

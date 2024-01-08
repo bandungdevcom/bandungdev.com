@@ -39,6 +39,8 @@ const dateTimeStart = z.date({ required_error: "Date start is required" })
 
 const dateTimeEnd = z.date({ required_error: "Date end is required" })
 
+const imageUrl = z.string().optional()
+
 export const schemaEvent = z
   .object({
     organizerId,
@@ -57,6 +59,7 @@ export const schemaEvent = z
     formatId,
     dateTimeEnd,
     dateTimeStart,
+    imageUrl,
   })
   .refine(data => data.dateTimeEnd >= data.dateTimeStart, {
     message: "End date cannot be earlier than start date",

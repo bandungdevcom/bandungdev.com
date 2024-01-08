@@ -3,16 +3,13 @@ import { type Prisma } from "@prisma/client"
 import { useFetcher } from "@remix-run/react"
 import { ClientOnly } from "remix-utils/client-only"
 
+import { DateTimePickerWithRange } from "~/components/ui/date-time-range-picker"
 import { FormErrors, FormLabel } from "~/components/ui/form"
 import { Input } from "~/components/ui/input"
 import {
   RadioGroup,
   RadioGroupLocationCategoryItem,
 } from "~/components/ui/radio-group"
-import { type modelEventCategory } from "~/models/event-category.server"
-import { type modelEventFormat } from "~/models/event-format.server"
-import { type modelEventMedia } from "~/models/event-media.server"
-import { DateTimePickerWithRange } from "../ui/date-time-range-picker"
 import {
   Select,
   SelectContent,
@@ -20,8 +17,11 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select"
-import { Textarea } from "../ui/textarea"
+} from "~/components/ui/select"
+import { Textarea } from "~/components/ui/textarea"
+import { type modelEventCategory } from "~/models/event-category.server"
+import { type modelEventFormat } from "~/models/event-format.server"
+import { type modelEventMedia } from "~/models/event-media.server"
 
 interface EventDetailFormProps {
   eventId: string

@@ -22,6 +22,7 @@ import { ButtonLink } from "~/components/ui/button-link"
 import { ButtonLoading } from "~/components/ui/button-loading"
 import { FormErrors } from "~/components/ui/form"
 
+import { EventCoverChangeField } from "~/components/shared/event-cover-change-field"
 import EventDetailForm from "~/components/shared/event-detail-form"
 import { Timestamp } from "~/components/shared/timestamp"
 import { Button } from "~/components/ui/button"
@@ -103,6 +104,7 @@ export default function UserEventsEventIdRoute() {
       formatId,
       dateTimeStart,
       dateTimeEnd,
+      imageUrl,
     },
   ] = useForm<z.infer<typeof schemaEvent>>({
     id: "update-event",
@@ -117,6 +119,7 @@ export default function UserEventsEventIdRoute() {
       label: event.location?.label,
       address: event.location?.address,
       mapsUrl: event.location?.mapsUrl,
+      imageUrl: event.image?.url,
     },
   })
 
@@ -236,6 +239,11 @@ export default function UserEventsEventIdRoute() {
           <section className="mx-auto w-full max-w-prose space-y-4 ">
             <input type="hidden" {...conform.input(organizerId)} />
             <input type="hidden" {...conform.input(id)} />
+
+            <EventCoverChangeField
+              alt={titleValue}
+              imageUrl={imageUrl.defaultValue}
+            />
 
             <div className="text-xs text-muted-foreground">
               <Timestamp
