@@ -241,7 +241,7 @@ export default function UserEventsEventIdRoute() {
             <input type="hidden" {...conform.input(id)} />
 
             <EventCoverChangeField
-              alt={`${titleValue} cover image`}
+              alt={titleValue}
               imageUrl={imageUrl.defaultValue}
             />
 

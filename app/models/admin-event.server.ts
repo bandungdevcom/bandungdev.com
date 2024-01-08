@@ -137,14 +137,14 @@ export const modelAdminEvent = {
         },
         data: {
           url: imageUrl,
-          altText: `${title} cover image`,
+          altText: title,
         },
       })
     } else if (imageUrl) {
       const image = await prisma.eventImage.create({
         data: {
           url: imageUrl,
-          altText: `${title} cover image`,
+          altText: title,
         },
       })
       imageId = image.id
