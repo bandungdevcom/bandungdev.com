@@ -241,16 +241,28 @@ export const modelUser = {
   },
 
   updateHeadline({ id, headline }: Pick<UserProfile, "id" | "headline">) {
-    return prisma.user.update({
-      where: { id },
-      data: { profile: { update: { headline } } },
+    return prisma.userProfile.upsert({
+      where: { userId: id },
+      update: {
+        headline,
+      },
+      create: {
+        userId: id,
+        headline,
+      },
     })
   },
 
   updateBio({ id, bio }: Pick<UserProfile, "id" | "bio">) {
-    return prisma.user.update({
-      where: { id },
-      data: { profile: { update: { bio } } },
+    return prisma.userProfile.upsert({
+      where: { userId: id },
+      update: {
+        bio,
+      },
+      create: {
+        userId: id,
+        bio,
+      },
     })
   },
 
@@ -260,9 +272,15 @@ export const modelUser = {
   }: Pick<UserProfile, "id"> & {
     links?: JsonLinks
   }) {
-    return prisma.user.update({
-      where: { id },
-      data: { profile: { update: { links: links ?? [] } } },
+    return prisma.userProfile.upsert({
+      where: { userId: id },
+      update: {
+        links: links ?? [],
+      },
+      create: {
+        userId: id,
+        links: links ?? [],
+      },
     })
   },
 
