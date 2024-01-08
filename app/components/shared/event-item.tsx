@@ -1,12 +1,12 @@
 import { Link } from "@remix-run/react"
 
 import { ButtonLink } from "~/components/ui/button-link"
+import { Iconify } from "~/components/ui/iconify"
 import {
   formatPublished,
   formatPublishedWithTime,
   formatTime,
 } from "~/utils/datetime"
-import { Iconify } from "../ui/iconify"
 
 export interface Event {
   slug: string
