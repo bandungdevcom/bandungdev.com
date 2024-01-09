@@ -242,6 +242,9 @@ model Event {
   dateTimeStart DateTime @default(now())
   dateTimeEnd   DateTime @default(now())
 
+  ticketCategoryId String?
+  tikcetCategory   TicketCategory? @relation(fields: [ticketCategoryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
   statusId String
   status   EventStatus @relation(fields: [statusId], references: [id])
 
@@ -275,6 +278,7 @@ model Event {
   @@index([locationId])
   @@index([formatId])
   @@index([categoryId])
+  @@index([ticketCategoryId])
   @@index([mediaId])
   @@index([organizerId])
 }
@@ -364,6 +368,21 @@ model Location {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// -----------------------------------------------------------------------------
+// Ticket Category
+// -----------------------------------------------------------------------------
+
+model TicketCategory {
+  id String @id @default(cuid())
+
+  sequence    Int?    @unique // 1, 2, 3, ...
+  symbol      String  @unique // FREE, PAID
+  name        String  @unique // Free, Paid
+  description String? @db.Text // Long description
+
+  events Event[]
 }
 
 // -----------------------------------------------------------------------------
