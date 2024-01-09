@@ -5,7 +5,7 @@ type ConfigRedirect = {
 }
 
 export const configRedirects: ConfigRedirect[] = [
-  { path: "/dev", url: "https://bandung.dev" },
+  { path: "/register", url: "https://a.bandungdev.com/register" },
   { path: "/links", to: "/redirects" },
   { path: "/event", to: "/events" },
   { path: "/events", url: "https://lu.ma/bandungdev" },
