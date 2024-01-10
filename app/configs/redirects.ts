@@ -1,6 +1,7 @@
 import { type ConfigRedirect } from "~/utils/redirect-route.server"
 
 export const configRedirects: ConfigRedirect[] = [
+  { path: "/register", url: "https://a.bandungdev.com/register" },
   { path: "/me", to: "/user" },
   { path: "/account", to: "/user/account" },
   { path: "/dev", url: "https://github.com/bandungdevcom/bandungdev.com" },
