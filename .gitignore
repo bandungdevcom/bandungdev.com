@@ -1,11 +1,13 @@
+__*
+.DS_Store
 .env
 .env.production
 .eslintcache
 .stylelintcache
 .vercel
+*.local
 /.cache
 /build
-/docs/TODOS.md
 /node_modules
 /prisma/docs
 /public/build

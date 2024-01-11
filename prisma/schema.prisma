@@ -1,15 +1,24 @@
 // https://pris.ly/d/prisma-schema
-
-generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
-}
+// https://github.com/remix-run/indie-stack/blob/main/prisma/schema.prisma
+// https://github.com/epicweb-dev/epic-stack/blob/main/prisma/schema.prisma
+// https://github.com/planetscale/beam/blob/main/prisma/schema.prisma
+// Visualize with https://prismaliser.app
 
 datasource db {
   provider     = "mysql"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters", "fullTextSearch", "fullTextIndex", "metrics", "views"]
+}
+
+// Uncomment this to enable Prisma Docs Generator
+// generator docs {
+//   provider = "node node_modules/prisma-docs-generator"
+// }
 
 // -----------------------------------------------------------------------------
 // User
@@ -18,43 +27,215 @@ datasource db {
 model User {
   id String @id @default(cuid())
 
-  fullname    String?
-  username    String?       @unique(map: "User.username_unique")
-  email       String        @unique(map: "User.email_unique")
-  role        String?
-  affiliation String?
-  bio         String?
-  imageURL    String?       @db.Text
-  password    UserPassword?
+  email    String  @unique
+  username String  @unique
+  phone    String? @unique // numeric string
 
-  tags UserTag[]
+  fullname String
+  nickname String?
+
+  password    Password?
+  connections Connection[]
+  roles       Role[]
+  jobTypes    JobType[]
+
+  images  UserImage[] // multiple user images / avatars / profile pictures
+  profile UserProfile?
+  posts   Post[]
+  tags    UserTag[]
+
+  organizedEvents Event[] @relation("EventOrganizer")
+  appliedEvents   Event[] @relation("EventApplicant")
+  attendedEvents  Event[] @relation("EventAttendee")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([id])
+  @@index([email])
+  @@index([username])
+  @@index([phone])
 }
 
-model UserPassword {
+model UserProfile {
   id String @id @default(cuid())
 
-  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
-  hash String
+  headline String?
+  bio      String? @db.Text
+  links    Json?
+
+  isPrimary Boolean? @default(true)
+  isPublic  Boolean? @default(true)
+  modeName  String?  @default("DEFAULT")
+  sequence  Int?     @default(1)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([id, userId])
+  @@index([userId])
 }
 
 model UserTag {
   id String @id @default(cuid())
 
-  symbol String @unique // TEAM  | MEMBER | ...
-  name   String @unique // Team  | Member | ...
+  sequence    Int?    @unique // 1, 2, 3, ...
+  symbol      String  @unique // TEAM  | MEMBER | ...
+  name        String  @unique // Team  | Member | ...
+  description String? @db.Text // long description about tag
 
   users User[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Role {
+  id String @id @default(cuid())
+
+  sequence    Int?    @unique // 1, 2, 3, ...
+  symbol      String  @unique // ROOT, ADMIN, MEMBER, ...
+  name        String  @unique // Root, Admin, Member, ...
+  description String? @db.Text // Summary of abilities
+
+  users       User[]
+  permissions Permission[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([symbol])
+}
+
+model JobType {
+  id String @id @default(cuid())
+
+  name String @unique
+
+  users User[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Permission {
+  id String @id @default(cuid())
+
+  action      String // create, read, update, delete
+  entity      String // user, post, etc.
+  access      String // own or any
+  description String? @db.Text // details of the permission ability
+
+  roles Role[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([action, entity, access])
+}
+
+model Password {
+  id String @id @default(cuid())
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  hash String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("UserPassword")
+}
+
+model Connection {
+  id String @id @default(cuid())
+
+  providerName String
+  providerId   String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([providerId, providerName])
+  @@index([userId])
+  @@map("UserConnection")
+}
+
+model UserImage {
+  id String @id @default(cuid())
+
+  url     String
+  altText String?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([id, userId])
+  @@index([userId])
+}
+
+// -----------------------------------------------------------------------------
+// Post
+// -----------------------------------------------------------------------------
+
+model Post {
+  id String @id @default(cuid())
+
+  slug    String @unique
+  title   String @db.Text
+  excerpt String @db.Text
+  content String @db.Text // Rich HTML Text
+
+  statusId String
+  status   PostStatus @relation(fields: [statusId], references: [id])
+
+  images PostImage[]
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+  @@index([statusId])
+  @@index([userId, updatedAt]) // Extra index for user and updatedAt
+}
+
+model PostStatus {
+  id String @id @default(cuid())
+
+  sequence    Int?    @unique // 1, 2, 3, ...
+  symbol      String  @unique // DRAFT, PUBLISHED, ARCHIVED, ...
+  name        String  @unique // Draft, Published, Archived, ...
+  description String? @db.Text // Status definition
+
+  posts Post[]
+}
+
+model PostImage {
+  id String @id @default(cuid())
+
+  url     String
+  altText String?
+
+  postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([postId])
 }
 
 // -----------------------------------------------------------------------------
@@ -64,34 +245,80 @@ model UserTag {
 model Event {
   id String @id @default(cuid())
 
-  title       String
-  description String?   @db.Text
-  datetime    DateTime?
-  imageURL    String?   @db.Text
-  isFeatured  Boolean   @default(false)
+  slug        String  @unique
+  title       String  @db.Text
+  description String  @db.Text
+  content     String? @db.Text // Rich HTML Text
+  url         String? // Url for online or hybrid
 
-  status   EventStatus? @relation(fields: [statusId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  statusId String?
+  dateTimeStart DateTime @default(now())
+  dateTimeEnd   DateTime @default(now())
 
-  category   EventCategory? @relation(fields: [categoryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  statusId String
+  status   EventStatus @relation(fields: [statusId], references: [id])
+
+  formatId String?
+  format   EventFormat? @relation(fields: [formatId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
   categoryId String?
+  category   EventCategory? @relation(fields: [categoryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
-  // locationAddress LocationAddress
+  mediaId String?
+  media   EventMedia? @relation(fields: [mediaId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  locationId String?
+  location   Location? @relation(fields: [locationId], references: [id])
+
+  imageId String?
+  image   EventImage? @relation(fields: [imageId], references: [id])
+
+  organizerId String
+  organizer   User   @relation("EventOrganizer", fields: [organizerId], references: [id])
+  applicants  User[] @relation("EventApplicant")
+  attendees   User[] @relation("EventAttendee")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([statusId])
+  @@index([imageId])
+  @@index([locationId])
+  @@index([formatId])
   @@index([categoryId])
+  @@index([mediaId])
+  @@index([organizerId])
+}
+
+model EventImage {
+  id String @id @default(cuid())
+
+  url     String
+  altText String?
+
+  events Event[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model EventStatus {
   id String @id @default(cuid())
 
-  sequence    Int     @unique // 1 | 2 | 3 | ...
-  symbol      String  @unique // "PUBLIC" | "PRIVATE"
-  name        String  @unique // "Public" | "Private"
-  description String? @db.Text // "Long description"
+  sequence    Int?    @unique // 1, 2, 3, ...
+  symbol      String  @unique // DRAFT, PUBLISHED, UNLISTED, ...
+  name        String  @unique // Draft, Published, Unlisted, ...
+  description String? @db.Text // Status definition
+
+  events Event[]
+}
+
+model EventFormat {
+  id String @id @default(cuid())
+
+  sequence    Int?    @unique // 1, 2, 3, ...
+  symbol      String  @unique // MEETUP, SEMINAR, WORKSHOP, WFC
+  name        String  @unique // Meetup, Seminar, Workshop, Work from Cafe
+  description String? @db.Text // Long description
 
   events Event[]
 }
@@ -99,85 +326,72 @@ model EventStatus {
 model EventCategory {
   id String @id @default(cuid())
 
-  sequence    Int?    @unique // 1 | 2 | 3 | ...
-  symbol      String  @unique // "MEETUP"
-  name        String  @unique // "Meetup"
-  description String? @db.Text // "Long description"
+  sequence    Int?    @unique // 1, 2, 3, ...
+  symbol      String  @unique // IN_PERSON, ONLINE, HYBRID
+  name        String  @unique // In Person, Online, Hybrid
+  description String? @db.Text // Long description
+
+  events Event[]
+}
+
+model EventMedia {
+  id String @id @default(cuid())
+
+  sequence    Int?    @unique // 1, 2, 3, ...
+  symbol      String  @unique // ZOOM, GOOGLE_MEET, YOUTUBE, ...
+  name        String  @unique //Zoom, Google Meet, Youtube, ...
+  description String? @unique // Long description
 
   events Event[]
 }
 
 // -----------------------------------------------------------------------------
-// Location and Address
+// Location
 // -----------------------------------------------------------------------------
 
-model LocationAddress {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  label String // Location label name
-
-  address    String? // The complete combined Location address
-  addressURL String? // https://goo.gl/maps/1xABCDEF123456
-
-  street        String? // Street name
-  streetDetails String? // Street or location details, such as floor number
-  subDistrict   String?
-  district      String?
-  city          String?
-  province      String?
-  postalCode    String?
-  countryCode   String?
-
-  countryId     String?
-  provinceId    String?
-  cityId        String?
-  districtId    String?
-  subDistrictId String?
-
-  // Geolocation
-  latitude  Decimal? // -90 to 90, Example: -6.1234567
-  longitude Decimal? // -180 to 180, Example: 106.1234567
-}
-
-// -----------------------------------------------------------------------------
-// Partner
-// -----------------------------------------------------------------------------
-
-model Partner {
+// OFFLINE / HYBRID
+model Location {
   id String @id @default(cuid())
 
-  name        String
-  description String? @db.Text
-  imageURL    String? @db.Text
+  label String @db.Text
 
-  category   PartnerCategory @relation(fields: [categoryId], references: [id])
-  categoryId String
+  address String? @db.Text // Complete combined address
+  mapsUrl String? @db.Text // https://goo.gl/maps/1xABCDEF123456
+
+  lat Decimal? // Latitude -90 to 90, Example: -6.1234567
+  lng Decimal? // Longitude -180 to 180, Example: 106.1234567
+
+  address1    String?
+  address2    String?
+  subDistrict String?
+  district    String?
+  city        String?
+  province    String?
+  postalCode  String?
+  countryCode String?
+
+  events Event[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@index([categoryId])
-}
-
-model PartnerCategory {
-  id String @id @default(cuid())
-
-  sequence    Int     @unique // 1 | 2 | 3 | ...
-  symbol      String  @unique // "PUBLIC" | "PRIVATE"
-  name        String  @unique // "Public" | "Private"
-  description String? @db.Text // "Long description"
-
-  partners Partner[]
 }
 
 // -----------------------------------------------------------------------------
-// Example
+// Examples
 // -----------------------------------------------------------------------------
 
 model Example {
   id String @id @default(cuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Image {
+  id String @id @default(cuid())
+
+  url     String
+  altText String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

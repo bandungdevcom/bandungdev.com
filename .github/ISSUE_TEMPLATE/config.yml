@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a question
+    url: https://github.com/bandungdevcom/bandungdev.com/discussions/category_choices
+    about: Ask questions and discuss with the community
+  - name: Visit the site
+    url: https://bandungdev.com
+    about: Check out the website

@@ -1,0 +1,18 @@
+[
+  {
+    "symbol": "MEETUP",
+    "name": "Meetup"
+  },
+  {
+    "symbol": "SEMINAR",
+    "name": "Seminar"
+  },
+  {
+    "symbol": "WORKSHOP",
+    "name": "Workshop"
+  },
+  {
+    "symbol": "WFC",
+    "name": "Work From Cafe"
+  }
+]

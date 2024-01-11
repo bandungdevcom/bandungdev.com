@@ -1,7 +1,21 @@
 {
   "recommendations": [
-    "codeforge.remix-forge",
     "antfu.iconify",
-    "afzalsayed96.icones"
+    "artdiniz.quitcontrol-vscode",
+    "bradlc.vscode-tailwindcss",
+    "codeforge.remix-forge",
+    "csstools.postcss",
+    "davidanson.vscode-markdownlint",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "johnpapa.vscode-peacock",
+    "mikestead.dotenv",
+    "moalamri.inline-fold",
+    "prisma.prisma",
+    "stylelint.vscode-stylelint",
+    "usernamehw.errorlens",
+    "yoavbls.pretty-ts-errors",
+    "yzhang.markdown-all-in-one",
+    "mhutchie.git-graph"
   ]
 }

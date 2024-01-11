@@ -4,7 +4,7 @@ version: "3.9"
 services:
   mysql:
     image: mysql:8
-    container_name: bandungdev-database
+    container_name: bandungdev-mysql
     hostname: database
     restart: no
     volumes:

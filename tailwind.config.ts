@@ -1,13 +1,10 @@
-import type { Config } from "tailwindcss"
+import { type Config } from "tailwindcss"
+import defaultTheme from "tailwindcss/defaultTheme"
 
 export default {
   darkMode: ["class"],
   content: ["./app/**/*.{ts,tsx}"],
   theme: {
-    fontFamily: {
-      display: ["Readex Pro", "ui-sans-serif", "system-ui"],
-      sans: ["Inter Variable", "ui-sans-serif", "system-ui"],
-    },
     container: {
       center: true,
       padding: "2rem",
@@ -16,6 +13,16 @@ export default {
       },
     },
     extend: {
+      /**
+       * To add the fonts, setup in app/configs/fonts.ts
+       */
+      fontFamily: {
+        display: ["Readex Pro Variable", ...defaultTheme.fontFamily.sans],
+        sans: ["Inter Variable", ...defaultTheme.fontFamily.sans],
+      },
+      /**
+       * Can also use https://uicolors.app to generate additional colors
+       */
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -52,9 +59,11 @@ export default {
         },
       },
       borderRadius: {
+        xl: "var(--radius) + 2px",
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        xs: "calc(var(--radius) - 6px)",
       },
       keyframes: {
         "accordion-down": {
@@ -65,26 +74,17 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        "move-gradient": {
-          "0%": { "background-position": "100% 0%" },
-          "50%": { "background-position": "0% 100%" },
-          "100%": { "background-position": "100% 0%" },
-        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "move-gradient": "move-gradient 30s ease infinite",
-      },
-      typography: {
-        default: {
-          css: {
-            "code::before": { content: "none" },
-            "code::after": { content: "none" },
-          },
-        },
       },
     },
   },
-  plugins: [require("@tailwindcss/typography"), require("tailwindcss-animate")],
+  plugins: [
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/forms"),
+    require("tailwindcss-animate"),
+    require("tailwindcss-radix-ui-primitives")({ themeKey: "radix" }),
+  ],
 } satisfies Config

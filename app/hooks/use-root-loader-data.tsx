@@ -1,18 +1,17 @@
-import { useMemo } from "react"
 import { useMatches } from "@remix-run/react"
+import { useMemo } from "react"
 
-// import type { UserData, UserSession } from "~/services/auth.server";
+import { type UserData, type UserSession } from "~/services/auth.server"
+import { type parsedEnvClient } from "~/utils/env.server"
 
-export type RootLoaderData = {
-  ENV: any
-  NODE_ENV: string
-  // userSession: UserSession | undefined;
-  // userData: UserData | undefined;
+// Only the essentials
+type RootLoaderData = {
+  ENV: typeof parsedEnvClient
+  userSession: UserSession | undefined
+  userData: UserData | undefined
 }
 
-export function useMatchesData(
-  routeId: string,
-): Record<string, unknown> | RootLoaderData {
+export function useMatchesData(routeId: string) {
   const matchingRoutes = useMatches()
 
   const route = useMemo(
@@ -20,17 +19,16 @@ export function useMatchesData(
     [matchingRoutes, routeId],
   )
 
-  // @ts-ignore
   return route?.data
 }
 
 export function useRootLoaderData() {
   const data = useMatchesData("root") as RootLoaderData
 
+  // Keep them optionals, because need to handle in error boundary
   return {
     ENV: data?.ENV,
-    NODE_ENV: data?.NODE_ENV,
-    // userSession: data?.userSession,
-    // userData: data?.userData,
+    userSession: data?.userSession,
+    userData: data?.userData,
   }
 }
