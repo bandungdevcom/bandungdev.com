@@ -26,14 +26,12 @@ export function FormSearch({
           name="q"
           placeholder={placeholder}
           defaultValue={query}
-          autoFocus
           autoComplete="off"
           className="w-full py-2 pe-3 ps-10"
         />
         <span className="pointer-events-none absolute flex ps-3">
           <Iconify
             icon="ph:magnifying-glass"
-            // eslint-disable-next-line tailwindcss/no-custom-classname
             className="text-muted-foreground group-focus-within:text-primary"
           />
         </span>
