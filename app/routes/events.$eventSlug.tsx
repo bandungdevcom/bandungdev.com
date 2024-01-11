@@ -197,7 +197,7 @@ export default function EventSlugRoute() {
                     <Link
                       to={event.location?.mapsUrl || ""}
                       target="_blank"
-                      className="inline-flex gap-1 text-accent"
+                      className="inline-flex gap-1 break-all text-accent"
                     >
                       {event.location?.mapsUrl}
                       <Iconify
@@ -222,7 +222,7 @@ export default function EventSlugRoute() {
                 <Link
                   to={event.url || ""}
                   target="_blank"
-                  className="inline-flex gap-1 text-accent"
+                  className="inline-flex gap-1 break-all text-accent"
                 >
                   {event.url}
                   <Iconify
