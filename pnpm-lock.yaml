@@ -17,9 +17,15 @@ dependencies:
   '@fontsource-variable/readex-pro':
     specifier: 5.0.8
     version: 5.0.8
+  '@icons-pack/react-simple-icons':
+    specifier: 9.2.0
+    version: 9.2.0(react@18.2.0)
   '@nasa-gcn/remix-seo':
     specifier: ^2.0.0
     version: 2.0.0(@remix-run/react@2.4.1)(@remix-run/server-runtime@2.4.1)
+  '@phosphor-icons/react':
+    specifier: 2.0.15
+    version: 2.0.15(react-dom@18.2.0)(react@18.2.0)
   '@prisma/client':
     specifier: ^5.8.0
     version: 5.8.0(prisma@5.8.0)
@@ -116,6 +122,9 @@ dependencies:
   '@remix-run/server-runtime':
     specifier: ^2.4.1
     version: 2.4.1(typescript@5.3.3)
+  '@remixicon/react':
+    specifier: 4.0.1
+    version: 4.0.1(react@18.2.0)
   '@tanem/react-nprogress':
     specifier: ^5.0.51
     version: 5.0.51(react-dom@18.2.0)(react@18.2.0)
@@ -1575,6 +1584,14 @@ packages:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
     dev: true
 
+  /@icons-pack/react-simple-icons@9.2.0(react@18.2.0):
+    resolution: {integrity: sha512-09JZZx/jM4ugzwcUw4OSS1l6/83x2sJzG6jwzHpNmPufY1rq7apLdcK+4Cy9nebAuZEwaeVZQ69c8uib736LeA==}
+    peerDependencies:
+      react: ^16.13 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /@isaacs/cliui@8.0.2:
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
     engines: {node: '>=12'}
@@ -1815,6 +1832,17 @@ packages:
     resolution: {integrity: sha512-O2yRJce1GOc6PAy3QxFM4NzFiWzvScDC1/5ihYBL6BUEVdq0XMWN01sppE+H6bBXbaFYipjwFLEWLg5PaSOThA==}
     engines: {node: '>=8.0.0'}
     dev: true
+
+  /@phosphor-icons/react@2.0.15(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-PQKNcRrfERlC8gJGNz0su0i9xVmeubXSNxucPcbCLDd9u0cwJVTEyYK87muul/svf0UXFdL2Vl6bbeOhT1Mwow==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>= 16.8'
+      react-dom: '>= 16.8'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /@pkgjs/parseargs@0.11.0:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -3770,6 +3798,14 @@ packages:
     resolution: {integrity: sha512-KRJtwrjRV5Bb+pM7zxcTJkhIqWWSy+MYsIxHK+0m5atcznsf15YwUBWHWulZerV2+vvHH1Lp1DD7pw6qKW8SgA==}
     dependencies:
       web-streams-polyfill: 3.3.2
+
+  /@remixicon/react@4.0.1(react@18.2.0):
+    resolution: {integrity: sha512-niVlYRO9RlUdL6kan2JGcph5XHK8F58g0uezAq+vCdY7mQRWNN4+E2AoeY56zYnQD+NnqEXh1CoyBJUccP8CTw==}
+    peerDependencies:
+      react: '>=0.14.0'
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /@rushstack/eslint-patch@1.6.1:
     resolution: {integrity: sha512-UY+FGM/2jjMkzQLn8pxcHGMaVLh9aEitG3zY2CiY7XHdLiz3bZOwa6oDxNqEMv7zZkV+cj5DOdz0cQ1BP5Hjgw==}
