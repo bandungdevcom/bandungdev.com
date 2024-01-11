@@ -134,9 +134,9 @@ export default function EventSlugRoute() {
         <h2 className="text-xl">{event.description}</h2>
 
         <div className="space-y-2">
-          <p className="flex justify-between gap-4">
-            <b className="basis-4/12">Date and Time:</b>
-            <span className="basis-8/12">
+          <p className="flex flex-col justify-between md:flex-row md:gap-4">
+            <b className="md:basis-4/12">Date and Time:</b>
+            <span className="md:basis-8/12">
               <span>{formatPublished(event.dateTimeStart)}</span>
               <br />
               <span className="text-muted-foreground">
@@ -151,16 +151,16 @@ export default function EventSlugRoute() {
           </p>
 
           {event.format?.name && (
-            <p className="flex justify-between gap-4">
-              <b className="basis-4/12">Format:</b>
-              <span className="basis-8/12">{event.format?.name} </span>
+            <p className="flex flex-col justify-between md:flex-row md:gap-4">
+              <b className="md:md:basis-4/12">Format:</b>
+              <span className="md:md:basis-8/12">{event.format?.name} </span>
             </p>
           )}
 
           {event.category?.name && (
-            <p className="flex justify-between gap-4">
-              <b className="basis-4/12">Category:</b>
-              <span className="basis-8/12">{event.category?.name} </span>
+            <p className="flex flex-col justify-between md:flex-row md:gap-4">
+              <b className="md:basis-4/12">Category:</b>
+              <span className="md:basis-8/12">{event.category?.name} </span>
             </p>
           )}
 
@@ -168,13 +168,13 @@ export default function EventSlugRoute() {
             (event.location?.address ||
               event.location?.label ||
               event.location?.mapsUrl) && (
-              <p className="flex justify-between gap-4">
-                <b className="basis-4/12">
+              <p className="flex flex-col justify-between md:flex-row md:gap-4">
+                <b className="md:basis-4/12">
                   <span>Location</span>
                   {isHybrid && <span> (In Person)</span>}
                   <span>:</span>
                 </b>
-                <div className="basis-8/12">
+                <div className="md:basis-8/12">
                   {event.location.label && (
                     <Link
                       to={event.location?.mapsUrl || ""}
@@ -211,7 +211,7 @@ export default function EventSlugRoute() {
             )}
 
           {(isOnline || isHybrid) && event.url && event.media && (
-            <p className="flex justify-between gap-4">
+            <p className="flex flex-col justify-between md:flex-row md:gap-4">
               <b className="basis-4/12">
                 <span>Location</span>
                 {isHybrid && <span> (Online)</span>}
