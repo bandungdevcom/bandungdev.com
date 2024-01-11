@@ -37,7 +37,7 @@ model User {
   password    Password?
   connections Connection[]
   roles       Role[]
-  jobType        JobType[]
+  jobTypes    JobType[]
 
   images  UserImage[] // multiple user images / avatars / profile pictures
   profile UserProfile?
