@@ -37,6 +37,7 @@ model User {
   password    Password?
   connections Connection[]
   roles       Role[]
+  jobTypes    JobType[]
 
   images  UserImage[] // multiple user images / avatars / profile pictures
   profile UserProfile?
@@ -107,6 +108,17 @@ model Role {
   updatedAt DateTime @updatedAt
 
   @@index([symbol])
+}
+
+model JobType {
+  id String @id @default(cuid())
+
+  name String @unique
+
+  users User[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Permission {
