@@ -10,6 +10,7 @@ import dataEventFormats from "./data/event-formats.json"
 import dataEventMedia from "./data/event-media.json"
 import dataEventStatuses from "./data/event-statuses.json"
 import { dataEvents } from "./data/events"
+import jobTypes from "./data/job-types.json"
 import dataPostStatuses from "./data/post-statuses.json"
 import dataPosts from "./data/posts.json"
 import dataRoles from "./data/roles.json"
@@ -30,6 +31,7 @@ const enabledSeedItems = [
   "eventCategories",
   "eventFormats",
   "eventMedia",
+  "jobTypes",
 ]
 
 async function main() {
@@ -47,6 +49,7 @@ async function main() {
     eventFormats: seedEventFormats,
     eventMedia: seedEventMedia,
     events: seedEvents,
+    jobTypes: seedJobTYpes,
   }
 
   for (const seedName of enabledSeedItems) {
@@ -222,6 +225,22 @@ async function seedPostStatuses() {
     console.info(`🪧 Upserted post status ${status.symbol} / ${status.name}`)
   }
   console.timeEnd("🪧 Upserted post statuses")
+}
+
+async function seedJobTYpes() {
+  console.info("\n💼 Seed job types")
+  console.info("💼 Count job types", await prisma.jobType.count())
+  console.time("💼 Upserted job types")
+
+  for (const jobTypeRaw of jobTypes) {
+    const jobType = await prisma.jobType.upsert({
+      where: { name: jobTypeRaw.name },
+      create: jobTypeRaw,
+      update: jobTypeRaw,
+    })
+    console.info(`💼 Upserted job type ${jobType.id} / ${jobTypeRaw.name}`)
+  }
+  console.timeEnd("💼 Upserted job types")
 }
 
 async function seedPosts() {
