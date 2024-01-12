@@ -37,7 +37,6 @@ model User {
   password    Password?
   connections Connection[]
   roles       Role[]
-  jobTypes    JobType[]
 
   images  UserImage[] // multiple user images / avatars / profile pictures
   profile UserProfile?
@@ -66,6 +65,8 @@ model UserProfile {
   headline String?
   bio      String? @db.Text
   links    Json?
+
+  jobTypes    JobType[]
 
   isPrimary Boolean? @default(true)
   isPublic  Boolean? @default(true)
@@ -115,7 +116,7 @@ model JobType {
 
   name String @unique
 
-  users User[]
+  profiles UserProfile[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
