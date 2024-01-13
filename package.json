@@ -86,6 +86,7 @@
     "@remix-run/server-runtime": "^2.4.1",
     "@remixicon/react": "4.0.1",
     "@tanem/react-nprogress": "^5.0.51",
+    "@tanstack/react-table": "^8.11.6",
     "@tiptap/core": "^2.1.16",
     "@tiptap/extension-highlight": "^2.1.16",
     "@tiptap/extension-link": "2.1.13",
