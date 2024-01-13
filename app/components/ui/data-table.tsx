@@ -42,7 +42,7 @@ export function DataTable<T extends Record<string, unknown>>(
                 <TableHead key={header.id}>
                   <div
                     {...{
-                      className: "flex items-center",
+                      className: "flex items-start",
                       onClick: header.column.getToggleSortingHandler(),
                     }}
                   >

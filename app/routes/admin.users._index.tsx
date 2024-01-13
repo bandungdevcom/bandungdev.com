@@ -5,7 +5,7 @@ import {
   type LoaderFunctionArgs,
   type MetaFunction,
 } from "@remix-run/node"
-import { useLoaderData } from "@remix-run/react"
+import { Link, useLoaderData } from "@remix-run/react"
 import type * as reactTable from "@tanstack/react-table"
 import { match } from "ts-pattern"
 import { FormDelete } from "~/components/shared/form-delete"
@@ -15,6 +15,7 @@ import {
   getPaginationConfigs,
   getPaginationOptions,
 } from "~/components/shared/pagination"
+import { AvatarAuto } from "~/components/ui/avatar-auto"
 import { ButtonLink } from "~/components/ui/button-link"
 import { DataTable } from "~/components/ui/data-table"
 import { Iconify } from "~/components/ui/iconify"
@@ -68,25 +69,40 @@ export default function AdminUsersRoute() {
       cell: ({ row }) => {
         const images = row.original?.images
         return match(images)
-          .with([], () => "-")
-          .otherwise(() => (
-            <img
-              className="rounded-full"
-              width={50}
-              alt={images?.at(-1)?.altText as string}
-              src={images?.at(-1)?.url}
-            />
+          .with([], () => (
+            <Link to={`/${row.original.username}`}>
+              <AvatarAuto size="sm" user={row.original} />
+            </Link>
           ))
+          .otherwise(() => (
+            <Link to={`/${row.original.username}`}>
+              <img
+                className="rounded-full"
+                width={30}
+                alt={images?.at(-1)?.altText as string}
+                src={images?.at(-1)?.url}
+              />
+            </Link>
+          ))
+      },
+    },
+    {
+      header: "Username",
+      accessorKey: "username",
+      cell: ({ row }) => {
+        const username = row.original.username
+        return (
+          <Link to={`/${username}`}>
+            <span>{username}</span>
+          </Link>
+        )
       },
     },
     {
       header: "Fullname",
       accessorKey: "fullname",
     },
-    {
-      header: "Username",
-      accessorKey: "username",
-    },
+
     {
       header: "Nickname",
       accessorKey: "nickname",
@@ -98,7 +114,6 @@ export default function AdminUsersRoute() {
     {
       header: "Phone",
       accessorKey: "phone",
-      accessorFn: ({ phone }) => (phone ? phone : "-"),
     },
 
     {
@@ -153,9 +168,6 @@ export default function AdminUsersRoute() {
 
       <section className="app-section">
         <DataTable data={users} columns={columns} />
-      </section>
-
-      <section className="app-section">
         <PaginationNavigation {...loaderData} />
       </section>
     </div>
