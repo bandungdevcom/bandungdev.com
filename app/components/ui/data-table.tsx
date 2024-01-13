@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table"
+import { Iconify } from "./iconify"
 
 export type TDataTable<T extends Record<string, unknown>> = {
   data: T[]
@@ -39,12 +40,33 @@ export function DataTable<T extends Record<string, unknown>>(
             {headerGroup.headers.map(header => {
               return (
                 <TableHead key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : reactTable.flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                  <div
+                    {...{
+                      className: "flex items-center",
+                      onClick: header.column.getToggleSortingHandler(),
+                    }}
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : reactTable.flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                    {{
+                      asc: (
+                        <Iconify
+                          icon="ph:caret-up"
+                          style={{ marginLeft: "4px" }}
+                        />
+                      ),
+                      desc: (
+                        <Iconify
+                          icon="ph:caret-down"
+                          style={{ marginLeft: "4px" }}
+                        />
+                      ),
+                    }[header.column.getIsSorted() as string] ?? null}
+                  </div>
                 </TableHead>
               )
             })}
