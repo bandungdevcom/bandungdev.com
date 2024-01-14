@@ -54,10 +54,17 @@ const link = z.object({
 })
 const links = z.array(link).optional()
 
+const jobType = z.object({
+  name: z.string({ required_error: "JobType is required" }),
+})
+const jobTypes = z.array(jobType).optional()
+
 const url = z.string().url("URL must be valid")
 
 export const schemaLink = link
 export const schemaLinks = links
+
+export const schemaJobType = jobType
 
 export const schemaUserSignUp = z.object({
   fullname,
@@ -83,6 +90,7 @@ export const schemaUserImage = z.object({ id, url })
 export const schemaUserProfileHeadline = z.object({ id, headline })
 export const schemaUserProfileBio = z.object({ id, bio })
 export const schemaUserProfileLinks = z.object({ id, links })
+export const schemaUserJobTypes = z.object({ id, jobTypes })
 
 export const schemaUserPassword = z
   .object({

@@ -71,6 +71,7 @@ export const modelUser = {
             headline: true,
             bio: true,
             links: true,
+            jobTypes: true,
           },
         },
       },
