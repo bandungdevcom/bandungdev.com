@@ -31,7 +31,7 @@ import { type SubmissionResult } from "~/types/submission"
 import { type JobType } from "@prisma/client"
 import { type z } from "zod"
 
-export function FormChangejobTypes({
+export function FormChangeJobTypes({
   userProfile,
 }: {
   userProfile?: JsonifyValues<{
