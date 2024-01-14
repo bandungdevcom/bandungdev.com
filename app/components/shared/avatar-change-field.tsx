@@ -11,12 +11,13 @@ import { ButtonLoading } from "~/components/ui/button-loading"
 import { Iconify } from "~/components/ui/iconify"
 import { useRootLoaderData } from "~/hooks/use-root-loader-data"
 import { type modelUser } from "~/models/user.server"
+import { type JsonifyValues } from "~/types/jsonify"
 
 export function AvatarChangeField({
   user,
   intentValue,
 }: {
-  user: Prisma.PromiseReturnType<typeof modelUser.getForSession>
+  user: JsonifyValues<Prisma.PromiseReturnType<typeof modelUser.getForSession>>
   intentValue: string
 }) {
   const { ENV } = useRootLoaderData()

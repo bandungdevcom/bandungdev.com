@@ -22,6 +22,7 @@ import {
   type schemaUserProfileHeadline,
   type schemaUserUsername,
 } from "~/schemas/user"
+import { type JsonifyValues } from "~/types/jsonify"
 import { type SubmissionResult } from "~/types/submission"
 
 export function FormChangeField({
@@ -42,7 +43,7 @@ export function FormChangeField({
     | typeof schemaUserNickName
     | typeof schemaUserProfileHeadline
     | typeof schemaUserProfileBio
-  user: Prisma.PromiseReturnType<typeof modelUser.getForSession>
+  user: JsonifyValues<Prisma.PromiseReturnType<typeof modelUser.getForSession>>
 }) {
   const fetcher = useFetcher()
   const isSubmitting = fetcher.state === "submitting"
