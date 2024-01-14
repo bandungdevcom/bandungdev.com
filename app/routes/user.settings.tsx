@@ -9,6 +9,7 @@ import { useLoaderData } from "@remix-run/react"
 import { AvatarChangeField } from "~/components/shared/avatar-change-field"
 
 import { FormChangeField } from "~/components/shared/form-change-field"
+import { FormChangejobTypes } from "~/components/shared/form-change-jobType"
 import { FormChangeLinks } from "~/components/shared/form-change-links"
 import { configSite } from "~/configs/site"
 import { configUnallowedKeywords } from "~/configs/unallowed-keywords"
@@ -99,6 +100,10 @@ export default function UserSettingsRoute() {
           description="A short paragraph about yourself, your interests, and what you enjoy doing."
           schema={schemaUserProfileBio}
           user={user}
+        />
+
+        <FormChangejobTypes
+          userProfile={{ id: user.id, jobTypes: user.profile?.jobTypes ?? [] }}
         />
 
         <FormChangeLinks
