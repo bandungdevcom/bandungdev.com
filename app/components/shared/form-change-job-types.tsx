@@ -26,10 +26,10 @@ import {
 import { JOB_TYPES } from "~/configs/jobTypes"
 import { schemaUserJobTypes, type schemaJobType } from "~/schemas/user"
 
-import { type JsonifyValues } from "~/types/jsonify"
-import { type SubmissionResult } from "~/types/submission"
 import { type JobType } from "@prisma/client"
 import { type z } from "zod"
+import { type JsonifyValues } from "~/types/jsonify"
+import { type SubmissionResult } from "~/types/submission"
 
 export function FormChangeJobTypes({
   userProfile,
@@ -87,7 +87,7 @@ export function FormChangeJobTypes({
             <ButtonLoading
               type="submit"
               name="intent"
-              value="user-change-jobTypes"
+              value="user-change-job-types"
               variant="outline"
               size="xs"
               isLoading={isSubmitting}
@@ -181,7 +181,7 @@ function JobTypeItemFieldset({ ...config }: JobTypeItemFieldsetProps) {
           <SelectContent>
             <SelectGroup>
               {JOB_TYPES.map(job => (
-                <SelectItem key={job.id} value={job.id}>
+                <SelectItem key={job.id} value={job.name}>
                   {job.name}
                 </SelectItem>
               ))}
