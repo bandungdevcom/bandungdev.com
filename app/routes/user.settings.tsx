@@ -20,6 +20,7 @@ import {
   issueUsernameUnallowed,
   schemaUserFullName,
   schemaUserImage,
+  schemaUserJobTypes,
   schemaUserNickName,
   schemaUserProfileBio,
   schemaUserProfileHeadline,
@@ -109,6 +110,8 @@ export default function UserSettingsRoute() {
         <FormChangeLinks
           userProfile={{ id: user.id, links: user.profile?.links ?? [] }}
         />
+
+        {JSON.stringify(user.profile?.jobTypes)}
       </section>
     </div>
   )
@@ -182,6 +185,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const submission = parse(formData, { schema: schemaUserImage })
     if (!submission.value) return json(submission, { status: 400 })
     await modelUser.updateAvatar(submission.value)
+    await timer.delay()
+    return json(submission)
+  }
+
+  if (intent === "user-change-job-types") {
+    const submission = parse(formData, { schema: schemaUserJobTypes })
+    if (!submission.value) return json(submission, { status: 400 })
+    await modelUser.updateJobTypes(submission.value)
     await timer.delay()
     return json(submission)
   }
