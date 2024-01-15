@@ -1,5 +1,6 @@
 import {
   type Connection,
+  type JobType,
   type User,
   type UserImage,
   type UserProfile,
@@ -289,6 +290,38 @@ export const modelUser = {
     return await prisma.user.update({
       where: { id },
       data: { images: { create: { url } } },
+    })
+  },
+
+  async updateJobTypes({
+    id,
+    jobTypes,
+  }: Pick<UserProfile, "id"> & {
+    jobTypes?: Array<Pick<JobType, "name">>
+  }) {
+    await prisma.jobType.deleteMany({
+      where: {
+        profiles: {
+          every: {
+            userId: id,
+          },
+        },
+      },
+    })
+
+    return await prisma.userProfile.upsert({
+      where: { userId: id },
+      update: {
+        jobTypes: {
+          create: jobTypes ?? [],
+        },
+      },
+      create: {
+        userId: id,
+        jobTypes: {
+          create: jobTypes ?? [],
+        },
+      },
     })
   },
 }
