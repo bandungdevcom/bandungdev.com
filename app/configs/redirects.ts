@@ -17,4 +17,6 @@ export const configRedirects: ConfigRedirect[] = [
   { path: "/x", to: "/twitter" },
   { path: "/youtube", url: "https://youtube.com/@bandungdev" },
   { path: "/yt", to: "/youtube" },
+  { path: "/futsal", url: "https://lu.ma/2024-01-27-futsal" },
 ]
+
