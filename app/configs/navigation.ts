@@ -132,6 +132,11 @@ export const configNavigationItems: NavItem[] = [
     text: "Notifications",
   },
   {
+    path: "/admin/partners-and-sponsors",
+    icon: "material-symbols:partner-exchange",
+    text: "Patners & Sponsors",
+  },
+  {
     path: "/examples",
     icon: "ph:bounding-box-duotone",
     text: "Examples",
