@@ -30,11 +30,13 @@ export default function PartnersAndSponsorsRoute() {
 
       <section className="app-section">
         <div className="flex w-full flex-wrap justify-end">
-          <ButtonLink to="/events" variant="outline" size="xs">
+          <ButtonLink
+            to="/admin/partners-and-sponsors/new/"
+            variant="outline"
+            size="xs"
+          >
             <Iconify icon="ph:plus" />
-            <Link to="/admin/partners-and-sponsors/new/">
-              <span>Add Partner or Sponsor</span>
-            </Link>
+            <span>Add Partner or Sponsor</span>
           </ButtonLink>
         </div>
         <Table>

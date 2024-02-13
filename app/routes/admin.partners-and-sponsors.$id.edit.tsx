@@ -49,16 +49,16 @@ export default function PartnersAndSponsorsEditRoute() {
                   />
                 </div>
                 <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="partners-or-sponsors">
-                    Partners / Sponsors
+                  <Label htmlFor="partner-or-sponsor">
+                    Community Partner / Sponsor
                   </Label>
-                  <Select defaultValue="partners">
-                    <SelectTrigger id="partners-or-sponsors">
-                      <SelectValue placeholder="Partners / Sponsors" />
+                  <Select>
+                    <SelectTrigger id="partner-or-sponsor">
+                      <SelectValue placeholder="Community Partner / Sponsor" />
                     </SelectTrigger>
                     <SelectContent position="popper">
-                      <SelectItem value="partners">Partners</SelectItem>
-                      <SelectItem value="sponsors">Sponsors</SelectItem>
+                      <SelectItem value="partner">Community Partner</SelectItem>
+                      <SelectItem value="sponsor">Sponsor</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
