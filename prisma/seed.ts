@@ -10,6 +10,8 @@ import dataEventFormats from "./data/event-formats.json"
 import dataEventMedia from "./data/event-media.json"
 import dataEventStatuses from "./data/event-statuses.json"
 import { dataEvents } from "./data/events"
+import dataPartnersAndSponsorTypes from "./data/partners-and-sponsors-types.json"
+import dataPartnersAndSponsors from "./data/partners-and-sponsors.json"
 import dataPostStatuses from "./data/post-statuses.json"
 import dataPosts from "./data/posts.json"
 import dataRoles from "./data/roles.json"
@@ -30,6 +32,8 @@ const enabledSeedItems = [
   "eventCategories",
   "eventFormats",
   "eventMedia",
+  "partnerAndSponsorTypes",
+  "partnerAndSponsor",
 ]
 
 async function main() {
@@ -47,6 +51,8 @@ async function main() {
     eventFormats: seedEventFormats,
     eventMedia: seedEventMedia,
     events: seedEvents,
+    partnerAndSponsorTypes: seedPartnerAndSponsorTypes,
+    partnerAndSponsor: seedPartnerAndSponsors,
   }
 
   for (const seedName of enabledSeedItems) {
@@ -395,6 +401,71 @@ async function seedEvents() {
 
     console.info(`📜 Upserted event ${event.title} / ${event.slug}`)
   }
+}
+
+async function seedPartnerAndSponsorTypes() {
+  console.info("\n🪧 Seed Partners and Sponsors Type")
+  console.info(
+    "🪧 Count Partners and Sponsors Type",
+    await prisma.partnerAndSponsorType.count(),
+  )
+  console.time("🪧 Upserted Partners and Sponsors Type")
+
+  for (const item of dataPartnersAndSponsorTypes) {
+    await prisma.partnerAndSponsorType.upsert({
+      where: {
+        name: item.name,
+      },
+      create: item,
+      update: item,
+    })
+    console.info(`🪧 Upserted Partners and Sponsors Type ${item.name}`)
+  }
+  console.timeEnd("🪧 Upserted Partners and Sponsors Type")
+}
+
+async function seedPartnerAndSponsors() {
+  console.info("\n🪧 Seed Partners and Sponsors")
+  const numPartnerAndSponsorType = await prisma.partnerAndSponsor.count()
+  if (numPartnerAndSponsorType == 0) {
+    throw new Error(
+      "Partner and Sponsor Type are empty, please seed PartnerAndSponsorTypes before seed PartnerAndSponsors",
+    )
+  }
+  console.info(
+    "🪧 Count Partners and Sponsors",
+    await prisma.partnerAndSponsor.count(),
+  )
+  console.time("🪧 Upserted Partners and Sponsors")
+
+  for (const item of dataPartnersAndSponsors) {
+    const relationType = await prisma.partnerAndSponsorType.findFirst({
+      where: {
+        name: item.partnerAndSponsorType,
+      },
+    })
+    if (!relationType) {
+      throw new Error(`PartnersAndSponsorsType ${item.name} not found`)
+    }
+
+    await prisma.partnerAndSponsor.upsert({
+      where: {
+        name: item.name,
+      },
+      create: {
+        name: item.name,
+        url: item.url,
+        partnerAndSponsorTypeId: relationType.id,
+      },
+      update: {
+        name: item.name,
+        url: item.url,
+        partnerAndSponsorTypeId: relationType.id,
+      },
+    })
+    console.info(`🪧 Upserted Partners and Sponsors ${item.name}`)
+  }
+  console.timeEnd("🪧 Upserted Partners and Sponsors")
 }
 
 main()
