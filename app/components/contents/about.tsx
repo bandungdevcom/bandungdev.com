@@ -32,11 +32,11 @@ export function ContentAbout() {
         </p>
         <p>
           Based on this idea, BandungDev is being initiated and collaborating
-          with various other tech communities and companies such as WPU (aka Web Programming UNPAS), Programmer
-          Zaman Now (PZN), GDG Bandung (Google
-          Developer Group), JVM Indonesia, Indonesia Belajar, Kelas Terbuka, Android Developer
-          Bandung (ADB), BandungPy, BandungJS, ReactJS Indonesia, Binary
-          Nusantara, Bearmentor, Catamyst, and much more.
+          with various other tech communities and companies such as WPU (aka Web
+          Programming UNPAS), Programmer Zaman Now (PZN), GDG Bandung (Google
+          Developer Group), JVM Indonesia, Indonesia Belajar, Kelas Terbuka,
+          Android Developer Bandung (ADB), BandungPy, BandungJS, ReactJS
+          Indonesia, Binary Nusantara, Bearmentor, Catamyst, and much more.
         </p>
         <p>
           Our committee members are: M Haidar Hanif, Hendi Santika, Kresna

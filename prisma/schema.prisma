@@ -396,3 +396,21 @@ model Image {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model PartnerAndSponsorType {
+  id                String              @id @default(cuid())
+  name              String              @unique
+  PartnerAndSponsor PartnerAndSponsor[]
+}
+
+model PartnerAndSponsor {
+  id                      String                @id @default(cuid())
+  name                    String                @unique
+  url                     String?
+  partnerAndSponsorTypeId String
+  partnerAndSponsorType   PartnerAndSponsorType @relation(fields: [partnerAndSponsorTypeId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  createdAt               DateTime              @default(now())
+  updatedAt               DateTime              @updatedAt
+
+  @@index([partnerAndSponsorTypeId])
+}
