@@ -111,7 +111,6 @@ export default function UserSettingsRoute() {
           userProfile={{ id: user.id, links: user.profile?.links ?? [] }}
         />
 
-        {JSON.stringify(user.profile?.jobTypes)}
       </section>
     </div>
   )

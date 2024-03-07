@@ -162,7 +162,7 @@ export function FormChangeJobTypes({
 }
 
 interface JobTypeItemFieldsetProps
-  extends FieldsetConfig<z.input<typeof schemaJobType>> {}
+  extends FieldsetConfig<z.input<typeof schemaJobType>> { }
 
 function JobTypeItemFieldset({ ...config }: JobTypeItemFieldsetProps) {
   const ref = useRef<HTMLFieldSetElement>(null)
@@ -189,11 +189,6 @@ function JobTypeItemFieldset({ ...config }: JobTypeItemFieldsetProps) {
           </SelectContent>
         </Select>
 
-        {/* <Input
-          placeholder="https://example.com"
-          className="w-full sm:w-auto"
-          {...conform.input(name)}
-        /> */}
         {name.error && <Alert variant="destructive">{name.error}</Alert>}
       </div>
     </fieldset>
