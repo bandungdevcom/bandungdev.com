@@ -162,7 +162,7 @@ export function FormChangeJobTypes({
 }
 
 interface JobTypeItemFieldsetProps
-  extends FieldsetConfig<z.input<typeof schemaJobType>> { }
+  extends FieldsetConfig<z.input<typeof schemaJobType>> {}
 
 function JobTypeItemFieldset({ ...config }: JobTypeItemFieldsetProps) {
   const ref = useRef<HTMLFieldSetElement>(null)
