@@ -2,17 +2,17 @@
 version: "3.9"
 
 services:
-  mysql:
-    image: mysql:8
-    container_name: bandungdev-mysql
+  postgresql:
+    image: postgres:alpine
+    container_name: bandungdev-postgresql
     hostname: database
     restart: no
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgresql_data:/var/lib/mysql
     ports:
-      - ${MYSQL_HOST_PORT}:${MYSQL_CONTAINER_PORT}
+      - ${POSTGRES_HOST_PORT}:${POSTGRES_CONTAINER_PORT}
     env_file:
       - .env
 
 volumes:
-  mysql_data:
+  postgres_data:

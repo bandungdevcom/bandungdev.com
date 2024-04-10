@@ -16,16 +16,7 @@ Install and setup Docker on your system.
 
 ## Docker Compose
 
-Setup `.env` to contain these and change them as needed:
-
-```sh
-MYSQL_ROOT_PASSWORD=the_root_password
-MYSQL_USER=the_user
-MYSQL_PASSWORD=the_password
-MYSQL_DATABASE=bandungdev
-MYSQL_HOST_PORT=3306
-MYSQL_CONTAINER_PORT=3306
-```
+Setup `.env` to and change them as needed:
 
 Start Docker service.
 
