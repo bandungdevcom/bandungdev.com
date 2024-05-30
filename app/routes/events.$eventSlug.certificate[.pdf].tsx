@@ -11,6 +11,7 @@ import { type LoaderFunctionArgs } from "@remix-run/node"
 import { requireUser } from "~/helpers/auth"
 import { prisma } from "~/libs/db.server"
 import { modelEvent } from "~/models/event.server"
+import { formatCertificateDate } from "~/utils/datetime"
 import { invariant, invariantResponse } from "~/utils/invariant"
 
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
@@ -24,8 +25,17 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   invariantResponse(event, "Event not found", { status: 404 })
 
+  const dateTimeFormatted = formatCertificateDate(
+    event.dateTimeStart,
+    event.dateTimeEnd,
+  )
+
   const stream = await renderToStream(
-    <Certificate eventName={event.title} fullName={user.fullname} />,
+    <Certificate
+      eventName={event.title}
+      fullName={user.fullname}
+      date={dateTimeFormatted}
+    />,
   )
 
   const body: Buffer = await new Promise((resolve, reject) => {
@@ -110,9 +120,10 @@ const styles = StyleSheet.create({
 interface CertificateType {
   eventName: string
   fullName: string
+  date: string
 }
 
-const Certificate = ({ eventName, fullName }: CertificateType) => {
+const Certificate = ({ eventName, fullName, date }: CertificateType) => {
   return (
     <Document>
       <Page size="A4" style={styles.page} orientation="landscape">
@@ -134,7 +145,7 @@ const Certificate = ({ eventName, fullName }: CertificateType) => {
               <Text style={styles.name}>{fullName}</Text>
               <View style={styles.containerContentDetail}>
                 <Text>for attending {eventName}</Text>
-                <Text>27 Mei 2024</Text>
+                <Text>{date}</Text>
               </View>
             </View>
             <View>
