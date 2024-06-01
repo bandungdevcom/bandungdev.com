@@ -14,6 +14,7 @@ import dataPostStatuses from "./data/post-statuses.json"
 import dataPosts from "./data/posts.json"
 import dataRoles from "./data/roles.json"
 import dataTags from "./data/tags.json"
+import dataTicketCategories from "./data/ticket-categories.json"
 
 /**
  * Enable and disable seed items by commenting them
@@ -30,6 +31,7 @@ const enabledSeedItems = [
   "eventCategories",
   "eventFormats",
   "eventMedia",
+  "ticketCategories",
 ]
 
 async function main() {
@@ -47,6 +49,7 @@ async function main() {
     eventFormats: seedEventFormats,
     eventMedia: seedEventMedia,
     events: seedEvents,
+    ticketCategories: seedTicketCategories,
   }
 
   for (const seedName of enabledSeedItems) {
@@ -93,6 +96,28 @@ async function seedTags() {
   })
 
   console.timeEnd(`🪧 Created User Tags: ${userTags.count} tags`)
+}
+
+async function seedTicketCategories() {
+  console.info("\n🪧 Seed ticket categories")
+  console.info(
+    "🪧 Count ticket categories",
+    await prisma.ticketCategory.count(),
+  )
+  // console.info("🪧 Deleted ticket categories", await prisma.ticketCategory.deleteMany())
+  console.time("🪧 Upserted ticket categories")
+
+  for (const statusRaw of dataTicketCategories) {
+    const status = await prisma.ticketCategory.upsert({
+      where: { symbol: statusRaw.symbol },
+      create: statusRaw,
+      update: statusRaw,
+    })
+    console.info(
+      `🪧 Upserted ticket category ${status.symbol} / ${status.name}`,
+    )
+  }
+  console.timeEnd("🪧 Upserted ticket categories")
 }
 
 async function seedRoles() {

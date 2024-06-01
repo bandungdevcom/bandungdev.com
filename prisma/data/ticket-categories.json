@@ -1,0 +1,12 @@
+[
+  {
+    "sequence": 1,
+    "symbol": "FREE",
+    "name": "Free"
+  },
+  {
+    "sequence": 2,
+    "symbol": "PAID",
+    "name": "Paid"
+  }
+]
