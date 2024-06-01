@@ -17,6 +17,7 @@ async function checkData() {
   console.info("🗓️ Count event categories", await prisma.eventCategory.count())
   console.info("🗓️ Count event formats", await prisma.eventFormat.count())
   console.info("🗓️ Count event media", await prisma.eventMedia.count())
+  console.info("🪧 Count post certificates", await prisma.certficate.count())
 }
 
 checkData()

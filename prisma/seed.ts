@@ -5,6 +5,7 @@ import { logEnv } from "~/utils/log.server"
 import { createSlug } from "~/utils/string"
 
 import dataCredentialUsers from "./credentials/users.json"
+import dataCertificate from "./data/certificate.json"
 import dataEventCategories from "./data/event-categories.json"
 import dataEventFormats from "./data/event-formats.json"
 import dataEventMedia from "./data/event-media.json"
@@ -30,6 +31,7 @@ const enabledSeedItems = [
   "eventCategories",
   "eventFormats",
   "eventMedia",
+  "certificate",
 ]
 
 async function main() {
@@ -47,6 +49,7 @@ async function main() {
     eventFormats: seedEventFormats,
     eventMedia: seedEventMedia,
     events: seedEvents,
+    certificate: seedCertificate,
   }
 
   for (const seedName of enabledSeedItems) {
@@ -395,6 +398,22 @@ async function seedEvents() {
 
     console.info(`📜 Upserted event ${event.title} / ${event.slug}`)
   }
+}
+
+async function seedCertificate() {
+  console.info("\n🪧 Seed certificate")
+  console.info("🪧 Count certificate", await prisma.certficate.count())
+  console.time("🪧 Upserted certificate")
+
+  for (const certificateRaw of dataCertificate) {
+    const certificate = await prisma.certficate.upsert({
+      where: { slug: certificateRaw.slug },
+      create: certificateRaw,
+      update: certificateRaw,
+    })
+    console.info(`🪧 Upserted certificate ${certificate.slug}`)
+  }
+  console.timeEnd("🪧 Upserted certificate")
 }
 
 main()
