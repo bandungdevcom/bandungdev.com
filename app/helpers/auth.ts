@@ -58,3 +58,45 @@ export function checkAllowance(
 
   return foundRoles ? true : false
 }
+
+/**
+ * Check User
+ *
+ * Complete check by getting user from the database
+ *
+ * Quick check without getting user from the database is unnecessary,
+ * because need to always check the user data availability
+ *
+ * Remix way to protect routes, can only be used server-side
+ * https://remix.run/docs/en/main/pages/faq#md-how-can-i-have-a-parent-route-loader-validate-the-user-and-protect-all-child-routes
+ *
+ * Usage:
+ * await checkUser(request, ["ADMIN", "MANAGER"])
+ */
+export async function checkUser(
+  request: Request,
+  expectedRoleSymbols?: Role["symbol"][],
+) {
+  const userSession = await authenticator.isAuthenticated(request)
+
+  if (userSession) {
+    const user = await modelUser.getForSession({ id: userSession.id })
+    invariant(user, "User not found")
+
+    const userIsAllowed = expectedRoleSymbols
+      ? checkAllowance(expectedRoleSymbols, user)
+      : true
+
+    return {
+      user,
+      userId: user.id,
+      userIsAllowed,
+    }
+  }
+
+  return {
+    user: undefined,
+    userId: undefined,
+    userIsAllowed: false,
+  }
+}
