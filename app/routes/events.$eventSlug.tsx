@@ -4,9 +4,9 @@ import {
   type MetaFunction,
 } from "@remix-run/node"
 import { Link, useLoaderData, type Params } from "@remix-run/react"
-import { BadgeEventStatus } from "~/components/shared/badge-event-status"
-import { ViewHTML } from "~/components/shared/view-html"
+import dayjs from "dayjs"
 
+import { BadgeEventStatus } from "~/components/shared/badge-event-status"
 import {
   ErrorHelpInformation,
   GeneralErrorBoundary,
@@ -14,6 +14,7 @@ import {
 import { FormChangeStatus } from "~/components/shared/form-change-status"
 import { ImageCover } from "~/components/shared/image-cover"
 import { Timestamp } from "~/components/shared/timestamp"
+import { ViewHTML } from "~/components/shared/view-html"
 import { Alert } from "~/components/ui/alert"
 import { Button } from "~/components/ui/button"
 import { ButtonLink } from "~/components/ui/button-link"
@@ -84,6 +85,7 @@ export default function EventSlugRoute() {
   const isArchived = event.status.symbol === "ARCHIVED"
   const isOnline = event.category?.symbol === "ONLINE"
   const isHybrid = event.category?.symbol === "HYBRID"
+  const isFinishied = dayjs().isAfter(dayjs(event.dateTimeEnd))
 
   return (
     <div className="site-container space-y-8 pt-20 sm:pt-20">
@@ -243,7 +245,7 @@ export default function EventSlugRoute() {
               </div>
             </p>
           )}
-          {Boolean(hasCertificate) && (
+          {isFinishied && Boolean(hasCertificate) && (
             <div className="flex w-full justify-end">
               <Button asChild className="">
                 <Link
