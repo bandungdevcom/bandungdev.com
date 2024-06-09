@@ -10,6 +10,7 @@ import {
 import { type LoaderFunctionArgs } from "@remix-run/node"
 import { requireUser } from "~/helpers/auth"
 import { prisma } from "~/libs/db.server"
+import { modelCertificate } from "~/models/certificate.server"
 import { modelEvent } from "~/models/event.server"
 import { formatCertificateDate } from "~/utils/datetime"
 import { invariant, invariantResponse } from "~/utils/invariant"
@@ -19,11 +20,17 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 
   invariant(params.eventSlug, "params.eventSlug unavailable")
 
-  const [event] = await prisma.$transaction([
+  const [event, certificate] = await prisma.$transaction([
     modelEvent.getBySlug({ slug: params.eventSlug }),
+    modelCertificate.getBySlugEventAndEmail({
+      slugEvent: params.eventSlug,
+      email: user.email,
+    }),
   ])
 
   invariantResponse(event, "Event not found", { status: 404 })
+
+  invariantResponse(certificate, "Certificate not found", { status: 404 })
 
   const dateTimeFormatted = formatCertificateDate(
     event.dateTimeStart,
