@@ -48,6 +48,8 @@ model User {
   appliedEvents   Event[] @relation("EventApplicant")
   attendedEvents  Event[] @relation("EventAttendee")
 
+  certificates Certficate[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -277,6 +279,8 @@ model Event {
   applicants  User[] @relation("EventApplicant")
   attendees   User[] @relation("EventAttendee")
 
+  certificates Certficate[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -374,6 +378,28 @@ model Location {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// -----------------------------------------------------------------------------
+// Certificate
+// -----------------------------------------------------------------------------
+
+model Certficate {
+  id String @id @default(cuid())
+
+  slug String @unique
+
+  slugEvent String
+  event     Event  @relation(fields: [slugEvent], references: [slug], onUpdate: Cascade, onDelete: Cascade)
+
+  email String
+  user  User?  @relation(fields: [email], references: [email], onUpdate: Cascade, onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slugEvent])
+  @@index([email])
 }
 
 // -----------------------------------------------------------------------------
