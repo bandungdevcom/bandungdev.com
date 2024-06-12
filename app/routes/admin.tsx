@@ -46,6 +46,7 @@ export default function AdminLayoutRoute() {
     "/admin/events",
     "/admin/posts",
     "/admin/settings",
+    "/admin/partners-and-sponsors",
   ]
 
   return (
