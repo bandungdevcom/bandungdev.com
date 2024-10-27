@@ -1,42 +1,33 @@
 import { renderToStream } from "@react-pdf/renderer"
 import { type LoaderFunctionArgs } from "@remix-run/node"
 import { Certificate } from "~/components/contents/certificate"
-import { requireUser } from "~/helpers/auth"
-import { prisma } from "~/libs/db.server"
 import { modelCertificate } from "~/models/certificate.server"
-import { modelEvent } from "~/models/event.server"
 import { formatCertificateDate } from "~/utils/datetime"
 import { parsedEnv } from "~/utils/env.server"
 import { invariant, invariantResponse } from "~/utils/invariant"
 
-export const loader = async ({ params, request }: LoaderFunctionArgs) => {
-  const { user } = await requireUser(request)
+export const loader = async ({ params }: LoaderFunctionArgs) => {
+  invariant(params.certificateId, "params.certificateId unavailable")
 
-  invariant(params.eventSlug, "params.eventSlug unavailable")
+  const certificate = await modelCertificate.getById({
+    id: params.certificateId,
+  })
 
-  const [event, certificate] = await prisma.$transaction([
-    modelEvent.getBySlug({ slug: params.eventSlug }),
-    modelCertificate.getBySlugEventAndEmail({
-      slugEvent: params.eventSlug,
-      email: user.email,
-    }),
-  ])
-
-  invariantResponse(event, "Event not found", { status: 404 })
+  invariantResponse(certificate?.user, "Certificate not found", { status: 404 })
 
   invariantResponse(certificate, "Certificate not found", { status: 404 })
 
   const dateTimeFormatted = formatCertificateDate(
-    event.dateTimeStart,
-    event.dateTimeEnd,
+    certificate.event.dateTimeStart,
+    certificate.event.dateTimeEnd,
   )
 
   const { APP_URL } = parsedEnv
 
   const stream = await renderToStream(
     <Certificate
-      eventName={event.title}
-      fullName={user.fullname}
+      eventName={certificate.event.title}
+      fullName={certificate.user.fullname}
       date={dateTimeFormatted}
       url={`${APP_URL}/events/certificate/${certificate.id}.pdf`}
     />,

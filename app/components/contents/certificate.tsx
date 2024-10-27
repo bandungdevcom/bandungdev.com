@@ -61,6 +61,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: "5px",
   },
+  containerContentFooter: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+  },
   signature: {
     height: "60px",
     width: "60px",
@@ -69,15 +75,31 @@ const styles = StyleSheet.create({
     marginTop: "5px",
     fontSize: "10px",
   },
+  containerVerificationCertificate: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-end",
+    fontSize: "14px",
+    gap: "4px",
+  },
+  url: {
+    fontSize: "10px",
+  },
 })
 
 interface CertificateType {
   eventName: string
   fullName: string
   date: string
+  url: string
 }
 
-export function Certificate({ eventName, fullName, date }: CertificateType) {
+export function Certificate({
+  eventName,
+  fullName,
+  date,
+  url,
+}: CertificateType) {
   return (
     <Document>
       <Page size="A4" style={styles.page} orientation="landscape">
@@ -102,13 +124,19 @@ export function Certificate({ eventName, fullName, date }: CertificateType) {
                 <Text>{date}</Text>
               </View>
             </View>
-            <View>
-              <Image
-                style={styles.signature}
-                source={"public/images/signatures/haidar.jpeg"}
-              />
-              <Text>M. Haidar Hanif</Text>
-              <Text style={styles.signatureTitle}>Lead BandungDev</Text>
+            <View style={styles.containerContentFooter}>
+              <View>
+                <Image
+                  style={styles.signature}
+                  source={"public/images/signatures/haidar.jpeg"}
+                />
+                <Text>M. Haidar Hanif</Text>
+                <Text style={styles.signatureTitle}>Lead BandungDev</Text>
+              </View>
+              <View style={styles.containerVerificationCertificate}>
+                <Text>Certificate verification</Text>
+                <Text style={styles.url}>{url}</Text>
+              </View>
             </View>
           </View>
         </View>
