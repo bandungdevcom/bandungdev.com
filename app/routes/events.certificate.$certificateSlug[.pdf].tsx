@@ -13,7 +13,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     slug: params.certificateSlug,
   })
 
-  invariantResponse(certificate?.user, "Certificate not found", { status: 404 })
+  invariantResponse(certificate?.user, "User not found", { status: 404 })
 
   invariantResponse(certificate, "Certificate not found", { status: 404 })
 
