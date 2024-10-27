@@ -2,9 +2,9 @@ import { type Certficate } from "@prisma/client"
 import { prisma } from "~/libs/db.server"
 
 export const modelCertificate = {
-  getById({ id }: Pick<Certficate, "id">) {
+  getByGlug({ slug }: Pick<Certficate, "slug">) {
     return prisma.certficate.findUnique({
-      where: { id },
+      where: { slug },
       include: { user: true, event: true },
     })
   },

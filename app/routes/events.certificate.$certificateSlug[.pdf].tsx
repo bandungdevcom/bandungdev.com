@@ -7,10 +7,10 @@ import { parsedEnv } from "~/utils/env.server"
 import { invariant, invariantResponse } from "~/utils/invariant"
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  invariant(params.certificateId, "params.certificateId unavailable")
+  invariant(params.certificateSlug, "params.certificateSlug unavailable")
 
-  const certificate = await modelCertificate.getById({
-    id: params.certificateId,
+  const certificate = await modelCertificate.getByGlug({
+    slug: params.certificateSlug,
   })
 
   invariantResponse(certificate?.user, "Certificate not found", { status: 404 })
@@ -29,7 +29,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       eventName={certificate.event.title}
       fullName={certificate.user.fullname}
       date={dateTimeFormatted}
-      url={`${APP_URL}/events/certificate/${certificate.id}.pdf`}
+      url={`${APP_URL}/events/certificate/${certificate.slug}.pdf`}
     />,
   )
 

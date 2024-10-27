@@ -38,7 +38,7 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
       eventName={event.title}
       fullName={user.fullname}
       date={dateTimeFormatted}
-      url={`${APP_URL}/events/certificate/${certificate.id}.pdf`}
+      url={`${APP_URL}/events/certificate/${certificate.slug}.pdf`}
     />,
   )
 
