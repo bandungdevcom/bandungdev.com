@@ -1,7 +1,6 @@
 import { renderToStream } from "@react-pdf/renderer"
 import { type LoaderFunctionArgs } from "@remix-run/node"
 import { Certificate } from "~/components/contents/certificate"
-import { imgJpegToBase64, imgPngToBase64 } from "~/helpers/image-to-base64"
 import { modelCertificate } from "~/models/certificate.server"
 import { formatCertificateDate } from "~/utils/datetime"
 import { parsedEnv } from "~/utils/env.server"
@@ -29,25 +28,12 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
   const { APP_URL } = parsedEnv
 
-  const backgroundImgBase64 = imgPngToBase64(
-    "public/images/logos/png/bandungdev-icon-white.png",
-  )
-  const logoImgBase64 = imgPngToBase64(
-    "public/images/logos/png/bandungdev-logo-text.png",
-  )
-  const signatureImgBase64 = imgJpegToBase64(
-    "public/images/signatures/haidar.jpeg",
-  )
-
   const stream = await renderToStream(
     <Certificate
       eventName={certificate.event.title}
       fullName={certificate.user.fullname}
       date={dateTimeFormatted}
       url={`${APP_URL}/events/certificate/${certificate.slug}.pdf`}
-      backgroundImgBase64={backgroundImgBase64}
-      logoImgBase64={logoImgBase64}
-      signatureImgBase64={signatureImgBase64}
     />,
   )
 

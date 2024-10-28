@@ -9,6 +9,7 @@ export const parsedEnv = parseEnv(process.env, {
     .optional(),
   APP_URL: z.string().url().optional().default("http://localhost:3000"),
   SESSION_SECRET: z.string().min(1),
+  SIGNATURE_URL: z.string().url().optional(),
 
   // For database
   DATABASE_URL: z.string().min(1),

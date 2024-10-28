@@ -6,6 +6,7 @@ import {
   Text,
   View,
 } from "@react-pdf/renderer"
+import { parsedEnv } from "~/utils/env.server"
 
 const styles = StyleSheet.create({
   page: {
@@ -92,9 +93,6 @@ interface CertificateType {
   fullName: string
   date: string
   url: string
-  backgroundImgBase64: string
-  logoImgBase64: string
-  signatureImgBase64: string
 }
 
 export function Certificate({
@@ -102,18 +100,23 @@ export function Certificate({
   fullName,
   date,
   url,
-  backgroundImgBase64,
-  logoImgBase64,
-  signatureImgBase64,
 }: CertificateType) {
+  const { SIGNATURE_URL, APP_URL } = parsedEnv
+
   return (
     <Document>
       <Page size="A4" style={styles.page} orientation="landscape">
         <View style={styles.container}>
-          <Image style={styles.backgroundImage} source={backgroundImgBase64} />
+          <Image
+            style={styles.backgroundImage}
+            source={`${APP_URL}/images/logos/png/bandungdev-icon-white.png`}
+          />
           <View style={styles.section}>
             <View>
-              <Image style={styles.bandungDevIcon} source={logoImgBase64} />
+              <Image
+                style={styles.bandungDevIcon}
+                source={`${APP_URL}/images/logos/png/bandungdev-logo-text.png`}
+              />
               <Text style={styles.title}>CERTIFICATE OF ATTENDANCE</Text>
             </View>
             <View style={styles.containerContent}>
@@ -126,7 +129,7 @@ export function Certificate({
             </View>
             <View style={styles.containerContentFooter}>
               <View>
-                <Image style={styles.signature} source={signatureImgBase64} />
+                <Image style={styles.signature} source={SIGNATURE_URL} />
                 <Text>M. Haidar Hanif</Text>
                 <Text style={styles.signatureTitle}>Lead BandungDev</Text>
               </View>
