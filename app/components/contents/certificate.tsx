@@ -106,13 +106,25 @@ export function Certificate({
         <View style={styles.container}>
           <Image
             style={styles.backgroundImage}
-            source={"public/images/logos/png/bandungdev-icon-white.png"}
+            src={
+              {
+                uri: "https://bandungdev.com/images/logos/png/bandungdev-icon-white.png",
+                headers: { "Cache-Control": "no-cache" },
+                method: "GET",
+              } as any
+            }
           />
           <View style={styles.section}>
             <View>
               <Image
                 style={styles.bandungDevIcon}
-                source={"public/images/logos/png/bandungdev-logo-text.png"}
+                src={
+                  {
+                    uri: "https://bandungdev.com/images/logos/png/bandungdev-logo-text.png",
+                    headers: { "Cache-Control": "no-cache" },
+                    method: "GET",
+                  } as any
+                }
               />
               <Text style={styles.title}>CERTIFICATE OF ATTENDANCE</Text>
             </View>
