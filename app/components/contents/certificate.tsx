@@ -6,7 +6,6 @@ import {
   Text,
   View,
 } from "@react-pdf/renderer"
-import { imgPngToBase64 } from "~/helpers/image-to-base64"
 
 const styles = StyleSheet.create({
   page: {
@@ -93,6 +92,9 @@ interface CertificateType {
   fullName: string
   date: string
   url: string
+  backgroundImgBase64: string
+  logoImgBase64: string
+  signatureImgBase64: string
 }
 
 export function Certificate({
@@ -100,25 +102,18 @@ export function Certificate({
   fullName,
   date,
   url,
+  backgroundImgBase64,
+  logoImgBase64,
+  signatureImgBase64,
 }: CertificateType) {
   return (
     <Document>
       <Page size="A4" style={styles.page} orientation="landscape">
         <View style={styles.container}>
-          <Image
-            style={styles.backgroundImage}
-            source={imgPngToBase64(
-              "public/images/logos/png/bandungdev-icon-white.png",
-            )}
-          />
+          <Image style={styles.backgroundImage} source={backgroundImgBase64} />
           <View style={styles.section}>
             <View>
-              <Image
-                style={styles.bandungDevIcon}
-                source={imgPngToBase64(
-                  "public/images/logos/png/bandungdev-logo-text.png",
-                )}
-              />
+              <Image style={styles.bandungDevIcon} source={logoImgBase64} />
               <Text style={styles.title}>CERTIFICATE OF ATTENDANCE</Text>
             </View>
             <View style={styles.containerContent}>
@@ -131,12 +126,7 @@ export function Certificate({
             </View>
             <View style={styles.containerContentFooter}>
               <View>
-                <Image
-                  style={styles.signature}
-                  source={imgPngToBase64(
-                    "public/images/signatures/haidar.jpeg",
-                  )}
-                />
+                <Image style={styles.signature} source={signatureImgBase64} />
                 <Text>M. Haidar Hanif</Text>
                 <Text style={styles.signatureTitle}>Lead BandungDev</Text>
               </View>
