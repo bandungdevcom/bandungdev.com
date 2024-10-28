@@ -6,6 +6,7 @@ import {
   Text,
   View,
 } from "@react-pdf/renderer"
+import { imgPngToBase64 } from "~/helpers/image-to-base64"
 
 const styles = StyleSheet.create({
   page: {
@@ -106,23 +107,17 @@ export function Certificate({
         <View style={styles.container}>
           <Image
             style={styles.backgroundImage}
-            src={{
-              uri: "public/images/logos/png/bandungdev-icon-white.png",
-              method: "GET",
-              headers: { "Cache-Control": "no-cache" },
-              body: "",
-            }}
+            source={imgPngToBase64(
+              "public/images/logos/png/bandungdev-icon-white.png",
+            )}
           />
           <View style={styles.section}>
             <View>
               <Image
                 style={styles.bandungDevIcon}
-                src={{
-                  uri: "public/images/logos/png/bandungdev-logo-text.png",
-                  method: "GET",
-                  headers: { "Cache-Control": "no-cache" },
-                  body: "",
-                }}
+                source={imgPngToBase64(
+                  "public/images/logos/png/bandungdev-logo-text.png",
+                )}
               />
               <Text style={styles.title}>CERTIFICATE OF ATTENDANCE</Text>
             </View>
@@ -138,12 +133,9 @@ export function Certificate({
               <View>
                 <Image
                   style={styles.signature}
-                  src={{
-                    uri: "public/images/signatures/haidar.jpeg",
-                    method: "GET",
-                    headers: { "Cache-Control": "no-cache" },
-                    body: "",
-                  }}
+                  source={imgPngToBase64(
+                    "public/images/signatures/haidar.jpeg",
+                  )}
                 />
                 <Text>M. Haidar Hanif</Text>
                 <Text style={styles.signatureTitle}>Lead BandungDev</Text>
