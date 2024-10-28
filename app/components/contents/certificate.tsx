@@ -106,13 +106,23 @@ export function Certificate({
         <View style={styles.container}>
           <Image
             style={styles.backgroundImage}
-            source={"public/images/logos/png/bandungdev-icon-white.png"}
+            src={{
+              uri: "public/images/logos/png/bandungdev-icon-white.png",
+              method: "GET",
+              headers: { "Cache-Control": "no-cache" },
+              body: "",
+            }}
           />
           <View style={styles.section}>
             <View>
               <Image
                 style={styles.bandungDevIcon}
-                source={"public/images/logos/png/bandungdev-logo-text.png"}
+                src={{
+                  uri: "public/images/logos/png/bandungdev-logo-text.png",
+                  method: "GET",
+                  headers: { "Cache-Control": "no-cache" },
+                  body: "",
+                }}
               />
               <Text style={styles.title}>CERTIFICATE OF ATTENDANCE</Text>
             </View>
@@ -128,7 +138,12 @@ export function Certificate({
               <View>
                 <Image
                   style={styles.signature}
-                  source={"public/images/signatures/haidar.jpeg"}
+                  src={{
+                    uri: "public/images/signatures/haidar.jpeg",
+                    method: "GET",
+                    headers: { "Cache-Control": "no-cache" },
+                    body: "",
+                  }}
                 />
                 <Text>M. Haidar Hanif</Text>
                 <Text style={styles.signatureTitle}>Lead BandungDev</Text>
