@@ -85,7 +85,7 @@ export default function EventSlugRoute() {
   const isArchived = event.status.symbol === "ARCHIVED"
   const isOnline = event.category?.symbol === "ONLINE"
   const isHybrid = event.category?.symbol === "HYBRID"
-  const isFinishied = dayjs().isAfter(dayjs(event.dateTimeEnd))
+  const isFinished = dayjs().isAfter(dayjs(event.dateTimeEnd))
 
   return (
     <div className="site-container space-y-8 pt-20 sm:pt-20">
@@ -245,7 +245,7 @@ export default function EventSlugRoute() {
               </div>
             </p>
           )}
-          {isFinishied && Boolean(hasCertificate) && (
+          {isFinished && Boolean(hasCertificate) && (
             <div className="flex w-full justify-end">
               <Button asChild className="">
                 <Link
