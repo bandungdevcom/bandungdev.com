@@ -247,7 +247,7 @@ export default function EventSlugRoute() {
           )}
           {isFinished && Boolean(hasCertificate) && (
             <div className="flex w-full justify-end">
-              <Button asChild className="">
+              <Button asChild>
                 <Link
                   to={`/events/${event.slug}/certificate.pdf`}
                   target="_blank"
