@@ -36,6 +36,41 @@ export function formatPublishedWithTime(date: string | Date | undefined) {
   return dayjs(date).locale("en").format("MMMM D, YYYY, HH:ss ")
 }
 
+export function formatDynamic(date: string | Date | undefined, format: string) {
+  return dayjs(date).locale("en").format(format)
+}
+
+export function compareDateUsingFormat(
+  dataStart: string | Date | undefined,
+  dateEnd: string | Date | undefined,
+  format: string,
+): Boolean {
+  return formatDynamic(dataStart, format) === formatDynamic(dateEnd, format)
+}
+
+export function formatCertificateDate(
+  dataStart: string | Date | undefined,
+  dateEnd: string | Date | undefined,
+) {
+  if (formatDateDMY(dataStart) !== formatDateDMY(dateEnd)) {
+    if (compareDateUsingFormat(dataStart, dateEnd, "MMMM YYYY")) {
+      return `${formatDynamic(dataStart, "D")} - ${formatDynamic(
+        dateEnd,
+        "D",
+      )} ${formatDynamic(dataStart, "MMMM YYYY")}`
+    } else if (compareDateUsingFormat(dataStart, dateEnd, "YYYY")) {
+      return `${formatDynamic(dataStart, "D MMMM")} - ${formatDynamic(
+        dateEnd,
+        "D MMMM",
+      )} ${formatDynamic(dataStart, "YYYY")}`
+    } else {
+      return `${formatDateDMY(dataStart)} - ${formatDateDMY(dateEnd)}`
+    }
+  } else {
+    return formatDateDMY(dataStart)
+  }
+}
+
 /**
  * Time
  */

@@ -4,9 +4,9 @@ import {
   type MetaFunction,
 } from "@remix-run/node"
 import { Link, useLoaderData, type Params } from "@remix-run/react"
-import { BadgeEventStatus } from "~/components/shared/badge-event-status"
-import { ViewHTML } from "~/components/shared/view-html"
+import dayjs from "dayjs"
 
+import { BadgeEventStatus } from "~/components/shared/badge-event-status"
 import {
   ErrorHelpInformation,
   GeneralErrorBoundary,
@@ -14,12 +14,16 @@ import {
 import { FormChangeStatus } from "~/components/shared/form-change-status"
 import { ImageCover } from "~/components/shared/image-cover"
 import { Timestamp } from "~/components/shared/timestamp"
+import { ViewHTML } from "~/components/shared/view-html"
 import { Alert } from "~/components/ui/alert"
+import { Button } from "~/components/ui/button"
 import { ButtonLink } from "~/components/ui/button-link"
 import { Iconify } from "~/components/ui/iconify"
 import { Separator } from "~/components/ui/separator"
+import { checkUser } from "~/helpers/auth"
 import { useRootLoaderData } from "~/hooks/use-root-loader-data"
 import { prisma } from "~/libs/db.server"
+import { modelCertificate } from "~/models/certificate.server"
 import { modelEventStatus } from "~/models/event-status.server"
 import { modelEvent } from "~/models/event.server"
 import {
@@ -49,12 +53,18 @@ export const meta: MetaFunction<typeof loader> = ({ params, data }) => {
   })
 }
 
-export const loader = async ({ params }: LoaderFunctionArgs) => {
+export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   invariant(params.eventSlug, "params.eventSlug unavailable")
 
-  const [event, eventStatuses] = await prisma.$transaction([
+  const { user } = await checkUser(request)
+
+  const [event, eventStatuses, hasCertificate] = await prisma.$transaction([
     modelEvent.getBySlug({ slug: params.eventSlug }),
     modelEventStatus.getAll(),
+    modelCertificate.getBySlugEventAndEmail({
+      slugEvent: params.eventSlug,
+      email: user ? user.email : "",
+    }),
   ])
 
   invariantResponse(event, "Event not found", { status: 404 })
@@ -62,18 +72,20 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     status: 404,
   })
 
-  return json({ event, eventStatuses })
+  return json({ event, eventStatuses, hasCertificate })
 }
 
 export default function EventSlugRoute() {
   const { userSession } = useRootLoaderData()
-  const { event, eventStatuses } = useLoaderData<typeof loader>()
+  const { event, eventStatuses, hasCertificate } =
+    useLoaderData<typeof loader>()
 
   const isOwner = event.organizerId === userSession?.id
   const isUpdated = event.createdAt !== event.updatedAt
   const isArchived = event.status.symbol === "ARCHIVED"
   const isOnline = event.category?.symbol === "ONLINE"
   const isHybrid = event.category?.symbol === "HYBRID"
+  const isFinished = dayjs().isAfter(dayjs(event.dateTimeEnd))
 
   return (
     <div className="site-container space-y-8 pt-20 sm:pt-20">
@@ -232,6 +244,19 @@ export default function EventSlugRoute() {
                 </Link>
               </div>
             </p>
+          )}
+          {isFinished && Boolean(hasCertificate) && (
+            <div className="flex w-full justify-end">
+              <Button asChild>
+                <Link
+                  to={`/events/${event.slug}/certificate.pdf`}
+                  target="_blank"
+                >
+                  <Iconify icon="ph:download-simple-light" />
+                  Download Certificate
+                </Link>
+              </Button>
+            </div>
           )}
         </div>
       </header>

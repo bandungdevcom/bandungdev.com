@@ -178,6 +178,21 @@ so it doesn't have to be everyone.
 ]
 ```
 
+You may also create `certificate.json` in `prisma/credentials` folder with the format
+below. This file can include only specific certificates for users who should 
+have access in development, so it doesn't need to contain all certificates.
+
+```json
+[
+  {
+    "slug": "Slug",
+    "slugEvent": "Event Slug",
+    "email": "Email"
+  }
+  // ...
+]
+```
+
 Then seed the initial data when needed:
 
 ```sh
