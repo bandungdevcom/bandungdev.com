@@ -1,4 +1,3 @@
-import { conform, useForm } from "@conform-to/react"
 import { parse } from "@conform-to/zod"
 import {
   json,
@@ -8,16 +7,13 @@ import {
   type MetaFunction,
 } from "@remix-run/node"
 import {
-  Form,
-  useActionData,
   useLoaderData,
   useNavigation,
 } from "@remix-run/react"
-import { type z } from "zod"
 import { AvatarAuto } from "~/components/ui/avatar-auto"
 
 import { ButtonLoading } from "~/components/ui/button-loading"
-import { Input } from "~/components/ui/input"
+import { FormDelete } from "~/components/shared/form-delete"
 import { requireUser } from "~/helpers/auth"
 import { modelUser } from "~/models/user.server"
 import { schemaGeneralId } from "~/schemas/general"
@@ -39,16 +35,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export default function UserAccountRoute() {
   const { user } = useLoaderData<typeof loader>()
-  const lastSubmission = useActionData<typeof action>()
 
   const navigation = useNavigation()
   const isSubmitting = navigation.state === "submitting"
-
-  const [form, { id }] = useForm<z.infer<typeof schemaGeneralId>>({
-    id: "delete-account",
-    lastSubmission,
-    defaultValue: { id: user.id },
-  })
 
   return (
     <div className="app-container">
@@ -69,9 +58,12 @@ export default function UserAccountRoute() {
           </p>
         </header>
 
-        <Form method="POST" {...form.props}>
-          <fieldset disabled={isSubmitting}>
-            <Input {...conform.input(id, { type: "hidden" })} required />
+        <FormDelete
+          action=""
+          intentValue=""
+          itemText={`your account: ${user.fullname} (@${user.username})`}
+          defaultValue={user.id}
+          customButton={
             <ButtonLoading
               type="submit"
               size="sm"
@@ -81,8 +73,8 @@ export default function UserAccountRoute() {
             >
               Delete account
             </ButtonLoading>
-          </fieldset>
-        </Form>
+          }
+        />
       </section>
     </div>
   )
