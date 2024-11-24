@@ -32,11 +32,13 @@ export function ContentAbout() {
         </p>
         <p>
           Based on this idea, BandungDev is being initiated and collaborating
-          with various other tech communities and companies such as WPU (aka Web Programming UNPAS), Programmer
-          Zaman Now (PZN), GDG Bandung (Google
-          Developer Group), JVM Indonesia, Indonesia Belajar, Kelas Terbuka, Android Developer
-          Bandung (ADB), BandungPy, BandungJS, ReactJS Indonesia, Binary
-          Nusantara, Bearmentor, Catamyst, and much more.
+          with various other tech communities and companies such as WPU (aka Web
+          Programming UNPAS), Programmer Zaman Now (PZN), GDG Bandung (Google
+          Developer Group), JVM Indonesia, Indonesia Belajar, Kelas Terbuka,
+          Android Developer Bandung (ADB), Bandung.py, BandungJS, ReactJS
+          Indonesia, Binary Nusantara,{" "}
+          <Anchor href="https://bearmentor.com">🐻Bearmentor</Anchor>,
+          🐱Catamyst, and many more.
         </p>
         <p>
           Our committee members are: M Haidar Hanif, Hendi Santika, Kresna
@@ -49,16 +51,17 @@ export function ContentAbout() {
           <Anchor href="/telegram">
             BandungDev primary public community group is on Telegram
           </Anchor>{" "}
-          that just opened on October 2023, with now more than 1700 members (in
-          late December 2023).
+          that just opened on 8 October 2023, with now more than 3700 members
+          (in late November 2024).
         </p>
         <p>
           Our vision is to collaborate with many other tech and software
           communities in Bandung and around it. Also to inspire other cities to
-          build and run their own software developer community. Even BandungDev
-          was inspired by{" "}
-          <Anchor href="https://surabayadev.org">SurabayaDev</Anchor> which
-          already run since a few years ago.
+          build and run their own software developer community. BandungDev
+          itself was inspired by{" "}
+          <Anchor href="https://surabayadev.org">SurabayaDev</Anchor> and{" "}
+          <Anchor href="https://palembangdigital.org">Palembang Digital</Anchor>{" "}
+          which already run since a few years ago.
         </p>
       </div>
     </div>
