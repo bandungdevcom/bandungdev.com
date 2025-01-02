@@ -11,11 +11,12 @@ import { Anchor } from "~/components/ui/anchor"
 import { AvatarAuto } from "~/components/ui/avatar-auto"
 import { ButtonLink } from "~/components/ui/button-link"
 import { Card } from "~/components/ui/card"
+import { configRedirects } from "~/configs/redirects"
 import { useRootLoaderData } from "~/hooks/use-root-loader-data"
 import { modelUser } from "~/models/user.server"
 import { type FieldLinks } from "~/types/field-link"
-import { invariantResponse } from "~/utils/invariant"
 import { createMeta } from "~/utils/meta"
+import { redirectRouteToUrl } from "~/utils/redirect-route.server"
 import { createSitemap } from "~/utils/sitemap"
 import { trimUrl } from "~/utils/string"
 
@@ -45,11 +46,11 @@ export const meta: MetaFunction<typeof loader> = ({ params, data }) => {
  * 3. If nothing found, tell this user doesn’t exist
  */
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
   const { username } = zx.parseParams(params, { username: z.string() })
 
   const user = await modelUser.getByUsername({ username })
-  invariantResponse(user, "User not found", { status: 404 })
+  if (!user) return redirectRouteToUrl(request, configRedirects)
 
   const profileLinks =
     user.profile?.links &&
@@ -63,7 +64,10 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
 export default function UsernameRoute() {
   const { userSession } = useRootLoaderData()
-  const { user, profileLinks } = useLoaderData<typeof loader>()
+  const loaderData = useLoaderData<typeof loader>()
+
+  if (!loaderData) return null
+  const { user, profileLinks } = loaderData
 
   const profile = user.profile
   const isOwner = user.id === userSession?.id

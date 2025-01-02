@@ -11,13 +11,13 @@ export function redirectRouteToUrl(
   configRedirects: ConfigRedirect[],
 ) {
   const url = new URL(request.url)
+  const { pathname } = url
 
-  const foundItem = configRedirects.find(
-    item => item.path.trim() === url.pathname,
-  )
+  const foundItem = configRedirects.find(item => item.path.trim() === pathname)
 
-  if (!foundItem) return null
+  if (!foundItem) return redirect(`https://a.bandungdev.com${pathname}`, 307)
   if (foundItem.url && !foundItem.to) return redirect(foundItem.url)
   if (!foundItem.url && foundItem.to) return redirect(foundItem.to)
-  return null
+
+  return redirect(`https://a.bandungdev.com${pathname}`, 307)
 }

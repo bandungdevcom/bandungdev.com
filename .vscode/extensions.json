@@ -1,9 +1,7 @@
 {
   "recommendations": [
-    "antfu.iconify",
     "artdiniz.quitcontrol-vscode",
     "bradlc.vscode-tailwindcss",
-    "codeforge.remix-forge",
     "csstools.postcss",
     "davidanson.vscode-markdownlint",
     "dbaeumer.vscode-eslint",

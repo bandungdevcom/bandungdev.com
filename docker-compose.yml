@@ -1,14 +1,12 @@
 # https://docs.docker.com/engine/reference/commandline/compose_up
-version: "3.9"
-
 services:
-  postgresql:
+  postgres:
     image: postgres:alpine
-    container_name: bandungdev-postgresql
+    container_name: bandungdev-postgres
     hostname: database
     restart: no
     volumes:
-      - postgresql_data:/var/lib/mysql
+      - postgres_data:/var/lib/mysql
     ports:
       - ${POSTGRES_HOST_PORT}:${POSTGRES_CONTAINER_PORT}
     env_file:
