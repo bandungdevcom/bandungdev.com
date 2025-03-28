@@ -56,7 +56,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
         },
       },
       skip: config.skip,
-      take: config.limitParam,
+      take: 500,
       orderBy: { updatedAt: "desc" },
     }),
   ])
