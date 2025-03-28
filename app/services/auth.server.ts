@@ -3,9 +3,7 @@ import { Authenticator } from "remix-auth"
 
 import { type modelUser } from "~/models/user.server"
 import { AuthStrategies } from "~/services/auth_strategies"
-import { formStrategy } from "~/services/auth_strategies/form.strategy"
 import { githubStrategy } from "~/services/auth_strategies/github.strategy"
-import { googleStrategy } from "~/services/auth_strategies/google.strategy"
 import { authSessionStorage } from "~/services/session.server"
 
 // Stored in the cookie
@@ -27,6 +25,6 @@ export type AuthStrategy = (typeof AuthStrategies)[keyof typeof AuthStrategies]
 export const authenticator = new Authenticator<UserSession>(authSessionStorage)
 
 // Register the strategies
-authenticator.use(formStrategy, AuthStrategies.FORM)
 authenticator.use(githubStrategy, AuthStrategies.GITHUB)
-authenticator.use(googleStrategy, AuthStrategies.GOOGLE)
+// authenticator.use(formStrategy, AuthStrategies.FORM)
+// authenticator.use(googleStrategy, AuthStrategies.GOOGLE)

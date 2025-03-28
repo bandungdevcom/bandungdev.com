@@ -9,12 +9,12 @@ import { AuthStrategies } from "~/services/auth_strategies"
 
 export const configAuth: ConfigAuth = {
   forms: [
-    { label: "Password", provider: AuthStrategies.FORM, isEnabled: true },
+    { label: "Password", provider: AuthStrategies.FORM, isEnabled: false },
     { label: "Magic Link", provider: AuthStrategies.FORM, isEnabled: false },
   ],
   services: [
     { label: "GitHub", provider: AuthStrategies.GITHUB, isEnabled: true },
-    { label: "Google", provider: AuthStrategies.GOOGLE, isEnabled: true },
+    { label: "Google", provider: AuthStrategies.GOOGLE, isEnabled: false },
   ],
 }
 
