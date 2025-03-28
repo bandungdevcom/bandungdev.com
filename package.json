@@ -22,10 +22,11 @@
     "fix:stylelint": "stylelint --cache --fix ./app/styles/*.css",
     "fix:prisma": "prisma format && prisma validate",
     "debug:eslint": "DEBUG=eslint:cli-engine pnpm check:eslint",
-    "db:gen": "prisma generate",
+    "db:up": "docker compose up -d",
     "db:push": "prisma db push",
     "db:reset": "prisma db push --force-reset",
     "db:migrate": "prisma migrate dev",
+    "db:gen": "prisma generate",
     "db:seed": "prisma db seed && pnpm check:data",
     "db:studio": "prisma studio --browser none",
     "db:debug": "prisma debug",
@@ -43,6 +44,12 @@
     "knip": "knip",
     "analyze": "pnpm clean && dpdm **/*.*",
     "postinstall": "prisma generate"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "prisma": {
+    "seed": "bun prisma/seed.ts"
   },
   "dependencies": {
     "@conform-to/react": "^0.9.1",
@@ -162,11 +169,5 @@
     "taze": "^0.13.1",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
   }
 }

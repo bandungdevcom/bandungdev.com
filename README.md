@@ -167,14 +167,17 @@ so it doesn't have to be everyone.
 ```json
 [
   {
-    "fullname": "User Name",
-    "username": "username",
-    "nickname": "User",
-    "email": "user@user.com",
-    "password": "useruser",
-    "roleSymbol": "ADMIN"
+    "fullname": "BandungDev",
+    "username": "bandungdev",
+    "nickname": "BD",
+    "email": "bandungdev@bandungdev.com",
+    "password": "bandungdevbandungdev",
+    "roleSymbol": "ADMIN",
+    "tags": ["TEAM"],
+    "profile": {
+      "bio": "BandungDev Administrator"
+    }
   }
-  // ...
 ]
 ```
 
