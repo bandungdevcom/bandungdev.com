@@ -45,9 +45,6 @@
     "analyze": "pnpm clean && dpdm **/*.*",
     "postinstall": "prisma generate"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  },
   "prisma": {
     "seed": "bun prisma/seed.ts"
   },
